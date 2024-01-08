@@ -1,14 +1,64 @@
-\documentclass[]{article}
+\begin{nquote}{: 01/08/2024 by Dr. Joshua Zahl}
+	``Sometimes MVT stands for most valuable theorem."
+	
+	\medskip
+	
+	``\LaTeX is the language math is written in."
+\end{nquote}
 
-%opening
-\title{Lecture-1}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\section*{320 Review}
+\begin{ndef}{: Differentiable at point}
+	Recall for some \(f:[a,b]\to\R\), \(c\in[a,b]\), we say that \(f\) is \emph{differentiable at \(c\)} if \(\displaystyle\lim_{x\to c}\frac{f(x)-f(c)}{x-c}\) exists (as a real number); we denote this by \(f'(c)\).
+\end{ndef}
+This is a very elementary definition of what it means for something to be differentiable, but we look a bit deeper into what it means for the limit of a function. In particular, consider the case of the limit mentioned in the definition; what does it mean for this limit to exist?
+\begin{itemize}
+	\item It satisfied the \(\eps-\delta\) definition of a limit.
+	
+	\item \(c\) is a limit point in \([a,b]\); in a metric space this means that any ball about the point \(c\) has a non empty intersection with the set \([a,b]\).
+	
+	\item \(g(x)=\displaystyle\frac{f(x)-f(c)}{x-c}\) is a function with domain \([a,b]\backslash\{c\}\).
+\end{itemize}
+We might ask ourselves why go through all these layers of abstraction, when the high school definition of a limit works. Well, we have to make sure that the high school definition is consistent with what we have laid out so far: for any \(c\in (a,b)\), the high school definition is just fine, but back then we had to separately check the end-points \(c=a\) and \(c=b\) with one sided limits, which we don't have to do when we satisfy one of the things laid out above. Hence, it is worth to delve into the abstraction.
 
-\begin{document}
+\begin{ndef}{: Differentiable on a set}
+	If \(f:[a,b]\to\R\) is differentiable at \emph{every} point \(c\in[a,b]\), then we say \(f\) is differentiable on \([a,b]\), and this gives us a new function \(f':[a,b]\to\R\).
+\end{ndef}
+Furthermore, we can keep iterating this definition: if \(f'\) is differentiable at \(c\in[a,b]\), we write \(f''(c)=(f')'(c)\).
 
-\maketitle
+\begin{notation}
+	Some alternate notations for derivatives are:
+	\begin{itemize}
+		\item \(f(c),f'(c),f''(c),\dots\)
+		
+		\item \(f^{(0)}(c),f^{(1)}(c),f^{(2)}(c),\dots, f^{(k)}(c)\).
+	\end{itemize}
+\end{notation}
+\begin{fft}
+	Why have co-domain \(\R\)? Why not \(\mathbb{C}\), or some arbitrary field \(F\)? Why not a general set/metric space?
+	
+	\medskip
+	
+	Similarly, why make the domain a closed interval? Why not a more general subset of \(\R\), or even \(\mathbb{C}\)? Why not a general set/metric space?
+\end{fft}
+We cannot really have a notion of a derivative in a topological space, because in a TS we have no notion of a distance, only open and closed sets, so it does not really make sense to be talking about the rate of change of something as we get closer to a point. This is not a complete answer, but it's hard to give a better answer at this point in time. If we google a topological derivative, there might be some constructions that come close, but nothing that is a true generalization of a derivative using arbitrary topological spaces.
 
+\begin{ntheorem}{: Rolle's theorem}
+	Let \(f:[a,b]\to \R\) be differentiable with \(f(a)=f(b)\). Then, there exists \(c\in(a,b)\) such that \(f'(c)=0\).
+\end{ntheorem}
 
-\end{document}
+We go on to showcase one of the more important theorems in differentiation:
 
+\begin{ntheorem}{: Taylor's theorem}
+	Let \(f:[a,b]\to\R\), and \(n\geq 0\) be an integer. Suppose that \(f\) is \((n+1)\) times differentiable on \([a,b]\). Let \(x_0\) and \(x\) be points in \([a,b]\) with \(x_0\neq x\). Then, there exists a point \(c\) strictly between \(x_0\) and \(x\) such that 
+	\begin{equation*}
+		f(x)=\underbrace{\left[\sum_{k=0}^{n}\frac{f^{(k)}(x_0)}{k!}(x-x_0)^k\right]}_{P_n(x)}+\frac{f^{(n+1)}(c)}{(n+1)!}(x-x_0)^{n+1}.
+	\end{equation*}
+\end{ntheorem}
+Call \(P_n(x)\) the ``degree \(n\) Taylor expansion of \(f\) around \(x_0\)".
+\begin{note}[Choice of notation]
+	While choosing notation, we have many things competing for the ``attention" of the notation; for example in case of \(P_n(x)\), technically it is dependent on \(n,f,x_0\), so it should be \(P_n^{f,x_0}(x)\), but this is clunky. As we do more math, we get better with choosing what information notation should encode, and what can be omitted. In this particular case, we would generally know the \(f\) and \(x_0\) and the more important part that needs to be encoded is the degree.
+\end{note}
+
+\begin{fft}
+	Let \(f:\R\to\R\) which is infinitely differentiable. Suppose \(f^{(k)}(0)=0\) for all \(k\); is it true that \(f\) must be the zero function?	
+\end{fft}
