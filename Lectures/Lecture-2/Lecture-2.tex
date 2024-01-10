@@ -1,14 +1,178 @@
-\documentclass[]{article}
+\begin{nquote}{: 01/10/2024}
+	No quotes today :(
+\end{nquote}
 
-%opening
-\title{Lecture-2}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\draw[Latex-Latex] (-4,0)--(4,0);
+		
+		\node[] at (-2.5,0) {\([\)};
+		
+		\node[] at (2.5,0) {\(]\)};
+		
+		\node[below] at (-2.5,0) {\(a\)};
+		
+		\node[below] at (2.5,0) {\(b\)};
+		
+		\draw[fill] (-1.25,0) circle (1pt);
+		
+		\draw[fill] (1.25,0) circle (1pt);
+		
+		\node[below] at (-1.25,0) {\(x_0\)};
+		
+		\node[below] at (1.25,0) {\(x\)};
+		
+		\draw[fill] (0,0) circle (1pt);
+		
+		\node[above] at (0,0) {\(c\)};
+	\end{tikzpicture}
+	\caption{Visualization of points in Taylor's theorem.}
+\end{figure}
 
-\begin{document}
+\begin{proof}
+	We start by noting that for \(n=0\), \(\cref{taylor}\) says \(f(x)=f(x_0)+f'(c)(x-x_0)\). 
+	
+	\medskip
+	
+	Define \(A\in\R\) by 
+	\begin{equation*}
+		f(x)-P_n(x)=\frac{A}{(n+1)!}(x-x_0)^{n+1}.
+	\end{equation*}
+	Our goal here is to show that there exists a \(c\) between \(x_0\) and \(x\) such that \(f^{(n+1)}(c)=A\).
+	
+	\medskip
+	
+	Define \(g(t)=f(t)-P_n(t)-\displaystyle\frac{A}{(n+1)!}(t-x_0)^{n+1}\).
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}
+			\draw[Latex-Latex] (-5,0)--(5,0);
+			
+			\node[] at (-3.5,0) {\(\big[\)};
+			
+			\node[] at (3.5,0) {\(\big]\)};
+			
+			\node[below] at (-3.5,-0.15) {\(a\)};
+			
+			\node[below] at (3.5,-0.15) {\(b\)};
+			
+			\node[] at (-2.5,0) {\([\)};
+			
+			\node[] at (2.5,0) {\(]\)};
+			
+			\node[below] at (-2.5,-0.15) {\(a'\)};
+			
+			\node[below] at (2.5,-0.15) {\(b'\)};
+			
+			\draw[] (-3.5,0) to [curve through = {(-2.5,0.8)..(0,2)..(2.5,0.8)..(3,0)}] (3.5,-0.8);
+			
+			\node[] at (-2.5,0.8) {\(\mid\)};
+			
+			\node[] at (2.5, 0.8) {\(\mid\)};
+ 			
+			\begin{comment}
+				\draw[fill] (-1.25,0) circle (1pt);
+				
+				\draw[fill] (1.25,0) circle (1pt);
+				
+				\node[below] at (-1.25,0) {\(x_0\)};
+				
+				\node[below] at (1.25,0) {\(x\)};
+				
+				\draw[fill] (0,0) circle (1pt);
+				
+				\node[above] at (0,0) {\(c\)};
+			\end{comment}
+		\end{tikzpicture}
+		\caption{Visualization of how we shrink the interval to possibly apply Rolle's theorem.}
+	\end{figure}
+	
+	Observe
+	\begin{align*}
+		g(x_0)=&f(x_0)-P_n(x_0)\\
+			  =&f(x_0)-f(x_0)-0\\
+			  =&0,
+	\end{align*}
+	so \(g(x)=0\) by definition of \(A\). Hence, for \(j=0,\dots, n\), 
+	\begin{align*}
+		g^{(j)}(x_0)=&f^{(j)}(x_0)-P_n^{(j)}(x_0)-\frac{d^j}{dt^j}\left\{\frac{A}{(n+1)!}(t-x_0)^{n+1}\right\}\bigg|_{t=x_0}\\
+					=&f^{(j)}(x_0)-f^{(j)}(x_0)-0\\
+					=&0,
+	\end{align*}
+	which tells us that \(g^{(n+1)}(t)=f^{(n+1)}(t)-0-A\). Now, our goal is to find a \(c\) such that \(g^{(n+1)}(c)=0\).
+	
+	\medskip
+	
+	Note that 
+	\begin{align*}
+		&g(x_0)=0,g(x)=0~\text{by Rolle's thoerem, there exists}~c_1~\text{between \(x_0\) and \(x\) such that \(g'(c_1)=0\).}\\
+		&g'(x_0)=0,g'(x)=0~\text{by Rolle's thoerem, there exists}~c_2~\text{between \(x_0\) and \(c\) such that \(g''(c_2)=0\).}\\
+		&\vdots\\
+		&g^{(n)}(x_0)=0,g^{(n)}(x)=0~\text{by Rolle's thoerem, there exists}~c_{n+1}~\text{between \(x_0\) and \(c_n\) such that \(g^{(n+1)}(c_{n+1})=0\).}
+	\end{align*}
+	Finally, set \(c:=c_{n+1}\) to conclude the proof.
+\end{proof}
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}
+		\draw[Latex-Latex] (-5,0)--(5,0);
+		
+		\node[] at (-4.75,0) {\([\)};
+		
+		\node[] at (4.75,0) {\(]\)};
+		
+		\node[below] at (-4.75,-0.15) {\(a\)};
+		
+		\node[below] at (4.75,-0.15) {\(b\)};
+		
+		\draw[fill] (-4,0) circle (1pt);
+		
+		\draw[fill] (4,0) circle (1pt);
+		
+		\node[below] at (-4,0) {\(x_0\)};
+		
+		\node[below] at (4,0) {\(x\)};
+		
+		\draw[fill] (2,0) circle (1pt);
+		
+		\node[below] at (2,0) {\(c_1\)};
+		
+		\draw[fill] (1,0) circle (1pt);
+		
+		\node[below] at (1,0) {\(c_2\)};
+		
+		\draw[fill] (0.5,0) circle (1pt);
+		
+		\node[below] at (0.5,0) {\(c_3\)};
+		
+		\draw[fill] (0,0) circle (1pt);
+		
+		\draw[fill] (-0.5,0) circle (1pt);
+		
+		\draw[fill] (-1,0) circle (1pt);
+		
+		\draw[fill] (-3.25,0) circle (1pt);
+		
+		\node[below] at (-3.25,0) {\(c_{n+1}\)};
+	\end{tikzpicture}
+	\caption{Visualization of the iterative process to find \(c_{n+1}\).}
+\end{figure}
 
-\maketitle
-
-
-\end{document}
-
+\begin{example}
+	Why is Taylor's theorem so useful? We look at a few examples which illustrate this: set \(x_0=0\),
+	\begin{enumerate}
+		\item \(f\) is a polynomial of degree \(D\); \(P_n(t)\) will be the first terms of \(f\) up to degree \(n\).
+		
+		\item If \(f(t)=e^t\), we get 
+		\begin{equation*}
+			P_n(t)=\frac{1}{0!}+\frac{t}{1!}+\frac{t^2}{2!}+\frac{t^3}{3!}+\dots+\frac{t^n}{n!}.
+		\end{equation*}
+		
+		\item If \(f(x)=\sin{x}\), we get 
+		\begin{equation*}	
+			P_n(t)=0+t+0-\frac{t^3}{3!}+0+\frac{t^5}{5!}+\dots
+		\end{equation*}
+	\end{enumerate}
+\end{example}
