@@ -1,14 +1,107 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 01/12/2024}
+	No quotes today :(
+\end{nquote}
 
-%opening
-\title{Lecture-3}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+Recall \cref{fft2}: for a function \(f:\R\to\R\) or \(f:[-1,1]\to\R\), given that \(f(0)=0\), and \(f^{(k)}(0)=0\) for all \(k\in\N\), must it be true that \(f(t)=0\) for all \(t\)?
 
-\begin{document}
+\begin{proof}[Solution]
+	If we apply Taylor's theorem, we get 
+	\begin{equation*}
+		f(x)=\cancel{\sum_{k=0}^{n}\frac{f^{(k)}(0)}{k!}x^n}+\frac{f^{(n+1)}(c)}{(n+1)!}x^{n+1},
+	\end{equation*}
+	where the \(P_n(x)\) term dies, but clearly the remainder term here could behave in unexpected ways (like blowing up), which would then be a function that fits our specification but is not identically zero.
+\end{proof}
+Consider an example:
+\begin{equation*}
+	f(x)=\begin{cases}
+			0&\text{if}~x\leq 0\\
+			e^{-1/x}&\text{if}~x>0
+	 	 \end{cases}.
+\end{equation*}
+For \(x>0\), by applying chain rule, we get that \(f^{(k)}(x)=Q(x)e^{-1/x}\), where \(Q(x)\) is rational function in \(x\). This function is in fact infinitely differentiable at the origin (good exercise); the intuition behind this is that the exponential function will always beat any rational function in decay at the origin, and the derivative at the origin will always be zero. However, just from Taylor's theorem, it would appear that the function is not zero at the origin, which in this case is not true. The point here is that while Taylor's theorem can aid in reconstructing a function by only using information about it at the origin, it can at times be misleading, and isn't as strong as it might seem.
 
-\maketitle
+\section{The Riemann and Riemann-Stieltjes Integral}
 
+\subsection{The Riemann integral}
+\begin{ndef}{: Partition}
+	A \emph{\textbf{partition}} of \([a,b]\) is a finite set \(\mc{P}=\{x_0,x_1,\dots,x_n\}\) with \(a=x_0<x_1<\dots<x_n=b\).
+\end{ndef}
+For \(i=1,\dots,n\), let \(\Delta x_i=x_i-x_{i-1}\). For \(f:[a,b]\to\R\) bounded, define 
+\begin{align*}
+	M_i=&\sup\{f(x)\st x\in[x_{i-1},x_i]\}\\
+	m_i=&\inf\{f(x)\st x\in[x_{i-1},x_i]\};
+\end{align*}
+also, define 
+\begin{align*}
+	U(\mc{P},f)=&\sum_{i=1}^{n} M_i\Delta x_i\\
+	L(\mc{P},f)=&\sum_{i=1}^nm_i\Delta x_i.
+\end{align*}
+We define 
+\begin{align*}
+	\text{Upper Riemann integral}\st \ol{\int_{a}^b}f \, dx=&\inf_\mc{P} U(\mc{P},f)\\
+	\text{Lower Riemann integral}\st \ul{\int_{a}^b}f \, dx=&\sup_\mc{P} L(\mc{P},f);
+\end{align*}
+the sup and inf are taken over all partitions of \([a,b]\).
+\begin{ndef}{: Riemann integrable}
+	We say \(f:[a,b]\to\R\) is \emph{\textbf{Riemann integrable}} if \(\inf_\mc{P} U(\mc{P},f)=\sup_\mc{P} L(\mc{P},f)\), in which case we denote this number by \(\displaystyle\int_{a}^b f \, dx\), and we say that \(f\in\mc{R}[a,b]\st\) set of Riemann integrable functions on \([a,b]\).
+\end{ndef}
+A natural question that follows is what kinds of functions are Riemann integrable? We look at an example:
+\begin{example}
+	Let \([a,b]=[0,1]\), \(f(x)=x\). If \(\mc{P}=\{x_0,\dots,x_n\}\) is a partition, \(M_i=x_i\), \(m_i=x_{i-1}\).
+	
+	\medskip
+	
+	Consider \(\mc{P}=\left\{0,\displaystyle\frac{1}{n},\frac{2}{n},\dots, \frac{n}{n}\right\}\). In this case, 
+	\begin{align*}
+		U(\mc{P},f)=&\sum_{i=1}^n\underbrace{\frac{i}{n}}_{M_i}\frac{1}{n}\\
+		=&\frac{1}{n^2}\sum_{i=1}^n i\\
+		=&\frac{1}{n^2}\frac{1}{2}n(n+1)\\
+		=&\frac{1}{2}+\frac{1}{2n}.
+	\end{align*}
+	In particular, 
+	\begin{equation*}
+		\ol{\int_0^1}x \, dx\leq \inf\left\{\frac{1}{2}+\frac{1}{2n}\st n\in\N\right\}=\frac{1}{2}.
+	\end{equation*}
+	Similarly, 
+	\begin{align*}
+		L(\mc{P},f)=&\sum_{i=1}^n\frac{i-1}{n}\frac{1}{n}\\
+				   =&\frac{1}{n^2}\frac{1}{2}n(n-1)\\
+				   =&\frac{1}{2}-\frac{1}{2n}.
+	\end{align*}
+	In particular, 
+	\begin{equation*}
+		\ul{\int_0^1}x \, dx\geq \frac{1}{2}.
+	\end{equation*}
+	At this point, we cannot really conclude that it is Riemann integrable, since we still need the inequality \(U(\mc{P},f)\leq L(\mc{P},f)\), which we have not proved yet. However, rather than proving this, we will now define the Riemann-Stieltjes integral first, prove it for that, and we get it for the Riemann integral as a special case.
+\end{example}
 
-\end{document}
+\subsection{The Riemann-Stieltjes integral}
+Let \(\alpha:[a,b]\to\R\) be (weakly) monotone increasing; let \(\mc{P}=\{x_0,x_1,\dots,x_n\}\) be a partition of \([a,b]\). 
 
+\medskip
+
+For \(i=1,\dots, n\), let \(\Delta\alpha_i=\alpha(x_i)-\alpha(x_{i-1})\) (if \(\alpha(x)=x\), then \(\Delta\alpha_i=\Delta x_i\)). For \(f:[a,b]\to\R\) bounded, define 
+\begin{align*}
+	U(\mc{P},f,\alpha)=&\sum_{i=1}^{n}M_i\Delta \alpha_i\\
+	L(\mc{P},f,\alpha)=&\sum_{i=1}^{n}m_i\Delta \alpha_i.
+\end{align*}
+Define
+\begin{align*}
+	\text{Upper Riemann-Stieltjes integral}\st \ol{\int_{a}^b}f \, dx=&\inf_\mc{P} U(\mc{P},f,\alpha)\\
+	\text{Lower Riemann-Stieltjes integral}\st \ul{\int_{a}^b}f \, dx=&\sup_\mc{P} L(\mc{P},f,\alpha).
+\end{align*}
+\begin{ndef}{: Riemann-Stieltjes integrable}
+	We say \(f:[a,b]\to\R\) is \emph{\textbf{Riemann-Stieltjes integrable}} if \(\inf_\mc{P} U(\mc{P},f,\alpha)=\sup_\mc{P} L(\mc{P},f,\alpha)\), in which case we denote this number by \(\displaystyle\int_{a}^b f \, d\alpha\), and we say that \(f\in\mc{R}_{\alpha}[a,b]\st\) set of Riemann-Stieltjes integrable functions on \([a,b]\).
+\end{ndef}
+Does \(\alpha(x)\) always have to be continuous? We look at an example:
+
+\begin{example}
+	Consider 
+	\begin{equation*}
+		\alpha(x)=\begin{cases}
+						0&x\leq0\\
+						1&x>0
+				   \end{cases},
+	\end{equation*}
+	what does the integral \(\displaystyle\int_{-1}^1 f \, d\alpha\) look like? It it literally just \(f(0)\) (it is like the Dirac-\(\delta\) ``function"), and this showcases the power of the Riemann-Stieltjes integral, because \(\alpha(x)\) does not have to be continuous.
+\end{example}
