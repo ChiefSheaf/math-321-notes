@@ -1,14 +1,87 @@
-\documentclass[]{article}
+\begin{nquote}{:  Dr. Joshua Zahl 01/15/2024}
+	No quotes today :(
+\end{nquote}
 
-%opening
-\title{Lecture-4}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\begin{ndef}{: Refinement and common refinement (Rudin 6.3)}
+	Let \(\mc{P}\) and \(\mc{P}^*\) be partitions of \([a,b]\). We say \(\mc{P}^*\) is a \emph{\textbf{refinement}} of \(\mc{P}\) is \(\mc{P}\subseteq\mc{P}^*\). 
+	
+	\medskip
+	
+	If \(\mc{P}_1\) and \(\mc{P}_2\) are partitions of \([a,b]\), their \emph{\textbf{common refinement}} is the partition \(\mc{P}_1\cup\mc{P}_2\). 
+\end{ndef}
 
-\begin{document}
+\begin{ntheorem}{: Baby Rudin 6.4}
+	Let \(\mc{P}^*\) is a refinement of \(\mc{P}\). Then, \(L(\mc{P},f,\alpha)\leq L(\mc{P^*},f,\alpha)\leq U(\mc{P^*},f,\alpha)\leq U(\mc{P},f,\alpha)\).
+\end{ntheorem}
+\begin{proof}
+	Middle inequality we have seen before (follows from the definition of inf and sup.) Proving the leftmost inequality is equivalent to proving the rightmost inequality, so we will just prove the leftmost one.
+	
+	\medskip
+	
+	The only interesting case is when \(\mc{P}\subsetneq \mc{P}^*\), since if they're the same set, we just get equality. So it suffices to prove the inequality when \(\mc{P}^*\) has one additional point (the minimum for two sets to not be the same one; this can be extended to any number of points by induction.) Let the additional point be \(x^*\), and let it be between two points \(x_i\) and \(x_{i+1}\) of \(\mc{P}\).
+	
+	\medskip
+	
+	We proceed by comparing the two lower sums \(L(\mc{P,f,\alpha})\) and \(L(\mc{P}^*,f,\alpha)\): 
+	\begin{align*}
+		L(\mc{P},f,\alpha)=\sum_{j=1}^{n}m_j\Delta \alpha_j&\\
+		L(\mc{P}^*,f,\alpha)=\sum_{j=1}^{i}m_j\Delta \alpha_j&+\left(\inf{\{f(x)\st x\in [x_{i},x^*]\}}\right)(\alpha(x^*)-\alpha(x_i))\\
+		&+\left(\inf{\{f(x)\st x\in [x^*,x_{i+1}]\}}\right)(\alpha(x_{i+1})-\alpha(x^*))\\
+		&+\sum_{j=i+2}^n m_j\Delta \alpha_j.
+	\end{align*}
+	Hence, 
+	\begin{align*}
+		L(\mc{P}^*,f,\alpha)-L(\mc{P},f,\alpha)=&\left(\inf_{x\in[x_i,x^*]}{f(x)}\right)\left(\alpha(x^*)-\alpha(x_i)\right)+\left(\inf_{x\in[x^*,x_{i+1}]}{f(x)}\right)\left(\alpha(x_{i+1})-\alpha(x^*)\right)-m_{i+1}\Delta\alpha_{i+1}\\
+		\geq&\left(\inf_{x\in[x_i,x_{i+1}]}{f(x)}\right)\left(\alpha(x^*)-\alpha(x_i)\right)+\left(\inf_{x\in[x_i,x_{i+1}]}{f(x)}\right)\left(\alpha(x_{i+1})-\alpha(x^*)\right)-m_{i+1}\Delta\alpha_{i+1}\\
+		=&m_{i+1}(\alpha(x^*)-\alpha(x_i)+\alpha(x_{i+1})-\alpha(x^*))-m_{i+1}\Delta \alpha_{i+1}\\
+		=&m_{i+1}\Delta \alpha_{i+1}-m_{i+1}\Delta \alpha_{i+1}=0.
+	\end{align*}
+\end{proof}
 
-\maketitle
+\begin{ntheorem}{: Baby Rudin 6.5}
+	Let \(f:[a,b]\to\R\) be bounded, and \(\alpha:[a,b]\to\R\) be monotone increasing. Then,
+	\begin{equation*}
+		\ul{\int_a^b}f \, d\alpha\leq \ol{\int_a^b}f \, d\alpha.
+	\end{equation*}
+\end{ntheorem}
+\begin{proof}
+	Let \(\mc{P}_1\) and \(\mc{P}_2\) be partitions of \([a,b]\); hence, let \(\mc{P}^*=\mc{P}_1\cup\mc{P}_2\). By theorem \(6.4\), \(L(\mc{P}_1,f,\alpha)\leq U(\mc{P}_2,f,\alpha)\). Hence, 
+	\begin{equation*}
+		\ul{\int_a^b}f \, d\alpha=\sup_{\mc{P}_1}{L(\mc{P}_1,f,\alpha)}\leq U(\mc{P}_2,f,\alpha).
+	\end{equation*}
+	Since this is true for \emph{every} \(\mc{P}_2\),
+	\begin{equation*}
+		\ul{\int_a^b} f \, d\alpha \leq \inf_{\mc{P}_2} U(\mc{P}_2,f,\alpha)=\ol{\int_a^b} f \, d\alpha.
+	\end{equation*} 
+\end{proof}
 
+\begin{note}
+	This was the missing piece that we required to show that \(\displaystyle\int_0^1 x \, dx=\displaystyle\frac{1}{2}\).
+\end{note}
 
-\end{document}
-
+\begin{ntheorem}{: Baby Rudin 6.6}
+	Let \(f:[a,b]\to\R\) be bounded, and \(\alpha:[a,b]\to\R\) be monotone increasing. Then \(f\in\mc{R}_{\alpha}[a,b]\iff\) for all \(\eps>0\), there exists \(\mc{P}\) such that \(U(\mc{P},f,\alpha)-L(\mc{P},f,\alpha)<\eps\).
+\end{ntheorem}
+\begin{proof}
+	By hypothesis, 
+	\begin{equation*}
+		\sup_{\mc{P}}{L(\mc{P},f,\alpha)}=\int_a^b f \, d\alpha=\inf_{\mc{P}}{U(\mc{P},f,\alpha)}.
+	\end{equation*}
+	Let \(\eps>0\), then there exists a partition \(\mc{P}_1\) such that 
+	\begin{equation*}
+		L(\mc{P}_1,f,\alpha)> \int_a^b f \, d\alpha-\frac{\eps}{2},
+	\end{equation*}
+	and there exists \(\mc{P}_2\) such that
+	\begin{equation*}
+		U(\mc{P}_2,f,\alpha)< \frac{\eps}{2}+\int_a^b f \, d\alpha.
+	\end{equation*}
+	Let \(\mc{P}=\mc{P}_1\cup\mc{P}_2\). By theorem \(6.4\), 
+	\begin{equation*}
+		L(\mc{P}_1,f,\alpha)\leq L(\mc{P},f,\alpha)\leq U(\mc{P},f,\alpha)\leq U(\mc{P}_2,f,\alpha).
+	\end{equation*}
+	Hence, 
+	\begin{equation*}
+		U(\mc{P},f,\alpha)-L(\mc{P},f,\alpha)<\eps.
+	\end{equation*}
+	The other direction follows from definition.
+\end{proof}
