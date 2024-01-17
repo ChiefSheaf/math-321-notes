@@ -1,14 +1,54 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 01/17/2023}
+	No quotes today :(
+\end{nquote}
 
-%opening
-\title{Lecture-5}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\begin{ntheorem}{: Baby Rudin 6.8}
+	Let \(\alpha:[a,b]\to\R\) be monotone increasing, and let \(f:[a,b]\to\R\) be continuous. Then \(f\in\mc{R}_{\alpha}[a,b]\), i.e., \(C([a,b])\in\mc{R}_{\alpha}[a,b]\).
+\end{ntheorem}
+\begin{proof}
+	Given that \(f\) is continuous, since \([a,b]\) is compact, \(f\) is uniformly continuous. Hence, for all \(\eps_1>0\), there exists some \(\delta>0\) such that \(|f(x)-f(y)|<\eps\) for all \(x,y\) with \(|x-y|<\delta\). 
+	
+	\smallskip
+	
+	Thus, if \(\mc{P}\) is a partition with \(\Delta x_i<\delta\) for all \(i\), then \(M_i-m_i<\eps_1\) for all \(i\). Hence, 
+	\begin{equation*}
+		U(\mc{P},f,\alpha)-L(\mc{P},f,\alpha)\leq \eps_1\sum_{i=1}^{n}\Delta\alpha_i=\eps\left(\alpha(b)-\alpha(a)\right).
+	\end{equation*} 
+	Given \(\eps>0\), select \(\eps_1\) sufficiently small, such that \(\eps_1\left(\alpha(b)-\alpha(a)\right)<\eps\). Choose \(\mc{P}\) as above for the corresponding \(\eps_1\). We have shown that for \(\eps>0\), there exists a partition \(\mc{P}\), such that \(U(\mc{P},f,\alpha)-L(\mc{P},f,\alpha)<\eps\). Therefore, by theorem 6.6, \(f\in\mc{R}_{\alpha}[a,b]\).
+\end{proof}
 
-\begin{document}
+\begin{fft}
+	Can we describe/characterize \(\mc{R}_{\alpha}[a,b]\) or \(\mc{R}[a,b]\)?
+\end{fft}
+Turns out there is a nice bi-conditional statement to characterize these sets, but we need to develop some more machinery before we can do so.
 
-\maketitle
+\begin{ntheorem}{: Baby Rudin 6.9}
+	Let \(f:[a,b]\to\R\) be monotone (increasing or decreasing), \(\alpha:[a,b]\to\R\) be monotone increasing, and continuous. Then \(f\in\mc{R}_{\alpha}[a,b]\).
+\end{ntheorem}
+\begin{proof}
+	Let \(n\in\N\); by the intermediate value theorem, there exists a partition \(\mc{P}\) such that \(\Delta \alpha_i=\displaystyle\frac{\alpha(b)-\alpha(a)}{n}\) for all \(i=1,\dots,n\). Note that
+	\begin{align*}
+		U(\mc{P},f,\alpha)-L(\mc{P},f,\alpha)=&\sum_{i=1}^n(M_i-m_i)\Delta\alpha_i\\
+											 =&\frac{\alpha(b)-\alpha(a)}{n}\sum_{i=1}^n(M_i-m_i).
+	\end{align*}
+	Suppose, without loss of generality, \(f\) is monotone increasing; we have \(M_i=f(x_i)\) and \(m_i=f(x_{i-1})\), so 
+	\begin{align*}
+		U(\mc{P},f,\alpha)-L(\mc{P},f,\alpha)=&\frac{\alpha(b)-\alpha(a)}{n}\sum_{i=1}^n(f(x_i)-f(x_{i-1})\\
+		=&\frac{\alpha(b)-\alpha(a)}{n}\left(\cancel{f(x_1)}-f(x_0)+\cancel{f(x_2)}-\cancel{f(x_1)}+\cancel{f(x_3)}-\cancel{f(x_2)}+\dots+f(x_n)-\cancel{f(x_{n-1})}\right)\\
+		=&\left(\frac{\alpha(b)-\alpha(a)}{n}\right)\left(f(x_n)-f(x_0)\right)\\
+		=&\left(\frac{\alpha(b)-\alpha(a)}{n}\right)\left(f(a)-f(b)\right)\\
+		=&\frac{1}{n}\underbrace{\left(\alpha(b)-\alpha(a)\right)\left(f(b)-f(a)\right)}_{\in\R},
+	\end{align*}
+	so given \(\eps>0\), pick \(n\in\N\) such that 
+	\begin{equation*}
+		\left|\frac{1}{n}\left(\alpha(b)-\alpha(a)\right)\left(f(b)-f(a)\right)\right|<\eps.
+	\end{equation*}
+	For such a function, \(|U(\mc{P},f,\alpha)-L(\mc{P},f,\alpha)|<\eps\). By theorem 6.6, \(f\in\mc{R}_{\alpha}[a,b]\).
+\end{proof}
+\begin{note}[\(f\) monotone decreasing]
+	In this case, the proof is pretty much the same; not tricky to work out the details.
+\end{note}
 
-
-\end{document}
-
+\begin{ntheorem}{: Baby Rudin 6.10}
+	Let \(f:[a,b]\to\R\) be bounded and continuous at all but finitely many points. Let \(\alpha:[a,b]\to\R\) be monotone increasing, and continuous at every point where \(f\) is not continuous. Then, \(f\in\mc{R}_{\alpha}[a,b]\).
+\end{ntheorem}
