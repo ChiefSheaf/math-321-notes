@@ -1,14 +1,70 @@
-\documentclass[]{article}
+\clearpage
 
-%opening
-\title{Lecture-7}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\begin{nquote}{: Dr. Joshua Zahl 01/22/2024}
+	No quotes today :(
+\end{nquote}
 
-\begin{document}
+\begin{ntheorem}{: Properties of the Riemann-Stieltjes integral (Baby Rudin 6.12)}
+	Let \(\alpha:[a,b]\to\R\) be monotonically increasing, and \(f,f_1,f_2:[a,b]\to\R\) be functions satisfying \(f,f_1,f_2\in\mc{R}_{\alpha}[a,b]\).
+	
+	\begin{enumerate}[a)]
+		\item Linearity: \(f_1+f_2\in\mc{R}_{\alpha}[a,b]\) and \(\displaystyle\int_a^b (f_1+f_2) \, d\alpha=\int_a^b f_1 \, d\alpha+\int_a^b f_2 \, d\alpha\). For \(c\in\R\), \(cf\in\mc{R}_{\alpha}[a,b]\) and \(\displaystyle\int_a^b cf \, d\alpha=c\int_a^b f \, d\alpha\).
+		
+		\item Weak positivity/non-negativity: If \(f(x)\geq 0\) for all \(x\in[a,b]\), then \(\displaystyle\int_a^b f \, d\alpha\geq 0\).
+		
+		\medskip
+		
+		If \(f_1(x)\leq f_2(x)\) for all \(x\in[a,b]\), then \(\displaystyle\int_a^b f_1 \, d\alpha\leq \int_a^b f_2 \, d\alpha\).
+		
+		\item For \(c\in[a,b]\), \(f\in\mc{R}_{\alpha}[a,c]\) and \(f\in\mc{R}_{\alpha}[c,b]\), and 
+		\begin{equation*}
+			\int_a^c f \, d\alpha+\int_c^b f \, d\alpha = \int_a^b f \, d\alpha.
+		\end{equation*}
+		
+		\item Boundedness: If \(|f|\leq M\), then \(\displaystyle\left|\int_a^b f \, d\alpha\right|\leq M\left(\alpha(b)-\alpha(a)\right)\).
+		
+		\item Let \(\alpha_1,\alpha_2:[a,b]\to\R\) br monotone increasing, and \(f:[a,b]\to\R\) satisfying \(f\in\mc{R}_{\alpha_1}[a,b]\) and \(f\in\mc{R}_{\alpha_2}[a,b]\). Then, \(f\in\mc{R}_{\alpha_1+\alpha_2}[a,b]\), and 
+		\begin{equation*}
+			\int_a^b f \, d(\alpha_1+\alpha_2)=\int_a^b f \, d\alpha_1 + \int_a^b f \, d\alpha_2.
+		\end{equation*}
+		If \(c\in\R\), \(f\in\mc{R}_{c\alpha_1}[a,b]\), and \(\displaystyle\int_a^b f \, d(c\alpha_1)=c\int_a^b f \, d\alpha_1\).
+	\end{enumerate}
+\end{ntheorem}
+\begin{proof}
+	The proof is given on  page 128 of Baby Rudin; it's not very involved, so can be treated as an exercise as well.
+\end{proof}
 
-\maketitle
+Recall \(\mc{C}\left([a,b]\right)\), the space of continuous functions \(f:[a,b]\to\R\). Define \(\displaystyle\norm{f}_{\mc{C}\left([a,b]\right)}=\sup_{x\in[a,b]}|f(x)|\). Hence, the metric is \(d(f,g)=\norm{f-g}_{\mc{C}\left([a,b]\right)}\). We say that the pair \(\left(\mc{C}\left([a,b]\right),\norm{\cdot}_{\mc{C}\left([a,b]\right)}\right)\) is a \emph{normed vector space}.
 
+\medskip
 
-\end{document}
+Property a) of theorem 6.12 says: If \(\alpha:[a,b]\to\R\) is monotone increasing, then the function \(T(f)=\displaystyle\int_a^b f \, d\alpha\) is a linear function from the vector space \(\mc{C}\left([a,b]\right)\) to \(\R\). Hence, 
+\begin{gather*}
+	T(f+g)=T(f)+T(g)\\
+	T(cf)=cT(f).
+\end{gather*}
+Property d) says that \(T\) is bounded, i.e., \(|T(f)|\leq \left(\alpha(b)-\alpha(a)\right)\norm{f}_{\mc{C}\left([a,b]\right)}\).
+\begin{notation}
+	People sometimes write \(Tf\) instead of \(T(f)\), however it's the same thing. For example, in linear algebra, we write \(Mv\) where \(M\) is a matrix and \(v\) is a vector, but this is technically \(M(v)\).
+\end{notation}
+Property b) says that \(T\) is non-negative, i.e., if \(f\in\mc{C}\left([a,b]\right)\) with \(f(x)\geq 0\) for all \(x\in[a,b]\). Then \(Tf\geq 0\).
 
+\medskip
+
+In functional analysis (MATH 421), and more generally in Physics, we want to study linear functions whose domain is \(\mc{C}\left([a,b]\right)\) (or more general), and whose co-domain is \(\R\) (or more often \(\C\)). Functions of this type are called ``linear operators" or ``linear functionals".
+
+\begin{ntheorem}{: Riesz Representation Theorem 1.0}
+	Let \(T:\mc{C}\left([a,b]\right)\to\R\) be linear, bounded, and non-negative. Then, there exists a unique monotone increasing \(\alpha:[a,b]\to\R\), such that \(Tf=\displaystyle\int_a^b f \, d\alpha\).
+\end{ntheorem}
+
+We want to find a better version of the theorem where we can drop the non-negative hypothesis:
+
+\begin{ntheorem}{: Riesz Representation Theorem 2.0}
+	Let \(T:\mc{C}\left([a,b]\right)\to\R\) be linear and bounded. Then, there exist two monotone increasing functions \(\alpha,\beta:[a,b]\to\R\) such that 
+	\begin{equation*}
+		T(f)=\int_a^b f \, d\alpha-\int_a^b f \, d\beta=\int_a^b f \, d(\alpha-\beta).
+	\end{equation*}
+\end{ntheorem}
+\begin{note}[Extension of the definition of the Riemann-Stieltjes integral]
+	Note that for monotone increasing \(\alpha,\beta\), \(\alpha-\beta\) is not necessarily monotonically increasing, so we would have to change the definition of the Riemann-Stieltjes integral from monotonically increasing \(\alpha\) to \(\alpha\) that is the difference of monotonically increasing functions. However, we don't really need to get into that since we can just write it as the first equality shown above.
+\end{note}
