@@ -1,14 +1,96 @@
-\documentclass[]{article}
+\begin{ntheorem}{: Baby Rudin 6.19}
+	Let \(\pfi:[A,B]\to [a,b]\) be a strictly increasing, surjective, and continuous function.
+	
+	\medskip
+	
+	Let \(\alpha:[a,b]\to\R\) be our monotone increasing integrator, and let \(f\in\mc{R}_{\alpha}[a,b]\).
+	
+	\medskip
+	
+	Define \(g:=f\circ\pfi:[A,B]\to\R\), and \(\beta:=\alpha\circ\pfi:[A,B]\to\R\). Hence, \(g\in\mc{R}_{\beta}[A,B]\) and 
+	\begin{equation*}
+		\int_A^B g \, d\beta=\int_a^b f \, d\alpha.
+	\end{equation*}
+\end{ntheorem}
 
-%opening
-\title{Lecture-10}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\begin{example}
+	Let \(\alpha(x)=x\), and \(\pfi\) is differentiable. Then \(d\beta=\pfi'(x) \, dx\), i.e., 
+	\begin{equation*}
+		\int_a^b f \, d\alpha=\int_{\pfi^{-1}(a)}^{\pfi^{-1}(b)} f(x) \, \pfi'(x)dx
+	\end{equation*}
+\end{example}
+\begin{proof}
+	Partitions \(\mc{P}:=\{a=x_0,x_1,\dots,x_n=b\}\) of \([a,b]\), and partitions \(\mc{Q}\) of \([A,B]\) are in 1-1 correspondence via \(x_i=\pfi(y_i)\).
+	
+	\medskip
+	
+	We have \(\alpha(x_i)=\alpha\circ\pfi(y_i)=\beta(y_i)\), and 
+	\begin{equation*}
+		\{f(x)\st x\in[x_{i-1},x_i]\}=\{g(y)\st y\in[y_{i-1},y_i]\}.
+	\end{equation*}
+	Hence, \(U(\mc{P},f,\alpha)=U(\mc{Q},g,\beta)\) and \(L(\mc{P},f,\alpha)=L(\mc{Q},g,\beta)\). For all \(\eps>0\), since \(f\in\mc{R}_{\alpha}[a,b]\) there exists a partition \(\mc{P}\) of \([a,b]\) such that \(U(\mc{P},f,\alpha)-L(\mc{P},f,\alpha)<\eps\). Therefore, \(U(\mc{Q},f,\alpha)-L(\mc{Q},f,\alpha)<\eps\), and \(g\in\mc{R}_{\beta}[A,B]\).
+	
+	\medskip
+	
+	Finally, 
+	\begin{equation*}
+		\int_A^B g \, d\beta=\inf_{\mc{Q}} U(\mc{Q},g,\beta)=\inf_{\mc{P}} U(\mc{P},f,\alpha)=\int_a^b f \, d\alpha.
+	\end{equation*}
+\end{proof}
+\begin{note}[About the properties of \(\pfi\)]
+	Without \(\pfi\) being strictly increasing, surjective, and continuous in the theorem hypothesis, we won't get a 1-1 correspondence between the partition \(\mc{P}\) and the partition \(\mc{Q}\).
+\end{note}
 
-\begin{document}
+\begin{ntheorem}{: Baby Rudin 6.20}
+	Let \(f\in\mc{R}[a,b]\). For \(x\in[a,b]\), define \(F(x):=\displaystyle\int_a^x f(t) \, dt\), \(F(a):=0\). Then, \(F\) is continuous on \([a,b]\). If \(c\in[a,b]\), and \(f\) is continuous at \(c\), then \(F\) is differentiable at \(c\), and the derivative of \(F'(c)=f(c)\).
+\end{ntheorem}
+\begin{proof}
+	\emph{Continuity}: Let \(K=\displaystyle\sup_{t\in [a,b]}{|f(t)|}\). By theorem 6.12(c), for \(a\leq x\leq y\leq b\), 
+	\begin{equation*}
+		F(y)-F(x)=\int_a^y f(t) \, dt-\int_a^x f(t) \, dt=\int_x^y f(t) \, dt.
+	\end{equation*}
+	Thus, 
+	\begin{equation*}
+		|F(y)-F(x)|=\left|\int_x^y f(t) \, dt\right|\leq \int_a^b |f(t)| \, dt\leq \int_a^b k \, dt=K(y-x).
+	\end{equation*}
+	Hence, for every \(\eps>0\), select \(\delta=\displaystyle\frac{\eps}{k}\) (or \(\delta=\eps\) if \(k=0\)); if \(|x-y|<\delta\), \(|f(x)-f(y)|<\eps\).
+	
+	\bigskip
+	
+	\emph{Differentiability at \(c\)}: Suppose \(c\neq b\), i.e., \(c\in[a,b)\). Let us compute \(\displaystyle\lim_{h\searrow 0}\frac{F(c+h)-F(c)}{h}\). 
+	
+	\medskip
+	
+	For \(h>0\), we have 
+	\begin{equation*}
+		\left|\frac{1}{h}[F(c+h)-F(c)]-f(c)\right|=\left|\frac{1}{h}\int_c^{c+h} f(t) \, dt-f(c)\right|.
+	\end{equation*}
+	Here we exploit a trick, where we write \(f(c)=\displaystyle\frac{1}{h}\int_c^{c+h}f(c) \, dt\). Hence, we have 
+	\begin{equation*}
+		\left|\frac{1}{h}[F(c+h)-F(c)]-f(c)\right|=\left|\frac{1}{h}\int_c^{c+h} [f(t)-f(c)] \, dt\right|\leq \frac{1}{h}\int_c^{c+h}|f(t)-f(c)| \, dt.
+	\end{equation*}
+	Since \(f\) is continuous at \(c\), for all \(\eps>0\), there exists \(\delta>0\) such that for all \(y\in [a,b]\) with \(|y-c|<\delta\), we have \(|f(c)-f(y)|<\eps\). Hence, for \(h<\delta\), we have 
+	\begin{equation*}
+		\frac{1}{h}\int_c^{c+h}|f(t)-f(c)| \, dt<\frac{1}{h}\int_c^{c+h} \eps \, dt=\eps,
+	\end{equation*} 
+	i.e., for all \(\eps>0\), there exists \(\delta>0\) such that for all \(0<h<\delta\),
+	\begin{equation*}
+		\displaystyle\left|\frac{1}{h}\left(F(c+h)-F(c)\right)-f(c)\right|<\eps\implies \displaystyle\lim_{h\searrow 0}\frac{F(c+h)-F(c)}{h}=f(c).
+	\end{equation*}
+	
+	\medskip
+	
+	If \(c\neq a\), i.e., if \(c\in (a,b]\), an identical argument shows \(\displaystyle\lim_{h\nearrow 0}\frac{F(c+h)-F(c)}{h}=f(c)\).
+\end{proof}
 
-\maketitle
-
-
-\end{document}
-
+\begin{fft}
+	If \(f\) is \emph{not} continuous at \(c\), is \(F\)
+	\begin{enumerate}[(a)]
+		\item \emph{Never} differentiable at \(c\).
+		
+		\item Maybe differentiable (depends on \(f\) and \(c\)).
+		
+		\item Always differentiable. 
+	\end{enumerate}
+\end{fft}
+The answer to this should be (b) Maybe differentiable, since we could have a removable discontinuity, which the Riemann integral cannot see, so it will be just fine: If \(f(x)=g(x)\) \emph{except} at one point, then \(\displaystyle\int_a^b f(x) \, dx=\int_a^b g(x)\, dx\). In contrast if it was even a jump discontinuity, \(f\) fails to be continuous, and hence it does not work.
