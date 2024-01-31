@@ -1,14 +1,69 @@
-\documentclass[]{article}
+\begin{ntheorem}{: Baby Rudin 6.17}
+	Let \(f:[a,b]\to\R\) be bounded, and \(\alpha:[a,b]\to\R\) be differentiable and monotone increasing. Suppose \(\alpha'\in\mc{R}[a,b]\). Then \(f\in\mc{R}_{\alpha}[a,b]\iff f\alpha'\in\mc{R}[a,b]\), and if so 
+	\begin{equation*}
+		\int_a^b f \, d\alpha=\int_a^b f\alpha' \, dx.
+	\end{equation*}
+\end{ntheorem}
 
-%opening
-\title{Lecture-9}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
-
-\begin{document}
-
-\maketitle
-
-
-\end{document}
-
+\begin{proof}
+	\textbf{Step-1}: It suffices to show that 
+	\begin{equation*}
+		\ol{\int_a^b}f \, d\alpha=\ol{\int_a^b} f\alpha' \, dx\quad\text{and}\quad \ul{\int_a^b}f \, d\alpha=\ul{\int_a^b} f\alpha' \, dx.
+	\end{equation*}
+	We will prove the first equality, and the second one is left as an exercise.
+	
+	\medskip
+	
+	\textbf{Step-2}: Since \(\alpha'\in\mc{R}[a,b]\) for all \(\eps>0\), there exists \(\mc{P}\) (of \([a,b]\)) such that \(U(\mc{P},\alpha')-L(\mc{P},\alpha')<\eps\). This inequality continues to hold for every refinement \(\mc{P}'\) of \(\mc{P}\).
+	
+	\medskip
+	
+	We have \(U(\mc{P},\alpha')-L(\mc{P},\alpha')=\displaystyle\sum_{i=1}^{n}(A_i-a_i)\Delta x_i\), where \(A_i:=\sup\{\alpha'(x)\st x\in[x_{i-1},x_i]\}\), and \(a_i:=\inf\{\alpha'(x)\st x\in[x_{i-1},x_i]\}\). By the Mean Value Theorem for each \(i=1,\dots, n\), there exists \(t_i\in[x_{i-1},x_i]\) such that \(\Delta\alpha_i=\alpha'(t_i)\Delta x_i\). Now, this suggests \(\displaystyle \ol{\int_a^b}f \, d\alpha=\ol{\int_a^b} f\alpha' \, dx\), but we need to be careful:
+	
+	\medskip
+	
+	For every \(s_i\in [x_{i-1},x_i]\), we have \(|\alpha'(s_i)-\alpha'(t_i)|\leq A_i-a_i\), so \(\displaystyle\sum_{i=1}^n|\alpha'(s_i)-\alpha'(t_i)|\Delta x_i\leq \displaystyle\sum_{i=1}^n(A_i-a_i)\Delta x_i\) for \emph{every} choice of \(s_i\in [x_{i-1},x_i]\), \(1\leq i\leq n\). Let \(K:=\sup_{x\in [a,b]}{|f|}\), then
+	\begin{equation}
+		\sum_{i=1}^n |f(s_i)\alpha'(s_i)\Delta x_i-f(s_i)\alpha'(t_i)\Delta x_i|\leq K\eps.\label{sup bound}
+	\end{equation}
+	Hence, 
+	\begin{equation*}
+		\sum_{i=1}^n f(s_i)\Delta\alpha_i\leq \sum_{i=1}^n f(s_i)\alpha'(s_i)\Delta x_i+Ke\leq U(\mc{P},f\alpha')+K\eps.
+	\end{equation*}
+	
+	\medskip
+	
+	Recall that if \(|a+b|\leq c\), then \(a\leq b+c\) and \(b\leq a+c\).
+	\begin{note}
+		Whenever we have an inequality, we might wonder whether it is ``sharp" or ``tight", meaning it is equality or the closest to equality as possible.
+	\end{note}
+	
+	Taking the supremum of \(s_i\in[x_{i-1},x_i]\), \(i=1,\dots, n\), we conclude 
+	\begin{equation*}
+		U(\mc{P},f,\alpha)=\sum_{i=1}^n M_i\Delta\alpha_i\leq U(\mc{P},f\alpha')+K\eps.
+	\end{equation*}
+	Hence, 
+	\begin{equation*}
+		\ol{\int_a^b}f \, d\alpha\leq U(\mc{P},f,\alpha)\leq U(\mc{P},f\alpha')+K\eps,
+	\end{equation*}
+	i.e., for every \(\eps\), we found some partition \(\mc{P}\) that makes the inequality hold. Recall that it also holds for every refinement \(\mc{P}'\) of \(\mc{P}\).
+	
+	\medskip
+	
+	How can we make this inequality be as close to equality as possible (how much strength can we squeeze out of the inequality?) Taking the infimum over all refinements \(\mc{P}'\) of \(\mc{P}\), we have 
+	\begin{equation*}
+		\ol{\int_a^b}f \, d\alpha\leq \int_{\mc{P}'} U(\mc{P}',f\alpha')+K\eps.
+	\end{equation*}
+	Since we are considering a more strict set of partitions, will this give us the infimum we want? The answer is yes: for any non-refinement partition, we union it with \(\mc{P}\) to get a refinement, i.e., for all \(\eps>0\), \(\displaystyle\ol{\int_a^b}f \, d\alpha\leq \ol{\int_a^b}f \alpha' \, dx+K\eps\implies \ol{\int_a^b}f \, d\alpha\leq \ol{\int_a^b}f \alpha' \, dx\). The other three inequalities can be done as an exercise after the following note:
+	\begin{note}
+		For the inequality 
+		\begin{equation*}
+			\ol{\int_a^b}f \, d\alpha\geq \ol{\int_a^b}f \alpha' \, dx,
+		\end{equation*}
+		from \cref{sup bound}, we get 
+		\begin{equation*}
+			\sum_{i=1}^nf(s_i)\alpha'(s_i)\Delta x_i\leq \sum_{i=1}^n f(s_i)\Delta\alpha_i+K\eps,
+		\end{equation*}
+		and so on.
+	\end{note}
+\end{proof}
