@@ -1,14 +1,81 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 01/31/2024}
+	No quotes today :(
+\end{nquote}
 
-%opening
-\title{Lecture-11}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+We showed last time that if \(f:[a,b]\to\R\) continuous, and \(F(x)=\displaystyle\int_a^b f(t) \, dt\), then \(F'(x)=f(x)\) for all \(x\in [a,b]\).
 
-\begin{document}
+\begin{ntheorem}{: Fundamental theorem of Calculus (Baby Rudin 6.21)}
+	Let \(f\in\mc{R}[a,b]\), let \(F;[a,b]\to\R\) be differentiable and suppose \(F'(x)=f(x)\) for \(x\in [a,b]\). Then \(\displaystyle\int_a^b f(x) \, dx=F(b)-F(a)\).
+\end{ntheorem} 
+\begin{proof}
+	By MV, for any partition \(P=\{x_0,\dots,x_n\}\) there are numbers \(t_i\in[x_{i-1},x_i]\) for \(1\leq i\leq n\) such that \(F'(t_i)=(F(x_i)-F_(x_{i-1}))/\Delta x_i\). So, 
+	\begin{align*}
+		F(b)-F(a)=& \sum_{i=1}^{n}(F(x_i)-F(x_{i-1}))\\
+				 =&\sum_{i=1}^n F'(t_i)\Delta x_i.
+	\end{align*}
+	Then, 
+	\begin{equation*}
+		\left|\int_a^b f \, dx-(F(b)-F(a))\right|\leq U(P,f)-L(P,f).
+	\end{equation*}
+	Since \(f\in\mc{R}[a,b]\), then for all \(\eps>0\), there exists a partition \(P\) such that \(U(P,f)-L(P,f)<\eps\), and therefore, \(\left|\int_a^b f \, dx-(F(b)-F(a))\right|<\eps\).
+\end{proof}
+This sets us up for proving things we know to be true about integration. We start by integration parts:
+\begin{ntheorem}{: Integration by parts (Baby Rudin 6.22)}
+	Let \(F,G:[a,b]\to\R\) be differentiable. Let \(f=F'\), \(g=G'\), and suppose \(f,g\in\mc{R}[a,b]\). Then 
+	\begin{equation*}
+		\int_a^b F(x)g(x) \, dx=F(b)G(b)-F(a)G(a)-\int_a^b f(x)G(x) \, dx.
+	\end{equation*}
+\end{ntheorem}
+\begin{proof}
+	Let \(H(x)=F(x)G(x)\). Then \(H'(x)=f(x)G(x)+F(x)g(x)\in\mc{R}[a,b]\). Apply Theorem 6.21 to \(H\), then \(H(b)-H(a)=\displaystyle\int_a^b H'(x) \, dx\), i.e., 
+	\begin{equation*}
+		F(b)G(b)-F(a)G(a)=\int_a^b f(x)G(x) \, dx+\int_a^b F(x)g(x) \, dx.
+	\end{equation*}
+\end{proof}
+In both os these results, we have this hypothesis that \(f,g\in\mc{R}[a,b]\). 
+\begin{fft}
+	If \(F;[a,b]\to\R\) is differentiable and \(F'=f\), do we need repeat \(f\in\mc{R}[a,b]\), or does this hold automatically, i.e., is \(F'\in\mc{R}[a,b]\) for every \(F:[a,b]\to\R\) differentiable?
+\end{fft}
+If we ask that there exists \(F:[a,b]\to\R\) differentiable, so that \(F'\) is discontinuous at every \(x\in[a,b]\)? The professor noted that ``we've replaced a hard question with a harder question." We won't be doing this in class, but the answer to this question is \emph{no}.
 
-\maketitle
+\medskip
 
+It is an interesting question: which sets can be the set of discontinuities of a derivative? We get that \(S\subseteq [0,1]\), so can we find an \(F'\) that is discontinuous at \(S\) (where \(F:[0,1]\to\R\) is differentiable). These are called \(F-\delta\) sets.
 
-\end{document}
+\medskip
 
+Perhaps we wish for the derivative to blow up, but then it isn't Riemann integrable; here is a function that is worth remembering:
+\begin{equation*}
+	F(x)=\begin{cases}
+			0&x=0\\
+			x^2\sin{\frac{1}{x^2}}&x\neq 0
+		 \end{cases}.
+\end{equation*}
+This function is differentiable, but its derivative is unbounded. On \(x_n=\displaystyle\frac{1}{\sqrt{\pi n}}\), \(F'(x_n)\) blows up.
+
+\medskip
+
+Another type of counter-example is: \(F'\) is bounded, but \(F'\) is discontinuous at so many places that it is not Riemann integrable. Uncountable is not enough in this case: they might still be Riemann integrable. The condition is that it is discontinuous at points with positive Lebesgue measure: we try to cover all the discontinuities with open intervals, the smallest we can make the intervals will always add up to a positive value. However, this is a MATH 420 topic.
+
+\medskip
+
+We will explore some definitions:
+\begin{ndef}{: Absolute convergence of an integral}
+	If \(f:[a,\infty)\to\R\) satisfies \(f\in\mc{R}[a,b]\) for all \(b>a\), then we define 
+	\begin{equation*}
+		\int_a^{\infty} f(x) \, dx=\lim_{b\to\infty}\int_a^b f(x) \, dx.
+	\end{equation*}
+	If the limit exists (as a real number), we say that the \(\displaystyle\int_a^{\infty}|f| \, dx\) exists (as a real number), then we say that \(\displaystyle\int_a^{\infty}f(x) \, dx\) \emph{\textbf{converges absolutely}}.
+\end{ndef}
+\begin{note}
+	This is the same idea as conditional/absolute convergence of a sequence. We can make an equivalent definition for \(\displaystyle\int_{-\infty}^b f(x) \, dx\).
+\end{note}
+If \(f:\R\to\R\) and both \(\displaystyle\int_0^{\infty}f(x) \, dx\) and \(\displaystyle\int_{-\infty}^0 f(x) \, dx\) converges (absolutely), we define 
+\begin{equation*}
+	\int_{-\infty}^{\infty} f(x) \, dx:=\int_{-\infty}^0 f(x) \, dx+\int_0^{\infty}f(x) \, dx,
+\end{equation*}
+and we say \(\displaystyle\int_{-\infty}^{\infty} f(x) \, dx\) converges (absolutely).
+\begin{fft}
+	Can we construct a function that converges absolutely? 
+\end{fft}
+Taking inspiration from series, we can take a step function of \(\displaystyle\frac{(-1)^n}{n}\); this converges conditionally, but not absolutely.
