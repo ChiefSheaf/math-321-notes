@@ -1,14 +1,112 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 02/04/2024}
+	No quotes today :(
+\end{nquote}
 
-%opening
-\title{Lecture-12}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\begin{ndef}{: Riemann-Stieltjes integrability of complex valued functions}
+	Let \(f:[a,b]\to\C\), and \(\alpha:[a,b]\to\R\) be monotone increasing. We say that \(f\in\mc{R}_{\alpha}[a,b]\) if \(\operatorname{Re}f\in\mc{R}_{\alpha}[a,b]\) and \(\operatorname{Im}f\in\mc{R}_{\alpha}[a,b]\), and if so we define
+	\begin{equation*}
+		\int_a^b f \, d\alpha:=\int_a^b \operatorname{Re}f \, d\alpha+\int_a^b \operatorname{Im}f \, d\alpha.
+	\end{equation*}
+\end{ndef}
+This definition can be extended for \(\int_a^{\infty} f \, d\alpha\) and \(\int_{-\infty}^{\infty} f \, d\alpha\) as well, and also for \(f:[a,b]\to F^n\), where \(F\) is a field (generally just \(\R\) or \(\C\)).
 
-\begin{document}
+\begin{fft}
+	What happens if \(\alpha:[a,b]\to\C\)? We cannot make these ``monotone increasing" because there is no order in the complex plane.
+\end{fft}
+\begin{proof}[Answer]\let\qed\relax
+	If \(\alpha\) is differentiable, we can still try to use the Riemann integral, i.e., 
+	\begin{equation*}
+		\int f \, d\alpha=\int f\alpha' \, dx.
+	\end{equation*}
+	We might also try to define what a ``complex function of bounded variation" looks like. However, in practice, this is not really used since by the time we get around to thinking about complex integrators, we are usually working with Lebesgue integration.
+\end{proof}
 
-\maketitle
+\section{Sequences and series of functions}
+\subsection{The setup}
+Let \(\mc{E}\) be a set (\(\mc{E}=[a,b]\), \(\mc{E}=\R\)). Let \(\{f_n\}_{n\in\N}\) be a sequence of functions \(f_n:\mc{E}\to\mc{S}\) -- usually \(\mc{S}=\R\), \(\mc{S}=\C\), or some metric space \((\mc{M},d)\) -- and let \(f:\mc{E}\to\mc{S}\). 
 
+\medskip
 
-\end{document}
+What does it mean for \(f_n\) to converge to \(f\), i.e., \(f_n\to f\), and the functions \(f_n\) all have some property \(P\) (e.g. all continuous, all integrable, etc.), must it be true that \(f\) also has \(P\)?
 
+\subsection{Point-wise convergence}
+\begin{ndef}{: Pointwise convergence}
+	Let \(\{f_n\}_{n\in\N}\) be a sequence of functions \(F_n:\mc{E}\to\mc{M}\). If the sequence \(\{f_n(x)\}_{n\in\N}\) converges for every \(x\in\mc{E}\), then we say \(\{f_n\}_{n\in\N}\) \emph{\textbf{converges point-wise}} (on \(\mc{E}\)).
+\end{ndef}
+Note that there are two definitions that are used for convergence of sequence of functions:
+\begin{itemize}
+	\item\textbf{Uniform convergence}: For all \(\eps>0\), there exists \(N\in\N\) such that for all \(n>N\) and for all \(x\in\mc{E}\), \(\displaystyle d\left(f_n(x),f(x)\right)<\eps\).
+	
+	\item \textbf{Point-wise convergence}: For all \(x\in\mc{E}\), given \(\eps>0\), there exists \(N\in\N\) such that for all \(n>N\), \(\displaystyle d\left(f_n(x),f(x)\right)<\eps\).
+\end{itemize}
+Uniform convergence is something we will cover later on in the course.
+
+\medskip
+
+For point-wise convergence, what properties hold?
+
+\begin{enumerate}[(a)]
+	\item Continuity: \(\mc{E}=\R\). If each \(f_n\) is continuous and \(f_n\to f\) point-wise, must it be true that \(f\) is continuous? 
+	
+	\medskip
+	
+	This is not necessarily true; consider 
+	\begin{equation*}
+		f_n=e^{-nx^2},\quad\text{and}\quad f=\begin{cases}
+												1,&x=0\\
+												0,&x\neq 0
+											 \end{cases},
+	\end{equation*}
+	but \(f_n\to f\). Also,
+	\begin{equation*}
+		f_n=x^n,\quad\text{and}\quad f=\begin{cases}
+											1,&x=1\\
+											0,&x\neq 1
+										\end{cases},
+	\end{equation*} 
+	where \(\mc{E}=[0,1]\), but \(f_n\to f\). In fact, we can make our points of discontinuity arbitrary where we want.
+	
+	\item Boundedness: If each \(f_n\) is bounded and \(f_n\to f\) point-wise, must \(f\) be bounded? 
+	
+	\medskip
+	
+	This is not necessarily true; consider for \(\mc{E}=(0,1)\), \(f_n=\displaystyle\frac{1}{x-a_n}\) such that \(a_n\to O^-\). Also, for \(\mc{E}=\R\), 
+	\begin{equation*}
+		f_n=\begin{cases}
+				x,&x\in[-n,n]\\
+				n,&x\in[n,\infty)\\
+				-n,&x\in(-\infty,n]
+			\end{cases},
+	\end{equation*}
+	where \(f_n\to f(x)=x\), but \(f_n\) is bounded for each \(n\in\N\), whereas \(f(x)=x\) is unbounded.
+	
+	\item Quantitative boundedness: If each \(f_n\) is bounded by \(1\), i.e., \(|f_n(x)|\leq 1\), for all \(x\in\mc{E}\), and \(f_n\to f\) point-wise, must it be true that \(|f(x)|\leq 1\) for all \(x\in\mc{E}\)?
+	
+	\medskip
+	
+	This is in fact true: for the sake of contradiction, assume \(|f(x')|>1\) for some \(x'\in\mc{E}\). Hence, \(|f(x')|=1+\eps>1\), there must be some \(f_n(x')>1\). 
+	
+	\medskip
+	
+	If we change the condition in the hypothesis to be strictly less than \(1\), this is no longer true; we can get \(|f(x)|=1\).
+	
+	\item Riemann integrability: Given \(f_n\in\mc{R}[0,1]\), \(f_n\to f\) point-wise, must it be true that \(f\in\mc{R}[0,1]\)?
+	
+	\medskip
+	
+	This is not necessarily true; we don't know many functions that fail to be integrable, but one example is 
+	\begin{equation*}
+		f(x)=\begin{cases}
+				1,&x\in\Q\\
+				0,&x\notin\Q
+			 \end{cases},\quad\text{and}\quad f_n(x)=\begin{cases}
+			 											1,&x\in\{q_1,q_2,\dots,q_n\}\\
+			 											0,&\text{otherwise}
+			 										 \end{cases},
+	\end{equation*}
+	where \(\{q_n\}_{n\in\N}\) is an enumeration of the rationals.
+\end{enumerate}
+
+\begin{fft}
+	Assuming \(f_n\) and \(f\) are both Riemann integrable, must \(\displaystyle\int_a^b f_n(x) \, dx\) converge to \(\displaystyle\int_a^b f(x) \, dx\)?
+\end{fft}
