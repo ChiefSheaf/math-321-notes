@@ -1,14 +1,90 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 02/06/2024}
+	No quotes today :(
+\end{nquote}
 
-%opening
-\title{Lecture-13}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+We continue with solution of the problem from last time. 
+\begin{proof}[Solution]
+	Essentially, we are asking that if \(f_n-f\to 0\) point-wise, does it mean that \(\displaystyle\lim_{n\to\infty}\int_0^1 g_n \, dx=0\)? This is in fact not necessarily true: consider 
+	\begin{equation*}
+		g_n(x)=\begin{cases}
+				n,&0x<\frac{1}{n}\\
+				0,&\text{otherwise}
+			   \end{cases}.
+	\end{equation*}
+	We get \(\displaystyle\int_0^1 g_n \, dx=1\). An even more extreme counter-example 
+	\begin{equation*}
+		g_n(x)=\begin{cases}
+				n^2,&0<x<\frac{1}{n}\\
+				0,&\text{otherwise}
+			   \end{cases},\quad\text{then}\quad \int_0^1 g_n \, dx=n.
+	\end{equation*}
+\end{proof}
 
-\begin{document}
+\begin{fft}
+	We have seen examples of \(f_n\to f\) point-wise, where \(f_n\) are continuous or integrable and the limit is not. Why does this happen?
+	
+	\medskip
+	
+	Suppose \(f_n\to f\), \(f_n:\R\to\R\) and \(f_n\) are continuous at \(c\in\R\). Is \(f\) continuous at \(c\)?
+\end{fft}
+\begin{proof}[Solution]
+	\(f\) is continuous at \(c\) if \(\displaystyle\lim_{x\to c}f(x)=f(c)\), so \(f\) is continuous at \(c\) if 
+	\begin{equation*}
+		\lim_{x\to c} f(x)=\lim_{x\to c}\lim_{n\to\infty} f_n(x)=\lim_{n\to\infty}\lim_{x\to c} f_n(x).
+	\end{equation*}
+	Similarly, \(f\in\mc{R}[0,1]\) if \(\displaystyle\lim_{m\to\infty}[U(P_m,f)-L(P_m,f)]=0\).
+	
+	\medskip
+	
+	If \(f_n\to f\) point-wise, is it true that 
+	\begin{align*}
+		&\lim_{m\to\infty}U\left(P_m,\lim_{n\to\infty}f_n(x)\right)=\lim_{n\to\infty}\lim_{m\to\infty}U(P_m,f_n)\\
+		&\lim_{m\to\infty}L\left(P_m,\lim_{n\to\infty}f_n(x)\right)=\lim_{n\to\infty}\lim_{m\to\infty}L(P_m,f_n)?
+	\end{align*}
+	This is true for a sequence of Lipschitz continuous functions, however the limit does not have to be Lipschitz continuous (due to failure to interchange limits).
+	
+	\medskip
+	
+	Our final example showing that we \emph{cannot} (in general) interchange limits. Consider \(a_{n,m}=\displaystyle\frac{n}{n+m}\), where \(n,m\in\N\); we get that 
+	\begin{align*}
+		&\lim_{n\to\infty} a_{n,m}=1\implies \lim_{m\to\infty}\lim_{n\to\infty} a_{n,m}=1.\\
+		&\lim_{m\to\infty}a_{n,m}=0\implies \lim_{n\to\infty}\lim_{m\to\infty}a_{n,m}=0.
+	\end{align*}
+\end{proof}
 
-\maketitle
+\begin{ndef}{: Uniform convergence of a sequence of functions}
+	Let \(\mc{E}\) be a set. For a metric space \((\mc{M},d)\) (i.e., \(\R\) or \(\C\)), let \(\{f_n\}\) be a sequence of functions \(f_n\st \mc{E}\to\mc{M}\) and \(f:\mc{E}\to\mc{M}\). We say \(f_n\to f\) \emph{\textbf{uniformly}} is:
+	\begin{equation*}
+		\text{For all}~\eps>0,~\text{there exists}~N\in\N~\text{such that, for all}~n>N,x\in\mc{E},d\left(f_n(x),f(x)\right)<\eps.
+	\end{equation*}
+\end{ndef}
 
-
-\end{document}
-
+\begin{ntheorem}{: Cauchy criteria for uniform convergence (Baby Rudin 7.8)}
+	Let \(\mc{E}\) be a set, \((\mc{M},d)\) a \emph{complete} metric space. Then \(\{f_n\}\) converges uniformly (to same \(f\st \mc{E}\to\mc{M}\)) iff 
+	\begin{equation*}
+		\text{For all}~\eps>0,~\text{there exists}~N\in\N~\text{such that, for all}~m,n>N,~\text{for all}~x\in\mc{E},d\left(f_n(x),f_m(x)\right)<\eps,
+	\end{equation*}
+	which is the Cauchy criterion for uniform convergence.
+\end{ntheorem}
+\begin{proof}
+	(\(\implies\)) Suppose \(f_n\to f\) uniformly. Let \(\eps>0\); there exists \(N\in\N\) such that for all \(n>N\), for all \(x\in\mc{E}\), \(d(f_n(x),f(x))<\displaystyle\frac{\eps}{2}\). So for all \(m,n>N\), for all \(x\in\mc{E}\), 
+	\begin{equation*}
+		d(f_n(x),f_m(x))\leq d(f_n(x),f(x))+d(f_m(x),f_n(x))<\frac{\eps}{2}+\frac{\eps}{2}=\eps.
+	\end{equation*}
+	(\(\Leftarrow\)) Suppose \(\{f_n(x)\}\) satisfies the Cauchy criteria. For each \(x\in\mc{E}\), \(\{f_n(x)\}\) is a Cauchy sequence in \(\mc{M}\), and \((\mc{M},d)\) is complete, so \(\{f_n(x)\}\) converges, i.e., \(\displaystyle\lim_{n\to\infty}f_n(x)\) exists.
+	
+	\medskip
+	
+	Define \(f(x)=\displaystyle\lim_{n\to\infty} f_n(x)\). Let \(\eps>0\); since \(\{f_n(x)\}\) satisfies Cauchy criteria, there exists \(N\in\N\) such that for all \(m,n>N\), for all \(x\in\mc{E}\), we have
+	\begin{equation*}
+		d(f_n(x),f_m(x))<\displaystyle\frac{\eps}{2}.
+	\end{equation*}
+	Hence, 
+	\begin{equation*}
+		d(f_n(x),f(x))\leq d(f_n(x),f_m(x))+d(f_m(x),f(x))<\frac{\eps}{2}+d(f_m(x),f(x)).
+	\end{equation*}
+	Since \(f_m(x)\to f(x)\), we can select \(m>N\) such that \(d(f_m(x),f(x))<\displaystyle\frac{\eps}{2}\). Therefore, 
+	\begin{equation*}
+		d(f_n(x),f(x))<\frac{\eps}{2}+\frac{\eps}{2}=\eps.
+	\end{equation*}
+\end{proof}
