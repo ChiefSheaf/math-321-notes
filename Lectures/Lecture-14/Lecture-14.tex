@@ -1,14 +1,84 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 02/08/2024}
+	No quotes today :(
+\end{nquote}
 
-%opening
-\title{Lecture-14}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\begin{ntheorem}{: Baby Rudin 7.11}
+	Let \((\mc{M}_1,d_1)\) and \((\mc{M}_2,d_2)\) be metric spaces with \((\mc{M}_2,d_2)\) complete, i.e., \(\R\) or \(\C\). Let \(\mc{E}\subseteq \mc{M}_1\), and let \(\{f_n\}\) be a sequence of functions \(f_n:\mc{E}\to\mc{M}_2\), and suppose \(f_n\to f\) uniformly on \(\mc{E}\). 
+	
+	\medskip
+	
+	Let \(x\in\mc{M}_1\) be a limit point of \(\mc{E}\). Suppose \(\displaystyle\lim_{t\to x}f_n(t)=y_n\) exists for each \(n\); \(\{y_n\}\) is a convergent sequence, i.e., \(y_n\to y\in\mc{M}_2\), and \(\displaystyle\lim_{t\to x}f(t)=y\), i.e., 
+	\begin{equation*}
+		\lim_{t\to x}\underbrace{\lim_{n\to\infty}f_n(t)}_{f(t)}=\lim_{n\to\infty}\underbrace{\lim_{t\to x}f_n(t)}_{y_n}
+	\end{equation*}
+\end{ntheorem}
+\begin{proof}
+	\textbf{Step-1:} Show that \(\{y_n\}\) converges.
+	
+	\medskip
+	
+	It suffices to show that \(\{y_n\}\) is Cauchy. Let \(\eps>0\) be given. Choose \(N\) such that for all \(m,n>N\), for all \(t\in \mc{E}\), \(d_2(f_n(t),f_m(t))<\displaystyle\frac{\eps}{3}\), and thus
+	\begin{align*}
+		d_2(y_n,y_m)\leq&d_2(y_n,f_n(t))+d_2(f_n(t),y_m)\\
+					\leq&d_2(y_n,f_n(t))+d_2(f_n(t),f_m(t))+d_2(f_m(t),y_m).
+	\end{align*}
+	We can choose \(t\) such that the above is at most \(<\displaystyle\frac{\eps}{3}+\frac{\eps}{3}+\frac{\eps}{3}=\eps\); call this the ``\(\displaystyle\frac{\eps}{3}\) trick".
+	
+	\medskip
+	
+	In conclusion, for all \(\eps>0\), there exists \(N\in\N\) such that for all \(m,n>N\), \(d_2(y_n,y_m)<\eps\), i.e., \(\{y_n\}\) is Cauchy, and by completeness of \((\mc{M}_2, d_2)\), hence convergent.
+	
+	\bigskip
+	
+	\textbf{Step-2:} Prove that \(f(t)\to y\) as \(t\to x\).
+	
+	\medskip
+	
+	For all \(t\in\mc{E}\) and \(n\),
+	\begin{equation}
+		d_2(f(t),y)\leq d_2(f(t),f_n(t))+d_2(f_n(t),y_n)+d_2(y_n,y). \tag{\(\star\)} \label{eps/3 for step 2}
+	\end{equation}
+	Let \(\eps>0\); since \(f_n\to f\) uniformly, there exists \(N_1\in\N\) such that for all \(n>N_1\), for all \(t\in\mc{E}\),
+	\begin{equation*}
+		d_2(f(t), f_n(t))<\frac{\eps}{3}.
+	\end{equation*}
+	Since \(y_n\to y\), there exists \(N_2\in\N\) such that for all \(n>N_2\), \(d_2(y_n,y)<\displaystyle\frac{\eps}{3}\). Let \(N:=\operatorname{max}\{N_1,N_2\}\). Applying \cref{eps/3 for step 2} with this choice of \(N\), we have 
+	\begin{equation*}
+		d_2(f(t),y)\leq \frac{\eps}{3}+d_2(f_N(t),y_N)+\frac{\eps}{3}.
+	\end{equation*}
+	Since \(\displaystyle\lim_{t\to x}f_N(t)=y_N\), there exists \(\delta>0\) such that for all \(t\in\mc{E}\), \(d_1(t,x)<\delta\), we have \(d_2(f_N(t),y_N)<\displaystyle\frac{\eps}{3}\). Hence, for all \(t\in\mc{E}\), for all \(x\) obeying \(d_1(t,x)<\delta\), we have 
+	\begin{equation*}
+		d_2(f(t),y)<\eps.
+	\end{equation*}
+\end{proof}
 
-\begin{document}
+\begin{ncorollary}{: Baby Rudin 7.12}
+	Let \((\mc{M}_1,d_1)\), \((\mc{M}_2,d_2)\), \(\{f_n\}\), \(f\), and \(\mc{E}\) be as before. If each \(f_n\) is continuous on \(\mc{E}\), and \(f_n\to f\) uniformly, then \(f\) is continuous on \(\mc{E}\).
+	
+	\medskip
+	
+	Effectively, ``the uniform limit of continuous functions is continuous."
+\end{ncorollary}
+\begin{proof}
+	\(f\) is always continuous at isolated points, so we only need to consider limit points, \(x\in\mc{E}\cap\mc{E}'\), For every such \(x\), theorem 7.11 implies 
+	\begin{equation*}
+		f(x)=\lim_{n\to\infty}f_n(x)=\lim_{n\to\infty}\lim_{t\to x}f_n(t)=\lim_{t\to x}\lim_{n\to\infty}f_n(t)=\lim_{t\to x}f(t).
+	\end{equation*}
+\end{proof}
 
-\maketitle
+\subsection{Series of functions}
+\begin{ndef}{: Convergence of a series of functions to a function}
+	Let \(\mc{E}\) be a set, let \(\{f_n\}\) be a sequence of functions, \(f_n:\mc{E}\to\R\) or \(\mc{E}\to\C\), and let \(g:\mc{E}\to\R\) or \(\mc{E}\to\C\). We say \(\displaystyle\sum_{n\in\N} f_n\) converges point-wise (uniformly) to \(g\) is the sequence \(S_n:=\sum_{i=1}^{n}f_i\) converges point-wise (uniformly) to \(g\).
+\end{ndef}
+\begin{example}
+	The series \(1+\displaystyle\sum_{n\in\N}\frac{x^n}{n!}\) converges to \(g(x)=e^x\)
+	\begin{itemize}
+		\item point-wise on \(\R\).
+		
+		\item uniformly on any bounded set \(\mc{E}\subseteq\R\), or any compact set \(\mc{K}\subseteq\R\).
+	\end{itemize}
+\end{example}
 
-
-\end{document}
-
+\begin{ntheorem}{: Weierstra\ss \(~M\)-test}
+	Let \(\mc{E}\) be a set, \(f_n:\mc{E}\to\R\) or \(\mc{E}\to\C\). If \(|f_n(x)|\leq M\) for all \(n>N_0\in\N\), for all \(x\in\mc{E}\), and if \(\displaystyle\sum_{n=N_0}^{\infty}M_n<\infty\), then \(\displaystyle\sum_{n\in\N}f_n\) converges uniformly.
+\end{ntheorem}
