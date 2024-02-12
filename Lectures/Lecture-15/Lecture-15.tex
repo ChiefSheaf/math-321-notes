@@ -1,14 +1,77 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 02/09/2024}
+	No quotes today :(
+\end{nquote}
 
-%opening
-\title{Lecture-15}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\begin{ntheorem}{: Dini's uniform convergence theorem (Baby Rudin 7.13)}
+	Let \((\mc{M},d)\) be a compact metric space (i.e., \([a,b]\)), \(\{f_n\}\) a sequence of functions, \(f_n:\mc{M}\to\R\). Suppose that 
+	\begin{enumerate}[(a)]
+		\item Each \(f_n\) is continuous.
+		
+		\item \(f_n\) converges \emph{point-wise} to some continuous \(f:\mc{M}\to\R\).
+		
+		\item \(f_{n+1}(x)\geq f_n(x)\) for each \(x\in\mc{M}\), \(n\in\N\).
+	\end{enumerate}
+	Then, \(f_n\to f\) \emph{uniformly} on \(\mc{M}\).
+\end{ntheorem}
+\begin{proof}
+	Let \(g_n=f-f_n\). Then, (a) \(g_n\) is continuous, (b) \(g_n\to 0\) point-wise, (c) \(g_n(x)\geq g_{n+1}(x)\geq 0\) for all \(n\in\N\).
+	
+	\medskip
+	
+	\emph{Goal:} Prove \(g_n\to 0\) uniformly, i.e., 
+	\begin{equation*}
+		\text{For all}~\eps>0,~\text{there exists}~N\in\N~\text{such that for all}~n>N, x\in\mc{M},0\leq g_n(x)<\eps.
+	\end{equation*}
+	Since \(g_n\) is monotonically decreasing, it is sufficient to show for all \(x\in\mc{M}\), \(g_n(x)<\eps\).
+	
+	\medskip
+	
+	Let \(\mc{K}_n=g_n^{-1}([\eps,\infty))\), \(\mc{K}_n\) is closed, hence compact (\(\mc{M}\) compact). Since \(\{g_n\}\) is decreasing, \(\mc{K}_n\) are nested, i.e., \(\mc{K}_{n+1}\subseteq\mc{K}\). Since \(g_n\to 0\) point-wise, for each \(x\in\mc{M}\), there exists \(n\) such that \(g_n(x)<\eps\implies x\notin\mc{K}_n\). Since \(x\) was arbitrary, \(\displaystyle\bigcap_{n=1}^{\infty}\mc{K}_n=\emptyset\). By theorem \(2.36\), there exists \(N\in\N\) such that \(\mc{K}_N=\emptyset\), i.e., 
+	\begin{align*}
+		&g_N(x)<\eps\quad\text{for all}~x\in\mc{M}\\
+		\implies&g_n(x)<\eps\quad\text{for all}~x\in\mc{M}, n\geq N\\
+		\implies&|g_n(x)|<\eps\quad\text{for all}~x\in\mc{M}, n\geq N.
+	\end{align*}
+\end{proof}
 
-\begin{document}
-
-\maketitle
-
-
-\end{document}
-
+\begin{ndef}{: Supremum norm}
+	Let \((\mc{X},d)\) be a non-empty metric space. Define 
+	\begin{equation*}
+		\ms{C}(\mc{X})=\{f:\mc{X}\to\C\st f~\text{is bounded and continuous}\}.
+	\end{equation*}
+	For each \(f\in\ms{C}(\mc{X})\), define the ``supremum norm" 
+	\begin{equation*}
+		\norm{f}=\sup_{x\in\mc{X}}|f(x)|,~\text{for}~f\in\ms{C}(\mc{X}),\norm{f}<\infty.
+	\end{equation*}
+\end{ndef}
+\begin{note}
+	If \(\mc{X}\) is compact in the above definition, \(f\) being bounded is superfluous.
+\end{note}
+\begin{notation}[Alternate notation]
+	Some other notation for the supremum norm is: \(\norm{f}_{\ms{C}(\mc{X})}\), \(\norm{f}_{\ms{C}^0(\mc{X})}\), \(\norm{f}_{\infty}\), where the first one is probably the best one.
+\end{notation}
+Note that \(\ms{C}(\mc{X})\) is a vector space over \(\C\), with \(\norm{\cdot}\) as the norm. For this, we have
+\begin{enumerate}
+	\item \(\norm{f}\geq 0\), \(\norm{f}=0\) iff \(f(x)=0\) for all \(x\in\mc{X}\), i.e., \(f=0\).
+	
+	\item For \(\la\in\C\), \(\norm{\la f}=\la\norm{f}\).
+	
+	\item \(|f(x)+g(x)|\leq |f(x)|+|g(x)|\leq \norm{f}+\norm{g}\implies \norm{f+g}\leq \norm{f}+\norm{g}\).
+\end{enumerate}
+Thus, if we define \(\varrho(f,g)=\norm{f-g}\), then \(\varrho\) is a metric, and \((\ms{C}(\mc{X}),\varrho)\) is a metric space. Therefore, 
+\begin{align*}
+	f_n\to f~\text{uniformly}\iff&\text{for all}~\eps>0,~\text{there exists}~N\in\N~\text{such that for all}~x\in\mc{X},~\text{for all}~n>N,|f_n(x)-f(x)|<\eps\\
+	\iff&\text{for all}~\eps>0,~\text{there exists}~N\in\N~\text{such that for all}~n>N,\norm{f-f_n}<\eps\\
+	\iff&f_n\to f~\text{in the metric space}~\ms{C}(\mc{X}).
+\end{align*}
+\begin{ntheorem}{: Baby Rudin 7.15}
+	\(\ms{C}(\mc{X})\) is complete.
+\end{ntheorem}
+\begin{proof}
+	Let \(\{f_n\}\) be a Cauchy sequence (in \(\ms{C}(\mc{X})\)). By theorem 7.8 (Cauchy's criteria), \(f_n\to f\) uniformly for some \(f:\mc{X}\to\C\). by corollary 7.12, \(f\) is continuous, since it is the uniform limit of a continuous function. Finally, \(f\) is bounded, and \(f_n\to f\) uniformly, so there exists \(N\in\N\) such that \(|f(x)-f_N(x)|<1\) for all \(x\in\mc{X}\), so 
+	\begin{align*}
+		&|f(x)|<|f_N(x)|+1\leq \norm{f_N}+1\\
+		\implies&\norm{f}<\norm{f_N}+1<\infty,
+	\end{align*}
+	so \(f\) is bounded, and hence \(f\in\ms{C}(\mc{X})\).
+\end{proof}
