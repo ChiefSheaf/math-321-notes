@@ -1,14 +1,84 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 02/12/2024}
+	No quotes today :(
+\end{nquote}
 
-%opening
-\title{Lecture-16}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+We continue the talk about \(\ms{C}(\mc{X})\). What about the metric space \(\ms{C}(\mc{X},\mc{Y})\), the bounded continuous functions \(f:\mc{X}\to\mc{Y}\) (\(\mc{X},\mc{Y}\) are metric spaces) (bounded here means \(f(\mc{X})\) is contained in some \(r\)-ball in \(\mc{Y}\)). Our metric is \(d(f,g)=\displaystyle\sup_{x\in\mc{X}}d_{\mc{Y}}(f(x),g(x))\) (check this is a metric). Is \(\ms{C}(\mc{X},\mc{Y})\) complete? Yes, this is true if and only if \(\mc{Y}\) is complete; this has the same proof as before: consider constant function of Cauchy sequence that doesn't converge.
 
-\begin{document}
+\begin{ntheorem}{: Baby Rudin 7.16}
+	Let \(\alpha:[a,b]\to\R\) be a monotone increasing function. Let \(\{f_n\}\) be a sequence \(f_n\in\mc{R}_{\alpha}[a,b]\). Let \(f:[a,b]\to\R\) and suppose \(f_n\to f\) uniformly. Then \(f\in\mc{R}_{\alpha}[a,b]\), and \(\displaystyle\lim_{n\to\infty}\int_a^b f \, d\alpha=\int_a^b f \, d\alpha\).
+\end{ntheorem}
+\begin{proof}
+	We first show that \(f\in\mc{R}_{\alpha}[a,b]\). We will show \(\displaystyle\ul{\int_a^b} f \, d\alpha=\ol{\int_a^b} f \, d\alpha\). Note that we can always assume that these upper and lower integrals exist: we just need to show that they are bounded, so take \(\eps=1\), and there exists \(N\in\N\) such that \(|f(x)-f_N(x)|\leq 1\) for all \(x\), and \(|f_N(x)|<K\) for some \(K\in\R\) since \(f_N(x)\) is Riemann integrable. Hence. we have 
+	\begin{equation*}
+		|f(x)|\leq |f(x)-f_N(x)|+|f_N(x)|<K+1.
+	\end{equation*}
+	For all \(\eps>0\), since \(f_n\to f\) uniformly, there exists \(N\in\N\) such that for all \(n>N\), for all \(x\in[a,b]\), we have \(|f(x)-f_n(x)|\leq\eps\). Note that \(f_n(x)-\eps\leq f(x)\leq f_n(x)+\eps\), so 
+	\begin{equation*}
+		\int_a^b (f_n-\eps) \, d\alpha\leq \ul{\int_a^b} f \, d\alpha\leq\ol{\int_a^b}f\, d\alpha\leq \int_a^b(f_n+\eps) \, d\alpha;
+	\end{equation*}
+	since each \(m_i\) is the greatest lower bound, it is greater than \(f_n-\eps\) on each interval for any partition, so \(\displaystyle\ul{\int_a^b} (f_n-\eps) \, d\alpha\leq \ul{\int_a^b} f \, d\alpha\), but the upper and lower integrals converge because it is Riemann integrable. This is only the first inequality, but the others follow in the same manner. Rearranging, we get 
+	\begin{equation*}
+		\ol{\int_a^b} f \, d\alpha-\ul{\int_a^b} f \, d\alpha\leq \int_a^b (f_n+\eps) \, d\alpha-\int_a^b (f_n-\eps) \, d\alpha=\int_aA^b 2\eps \, d\alpha= 2\eps[\alpha(b)-\alpha(a)].
+	\end{equation*}
+	Since \(\eps>0\) is arbitrary, \(\ul{\int_a^b} (f_n+\eps) \, d\alpha=\ol{\int_a^b} (f_n+\eps) \, d\alpha\).
+	
+	\medskip
+	
+	Now, we need to show that the integral agrees with the limit of the integrals of \(f_n\), which is not something we get to assert for free as we could in the point-wise case. Re-arranging our inequalities , we get 
+	\begin{equation*}
+		\int_a^b f_n \, d\alpha-\int_a^b\eps \, d\alpha\leq \int-a^b f \, d\alpha\leq \int_a^b f_n \, d\alpha+\int_a^b \eps \, d\alpha,
+	\end{equation*}
+	and thus, 
+	\begin{equation*}
+		\left|\int_a^b f \, d\alpha-\int_a^b f_n \, d\alpha\right|<\eps[\alpha(b)-\alpha(a)].
+	\end{equation*}
+\end{proof}
 
-\maketitle
+\begin{ncorollary}
+	If \(f_n\in\mc{R}_{\alpha}[a,b]\), and \(\displaystyle\sum_{i=1}^{\infty} f_i\) converges uniformly on \([a,b]\) to \(f\), then \(f\in\mc{R}_{\alpha}[a,b]\), and 
+	\begin{equation*}
+		\int_a^b f \, d\alpha=\sum_{n=1}^{\infty} \int_a^b f_n \, d\alpha.
+	\end{equation*}
+\end{ncorollary}
+\begin{proof}[Proof sketch]
+	Let \(g_n:=\displaystyle\sum_{i=1}^{n} f_i\), and \(g_n\to f\) uniformly. Apply theorem 7.16, the rest of the proof is left as an exercise. The idea is to move an infinite sum inside an integral, which we cannot normally do, but the point of theorem 7.16 is to characterize when we can do this.
+\end{proof}
+The next theorem we look at is a bit trick to prove. Note that we can have a series of differentiable functions that converge uniformly to some function which is not differentiable. The functions \(f_0=\sin{(x)}\), \(f_1=\displaystyle\frac{1}{2}\sin{(4x)}\), \(f_n=\displaystyle\frac{1}{2^n}\sin{(4^n x)}\)are all differentiable, but \(\displaystyle\displaystyle\sum_{i=1}^{\infty} f_i\), which converges uniformly -- by the Weierstra\ss \(M\)-test -- is not differentiable (in fact this is not differentiable anywhere, but this is hard to show.) The derivative of \(f_n\) is \(\displaystyle\frac{4^{n^2}}{2^n}\cos{(4^n x)}\), and basically show that the cosine terms cancel out in such a way that it cannot happen.
 
+\medskip
 
-\end{document}
+If we assume a lot, however, we can ay some things about differentiability.
 
+\begin{ntheorem}{: Baby Rudin 7.17}
+	Let \(\{f_n\}\) be a sequence of functions \(f_n:[a,b]\to\R\). Suppose 
+	\begin{enumerate}[(a)]
+		\item Each \(\{f_n\}\) is differentiable on \([a,b]\).
+		
+		\item There exists \(x_0\in[a,b]\) such that \(\{f_n(x)\}\) converges.
+		
+		\item \(f_n'\) converge uniformly on \([a,b]\).
+	\end{enumerate}
+	Then there exists \(f\) such that \(f_n\to f\) uniformly on \([a,b]\), and \(f'(x)\) exists for all \(x\in [a,b]\) and \(f'(x)=\displaystyle\lim_{n\to\infty}f_n'(x)\), i.e., \(f_n'\to f'\) uniformly.
+\end{ntheorem}
+We need the last hypothesis, because our example above fails it. The second is also important, as \(f_n=n\) is differentiable, has derivatives, but it does not converge.
+
+\medskip
+
+We won't do the proof in this lecture, but we will get started with an important estimate:
+
+\medskip
+
+\emph{Step-1:} Show that \(f_n\to f\) uniformly. 
+
+\medskip
+
+Let \(\eps>0\); let \(N\in\N\) be large enough such that \(|f_m(x_0)-f_n(x_0)|<\eps\) for all \(m,n>N\) (convergent sequences are Cauchy) and \(|f'_m(x_0)-f'_n(x_0)|<\eps\) for all \(m,n>N\), for all \(x\in[a,b]\). Here is the crucial idea of this proof: we apply MVT to the difference \(f_m-f_n\). For \(x,t\in [a,b]\), \(x\neq t\), there exists \(c\in [x,t]\) such that 
+\begin{equation*}
+	|[f_m(x)-f_n(x)]-[f_n(t)-f_m(t)]|=|(f_n'f_m')(c)||x-t|\leq \eps|x-t|.
+\end{equation*}
+How do we use this inequality? We have two consequences:
+\begin{enumerate}
+	\item \(|[f_n(x)-f_m(x)]-[f_n(t)-f_m(t)]|<\eps|b-a|\); this is useful for uniform convergence.
+	
+	\item \(\displaystyle\frac{|[f_n(x)-f_m(x)]-[f_n(t)-f_m(t)]|}{|x-t|}<\eps\); this is useful for differentiability.
+\end{enumerate}
