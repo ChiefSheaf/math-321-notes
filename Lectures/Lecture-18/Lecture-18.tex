@@ -1,14 +1,98 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 02/26/2024}
+	``It is nice when sets are compact."
+\end{nquote}
 
-%opening
-\title{Lecture-18}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\subsection{Equicontinuity}
+\begin{ndef}{: Equicontinuity}
+	Let \((\mc{X},d)\) be a metric space, let \(\mc{E}\subseteq\mc{X}\), and let \(\ms{F}\) be a family (i.e., a set) of functions \(f:\mc{E}\to\C\). We say that \(\ms{F}\) is equicontinuous if
+	\begin{equation*}
+		\text{for all}~\eps>0,~\text{there exists}~\delta>0~\text{such that for all}~x,y\in\mc{E}~\text{with}~d(x,y)<\delta,~\text{for all}~f\in\ms{F},~|f(x)-f(y)|<\eps.
+	\end{equation*}
+\end{ndef}
+\begin{note}[Co-domain]
+	Note that the co-domain of these functions can be generalized to any complete metric space (or maybe any metric space?), and this works just fine.
+\end{note}
+\begin{note}[Remarks about equicontinuous functions]
+	Note the following about equicontinuous functions:
+	\begin{enumerate}
+		\item If \(\ms{F}\) is equicontinuous, each \(f\in\ms{F}\) is uniformly continuous.
+		
+		\item The converse of (1) is false:
+			\begin{enumerate}[(a)]
+				\item Consider \(\mc{X}=[0,1]\), \(\ms{F}=\{f_n\}_{n=1}^{\infty}\), and \(f_n(x)=x^n\).
+				
+				\item Consider \(f_n(x)=nx\) in the same metric space.
+			\end{enumerate}
+			
+		\item If \(\ms{F}\) is finite, and each \(f\in\ms{F}\) is uniformly continuous, then \(\ms{F}\) is equicontinuous.
+	\end{enumerate}
+\end{note}
 
-\begin{document}
+\begin{ntheorem}{: Baby Rudin 7.24}
+	Let \((\mc{K},d)\) be a compact metric space, and let \(f_n:\mc{K}\to\C\) be continuous functions. Suppose \(\{f_n\}_{n=1}^{\infty}\) converge uniformly on \(\mc{K}\). Then, \(\{f_n\}\) is equicontinuous.
+\end{ntheorem}
+\begin{note}[Notation]
+	We acknowledge slight abuse of notation in the theorem statement: we have defined equicontinuity for a family of functions, but a sequence may have repeats, so it isn't exactly a family. However, this is fine because we can just let the family be the set of sequence elements, which will never be empty; it would, however, funnily enough be fine if it was the empty set, since by our definition the empty set is equicontinuous.
+\end{note}
+\begin{proof}
+	We use the ``\(\eps/3\) argument".
+	
+	\medskip
+	
+	Let \(\eps>0\); since \(\{f_n\}\) converges uniformly, there exists \(N\in\N\) such that for all \(m,n\geq N\), for all \(x\in\mc{K}\),
+	\begin{equation*}
+		|f_n(x)-f_m(x)|<\displaystyle\frac{\eps}{3}.
+	\end{equation*}
+	
+	\medskip
+	
+	Since \(\mc{K}\) is compact, each \(f_n\) is uniformly continuous, the family \(\{f_1,\dots,f_N\}\) is equicontinuous, i.e., there exists \(\delta>0\) such that for all \(x,y\in\mc{K}\) with \(d(x,y)<\delta\), for all \(n\leq N\),
+	\begin{equation*}
+		|f_n(x)-f_n(y)|<\displaystyle\frac{\eps}{3}.
+	\end{equation*}
+	
+	\medskip
+	
+	Now, if \(n>N\) and \(x,y\in\mc{K}\) with \(d(x,y)<\delta\), 
+	\begin{equation*}
+		|f_n(x)-f_n(y)|\leq \underset{<\eps/3}{|f_n(x)-f_N(x)|}+\underset{<\eps/3}{|f_N(x)-f_N(y)|}+\underset{<\eps/3}{|f_N(y)-f_n(y)|}<\eps,
+	\end{equation*}
+	by the Cauchy criterion for uniform convergence.
+\end{proof}
 
-\maketitle
-
-
-\end{document}
-
+\begin{ntheorem}{: Baby Rudin problem 7.16}
+	Let \(\mc{K}\) be a compact metric space, \(\{f_n\}\) an equicontinuous family of functions, \(f_n:\mc{K}\to\C\). If \(\{f_n\}_{n=1}^{\infty}\) converges point-wise on \(\mc{K}\), then \(\{f_n\}_{n=1}^{\infty}\) converges uniformly.
+\end{ntheorem}
+\begin{proof}
+	We once again do an ``\(\eps/3\) argument".
+	
+	\medskip
+	
+	Let \(\eps>0\); select \(\delta>0\) such that for all \(x,y\in\mc{K}\) with \(d(x,y)<\delta\), for all \(f_n\),
+	\begin{equation*}
+		|f_n(x)-f_n(y)|<\frac{\eps}{3}.
+	\end{equation*}
+	Since \(\mc{K}\) is compact, the open cover \(\{\nbhd{\delta}{x}\}_{x\in\mc{K}}\) has a finite subcover, \(\nbhd{\delta}{x_1},\nbhd{\delta}{x_2},\dots,\nbhd{\delta}{x_l}\).
+	
+	\medskip
+	
+	Thus, given \(x\in\mc{K}\), there exists \(x_j\) such that \(d(x,x_j)<\delta\). So, for \(m,n\in\N\),
+	\begin{equation*}
+		|f_n(x)-f_m(x)|\leq \underset{<\eps/3}{|f_n(x)-f_n(x_j)|}+|f_n(x_j)-f_m(x_j)|+\underset{<\eps/3}{|f_m(x_j)-f_m(x)|}.
+	\end{equation*}
+	Since \(\{f_n\}\) converges point-wise, for each \(j=1,\dots,l\), there exists \(N_j\) such that for all \(m,n\geq N_j\),
+	\begin{equation*}
+		|f_n(x_j)-f_m(x_j)|<\frac{\eps}{3}.
+	\end{equation*}
+	Let \(N:=\max\{N_1,\dots,N_l\}\); then for all \(m,n\geq N\), for all \(j\in\{1,\dots,l\}\), we have 
+	\begin{equation*}
+		|f_n(x_j)-f_m(x_j)|<\frac{\eps}{3}.
+	\end{equation*}
+	Therefore, we conclude that 
+	\begin{equation*}
+		|f_n(x)-f_m(x)|\leq \underset{<\eps/3}{|f_n(x)-f_n(x_j)|}+\underset{<\eps/3}{|f_n(x_j)-f_m(x_j)|}+\underset{<\eps/3}{|f_m(x_j)-f_m(x)|}<\eps.
+	\end{equation*}
+\end{proof}
+\begin{note}[General math advice from the professor]
+	As we get better at math (especially analysis), it is almost necessary to remember the proofs of the theorems, because while problem statements might not be the exact same, sometimes the same proof techniques are used. However, it is obviously not feasible to memorize every single theorem's proof (unless you are actually capable of that), so it is worth abstracting it to something like ``\(\eps/3\) argument".
+\end{note}
