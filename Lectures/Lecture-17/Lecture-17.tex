@@ -1,14 +1,78 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 02/16/2024}
+	``It's like looking for hay in a haystack, but we never get any hay." - On trying to write down a function that is continuous everywhere, but differentiable nowhere.
+\end{nquote}
 
-%opening
-\title{Lecture-17}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+We pick up the proof of theorem 7.17 from last time:
+\begin{proof}
+	Till now, we have fixed an \(\eps>0\), and found an \(N\in\N\) such that for all \(m,n>N\), 
+	\begin{equation*}
+		|f_n(x_0)-f_m(x_0)|<\eps\quad\text{and}\quad |f'_n(x)-f'_m(x)|<\eps,~\text{for all}~x\in[a,b].
+	\end{equation*}
+	Furthermore, using MVT, we get that for \(x,t\in[x,b]\) (\(x\neq t\)):
+	\begin{enumerate}
+		\item \(|[f_n(x)-f_m(x)]-[f_n(t)-f_m(t)]|<\eps|b-a|\); this is useful for uniform convergence.
+		
+		\item \(\displaystyle\frac{|[f_n(x)-f_m(x)]-[f_n(t)-f_m(t)]|}{|x-t|}<\eps\); this is useful for differentiability.
+	\end{enumerate}
+	The goal here is to prove this in steps:
+	\begin{enumerate}
+		\item Show that there exists some \(f\) to which \(f_n\) uniformly converges.
+		
+		\item Prove the statement of the theorem for the derivative.
+	\end{enumerate}
+	By (1), for \(t=x_0\), consider \(m,n>N\), \(x\in[a,b]\), which gives us 
+	\begin{equation*}
+		|f_n(x)-f_m(x)|\leq |(f_n(x)-f_m(x))-(f_n(x_0)-f_m(x_0))|+|f_n(x_0)-f_m(x_0)|\leq \eps_1(b-a)+\eps_1.
+	\end{equation*}
+	Hence, let \(\eps:=\eps_1(b-a+1)\), and \(\{f_n\}\) satisfies the Cauchy criterion for uniform convergence.
+	
+	\medskip
+	
+	We move on to step-2: showing that \(\displaystyle f'=\lim_{n\to\infty}f_n'\). Fix \(x\in[a,b]\); we first need to show that \(f\) is differentiable at \(x\). Since the derivative involves limits, this will involve a careful interchange of limits. The derivative is
+	\begin{equation*}
+		\pfi_n(t)=\frac{f_n(t)-f_n(x)}{t-x},\quad\pfi(t)=\frac{f(t)-f(x)}{t-x}.
+	\end{equation*}
+	Hence, \(f_n'=\displaystyle\lim_{n\to\infty}\pfi_n(t)\), and similarly we get \(f'\), if it exists. Inequality (2) says that for \(m,n>N\),
+	\begin{equation*}
+		|\pfi_n(t)-\pfi_m(t)|\leq \eps,
+	\end{equation*}
+	i.e., \(\{\pfi_n\}\) satisfies Cauchy criterion for uniform convergence, which implies \(\pfi_n\) converges uniformly on the domain \([a,b]\backslash\{x\}\); here \(x\) is a limit point, which is something that comes up later. This says \emph{something} about \(\pfi_n\), but we don't know if it converges to \(\pfi(t)\) at any fixed \(t\). Showing point-wise is enough: fix \(t\in[a,b]\backslash\{x\}\). Hence, 
+	\begin{equation*}
+		\pfi_n(t)-\pfi(t)=\left|\frac{(f_n(t)-f_n(x))-(f(t)-f(x))}{t-x}\right|\leq\underbrace{\left|\frac{f_n(t)-f(t)}{t-x}\right|+\left|\frac{f_n(x)-f(x)}{t-x}\right|}_{\to 0~\text{as}~n\to\infty}.
+	\end{equation*}
+	In conclusion, \(\pfi_n\to\pfi\) point-wise, hence uniformly on \([a,b]\backslash\{x\}\). Finally, since \(x\) is a limit point of \([a,b]\backslash\{x\}\), and \(\pfi_n\to\pfi\) uniformly on \([a,b]\backslash\{x\}\), we apply theorem 7.11 to conclude that 
+	\begin{equation*}
+		f'(x)=\lim_{t\to x}\pfi(t)=\lim_{t\to x}\lim_{n\to\infty}\pfi_n(t)=\lim_{n\to\infty}\lim_{t\to x}\pfi_n(t)=\lim_{n\to\infty}f_n'(x)
+	\end{equation*}
+	when the limit exists, which it does in this case.
+\end{proof}
 
-\begin{document}
+\subsection{The Weierstra\ss~function}
+\begin{ntheorem}{: Baby Rudin 7.18}
+	The exists a continuous function \(f:\R\to\R\) such that \(f'(x)\) does not exist for any \(x\in\R\).
+\end{ntheorem}
+One way to do this is construct such a function. Note that if we pick a function from \(\mc{C}(\R)\) at random, it will almost surely be a function that is not differentiable anywhere. However, if we try to write a function down, it is usually differentiable (this could be seen as an analogue to the fact that most of the numbers that exist are transcendental, but if we think of a real number, it will almost surely be algebraic.) This happens often in math: we can prove that almost always functions have a certain property, but it's significantly harder (if even feasible) to write an example down.
 
-\maketitle
-
-
-\end{document}
-
+\begin{proof}
+	Consider the periodization of \(|x|\) on \([-1,1]\) to the whole real line; call this \(\pfi(x)\). This function is continuous, in fact it is Lipschitz continuous with Lipschitz constant \(1\) (also called 1-Lipschitz): \(|\pfi(x)-\pfi(y)|\leq 1|x-y|\). Note that being Lipschitz is not preserved under point-wise limits, but being \(k\)-Lipschitz, for a fixed \(k\), is.
+	
+	\medskip
+	
+	Let \(f(x):=\displaystyle\left(\frac{3}{4}\right)^n\pfi(4^n x)\). This series converges absolutely by the \Weierstass \(M\)-test. Each of these terms are continuous, and since absolutely convergent series of continuous functions converges to a continuous function, \(f\) is continuous.
+	
+	\medskip
+	
+	For large \(n\), note that \(f(x)\) is very small, but very spiky. However, note that the \(4^n\) is getting large faster than \(\displaystyle\left(\frac{3}{4}\right)^n\) is getting small, i.e., if we multiply them, we get \(3^n\), which still blows up. Hence, we get that \((f(x)\) is \(3^n\)-Lipschitz.
+	
+	\medskip
+	
+	Fix \(x\in\R\). We wish to show that \(f(x)\) is not differentiable at \(x\). It suffices to find \(\delta_m\rlim 0\) such that 
+	\begin{equation*}
+		\left|\frac{f(x+\delta_m)-f(x)}{\delta_m}\right|\llim \infty
+	\end{equation*}
+	as \(m\to\infty\). The trick here is finding \(\delta_m\) such that bigger \(m\) cancel out (equal spots on the period), an for the smaller values of \(m\), the Lipschitz constant is too small to make a difference: even if all the other peaks were working against it, \(3^j-\displaystyle\sum_{n=0}^{j-1}3^j=\displaystyle\frac{1}{6}3^j\) (or something along those lines).
+	
+	\medskip
+	
+	The full proof is given in Baby Rudin, or can be treated as an exercise.
+\end{proof}
