@@ -1,14 +1,63 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 02/28/2024}
+	No quotes today :(
+\end{nquote}
 
-%opening
-\title{Lecture-19}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\begin{ndef}{: Boundedness}
+	Let \((\mc{X},d)\) be a metric space, \(\mc{E}\subseteq\mc{X}\), and \(\ms{F}\) be a family of functions \(f:\mc{E}\to\C\). We say \(\ms{F}\) is \emph{\textbf{point-wise bounded}} if there exists \(\pfi:\mc{E}\to\R\) such that \(|f(x)|\leq \pfi(x)\) fr every \(x\in\mc{E}\), and \(f\in\ms{F}\). We say \(\ms{F}\) is \emph{\textbf{uniformly bounded}} if there exists \(M\in\R\) such that \(|f(x)|\leq M\) for all \(x\in\mc{E}\) and \(f\in\ms{F}\).
+\end{ndef}
+How would we generalize this, i.e., for \(f:\mc{E}\to\mc{Y}\), where \((\mc{Y},\rho)\) is a metric space? Point-wise is harder to talk about, but in the uniform case, we say that \(f(\mc{E})\) is contained with a bounded set; here our bounded set is centred at zero, but could be anywhere. However, we will just stick with looking at functions to \(\C\).
 
-\begin{document}
+\begin{ntheorem}{: Baby Rudin 7.23}
+	Let \(\mc{X}\) be a metric space, \(\mc{E}\subseteq\mc{X}\), \(\mc{E}\) countable. Let \(f_n:\mc{E}\to\C\), and suppose \(\{f_n\}\) is point-wise bounded on \(\mc{E}\). Then there exists a subsequence that converges point-wise on \(\mc{E}\).
+\end{ntheorem}
+\begin{proof}[Proof sketch]
+	We will do a diagonalization argument. The idea here is that we get a sub-sequence that would for one element of \(\mc{E}\), then a sub-sequence that works for two elements of \(\mc{E}\), etc.
+\end{proof}
+\begin{proof}
+	Let \(\mc{E}:=\{x_1,x_2,\dots\}\). We know \(\{f_n(x_1)\}_{n=1}^{\infty}\) is a bounded sequence of complex numbers, and hence has a convergent sub-sequence \(\{f_{1,k}\}_{k=1}^{\infty}\); note that this is a sequence of functions, \emph{not} evaluated at \(x_1\). We will construct successive such sub-sequences.
+	\begin{equation*}
+		\begin{matrix}
+			f_{1,1} & f_{1,2} & f_{1,3} & f_{1,4} & \cdots\\
+			f_{2,1} & f_{2,2} & f_{2,3} & f_{2,4} & \cdots\\
+			f_{3,1} & f_{3,2} & f_{3,3} & f_{3,4} & \cdots\\
+			\vdots & \vdots & \vdots & \vdots & \ddots
+		\end{matrix}
+	\end{equation*}
+	where \(\{f_{i,k}\}_{k=1}^{\infty}\) is a sub-sequence of \(\{f_{i-1,k}\}_{k=1}^{\infty}\), and thus \(\{f_{i,k}\}_{i=1}^{\infty}\) converges. Consider the diagonal sequence \(f_{i,i}\); this converges at \(x_j\) for every \(j\). Because \(\{f_{i,i}\}\) is a sub-sequence of \(\{f_{j,k}\}_{k=1}^{\infty}\), except possibly for the first \(j-1\) elements.
+\end{proof}
 
-\maketitle
-
-
-\end{document}
-
+\begin{ntheorem}{: Arzel\'a-Ascoli theorem (Baby Rudin 7)}
+	Let \(\mc{K}\) be a compact metric space, \(\{f_n\}\subseteq \ms{C}(\mc{K})\) be equicontinuous and point-wise bounded. Then
+	\begin{enumerate}[(a)]
+		\item \(\{f_n\}\) is uniformly bounded.
+		
+		\item \(\{f_n\}\) has a uniformly convergent sub-sequence.
+	\end{enumerate}
+\end{ntheorem}
+Before we prove this, we recall the definition of sequential compactness (Bolzano-\Weierstass): every convergent sequence has a convergent subsequence. However, in this case we cannot really say that this is ``compact", because it is not quite a sequence in a metric space, but it gives us some similar idea.
+\begin{proof}
+	\begin{enumerate}[(a)]
+		\item We need to find \(M\in\R\) such that for all \(x\in\mc{K}\), for all \(n\in\N\), we have \(|f_n(x)|\leq M\). Since \(\{f_n\}\) is equicontinuous, there exists \(\delta>0\) (\(\eps=1\)) such that for all \(n\in\N\), for all \(x,y\in\mc{K}\) having \(d(x,y)<\delta\), we have \(|f_n(x)-f_n(y)|<1\). Since \(\mc{K}\) is compact, the cover \(\{\nbhd{\delta}{x}\}_{x\in\mc{K}}\) has a finite subcover \(\nbhd{\delta}{x_1},\dots,\nbhd{\delta}{x_l}\). For each \(i=1,\dots,l\), \(\{f_n(x_i)\}_{n=1}^{\infty}\) is bounded by \(M_i\). Let \((M:=1+\max\{M_1,\dots,M_l\})\). For any \(x\in\mc{K}\), any \(n\in\N\), we have 
+		\begin{equation*}
+			|f_n(x)|\leq |f_n(x_i)|+|f_n(x)-f_n(x_i)|<M_i+1\leq M,
+		\end{equation*}
+		where \(x_i\) is a point with \(x\in\nbhd{\delta}{x_i}\). Hence, we have uniform boundedness.
+		
+		\item \emph{Step-1:} Let \(\mc{E}\) be a countable dense subset of \(\mc{K}\). The existence of this is a straightforward exercise using covers of balls having radii equal to \(\displaystyle\frac{1}{n}\) for all \(n\in\N\) and compactness. By theorem 7.23, there exists a sub-sequence of \(\{f_n\}\) that converges point-wise on \(\mc{E}\); let this sequence be \(\{g_i\}\). We show that \(\{g_i\}\) satisfies the Cauchy criterion for convergence:
+		
+		\medskip
+		
+		\emph{Step-2:} Let \(\eps>0\). By equicontinuity of \(\{g_i\}\), there exists \(\delta>0\) such that for all \(x,y\in\mc{K}\) having \(d(x,y)<\delta\), for all \(i\in\N\), \(|g_i(x)-g_i(y)|<\eps/3\). Since \(\mc{E}\subseteq\mc{K}\) is dense, \(\{{\nbhd{\delta}{y}}\}_{y\in\mc{K}}\) is a cover of \(\mc{K}\), thus there exists a finite subcover \(\{\nbhd{\delta}{y_1},\dots,\nbhd{\delta}{y_l}\}\), where \(y_i\in\mc{E}\) for all \(1\leq i\leq l\). For all \(x\in\mc{K}\), there exists \(s\) such that \(d(x,y_s)<\delta\).
+		
+		\medskip
+		
+		\emph{Step-3:} Now all that remains to do is an \(\eps/3\) argument. For \(x\in\mc{K}\), \(i,j\in\N\), we have 
+		\begin{equation*}
+			|g_i(x)-g_j(y)|\leq \underbrace{|g_i(x)-g_i(y_s)|}_{<\eps/3}+\underbrace{|g_i(y_s)-g_j(y_s)|}_{\text{converges}}+\underbrace{|g_j(x)-g_j(x)|}_{<\eps/3}.
+		\end{equation*}
+		If we choose a sufficiently large \(N\in\N\) such that for all \(i,j>N\), we have \(|g_i(y_s)-g_j(y_s)|<\eps/3\) for all \(s\in\{1,\dots,l\}\), because there are only finite number of choices for \(s\).
+	\end{enumerate}
+\end{proof}
+\begin{note}[Importance of compactness]
+	We used compactness in an essential manner in parts (a) and (b); a good exercise is to find out how this fails when \(\mc{K}\) is not compact.
+\end{note}
