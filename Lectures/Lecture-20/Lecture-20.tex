@@ -1,14 +1,161 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 03/01/2024}
+	``Not sure if heavyside was a person...might've been."
+\end{nquote}
 
-%opening
-\title{Lecture-20}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\begin{ndef}{: Convolution}
+	Let \(f,g:\R\to\R\) or \(\R\to\C\) be Riemann integrable over all of \(\R\), i.e., the following integrals exist:
+	\begin{equation*}
+		\lim_{z\to -\infty}\int_z^0 f(x) \, dx\quad \text{and}\quad\lim_{z\to \infty}\int_0^z f(x) \, dx.
+	\end{equation*}
+	For \(x\in\R\) we define
+	\begin{equation*}
+		f\ast g(x)=\int_{-\infty}^{\infty}f(t)g(x-t) \, dt,
+	\end{equation*}
+	if the integral exists. \(f\ast g\) is a function whose domain si a subset of \(\R\).
+\end{ndef}
+\begin{note}
+	For most examples that we care about, the domain is \(\R\).
+\end{note}
+\begin{exercise}
+	If \(f\ast g(x)\) exists, then \(g\ast f(x)\) exists and \(f\ast g(x)=g\ast f(x)\).
+\end{exercise}
 
-\begin{document}
-
-\maketitle
-
-
-\end{document}
-
+\begin{ndef}{: Approximate identity}
+	We say that a sequence of functions \(\{f_n\}\), \(f_n:\R\to\C\) (or \(\R\to\R\)) is called an \emph{\textbf{approximate identity}} is they satisfy the following:
+	\begin{enumerate}[(a)]
+		\item \(\displaystyle\int_{-\infty}^{\infty}f_n(t) \, dt=1\) for all \(n\).
+		
+		\item There exists \(M\geq 0\) such that 
+			  \begin{equation*}
+			  	\int_{-\infty}^{\infty} |f_n(t)| \, dt\leq M,~\text{for all}~n\in\N.
+			  \end{equation*}
+			  \begin{note}
+			  	This part is superfluous if \(f_n(t)\geq 0\) for all \(t\in\R\), for all \(n\in\N\).
+			  \end{note}
+			  
+  	    \item For all \(\delta>0\), 
+  	    \begin{equation*}
+  	    	\lim_{\delta\to \infty}\int_{-\infty}^{-\delta} |f_n(t)| \, dt=0\quad \text{and}\quad\lim_{\delta\to \infty}\int_{\delta}^{\infty} |f_n(t)| \, dt=0.
+  	    \end{equation*}
+	\end{enumerate}
+\end{ndef}
+\begin{example}
+	Consider the function \(f_n(t)=nf(nt)\), such that 
+	\begin{equation*}
+		\int_{-\infty}^{\infty} f_n(t) \, dt=1.
+	\end{equation*}
+	Also, the limit of this sequence obeys
+	\begin{equation*}
+		\int_{-\infty}^{\infty} f(t) \, dt=\int_{-1}^{1} f(t) \, dt.
+	\end{equation*}
+	
+	\medskip
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=1.5]
+			%drawing axes
+			\begin{axis}[
+				every axis plot post/.append style={
+				% All plots: from -2:2, 50 samples, smooth, no marks
+				mark=none,domain=-3:3,samples=80,smooth},
+			 	% no box around the plot, only x and y axis 
+				axis x line=center,
+			 	% the * suppresses the arrow tips
+				axis y line=center,
+				axis equal,
+				enlargelimits=upper,
+				ticks = none,
+				xlabel  = {x},
+				ylabel  = {y},
+				]
+				
+				%adding plot for f_1
+				\addplot [thick, blue]{\gauss{0}{0.64}};
+				\addplot [thick, red]{\gauss{0}{0.16}};
+				\addplot [thick, green!70!blue]{\gauss{0}{0.04}};
+				
+				\node[left] at (3,3) {\(\color{blue}f_1,\color{red} f_2,\color{green!70!blue}f_3\)};
+			\end{axis}
+		\end{tikzpicture}
+		\caption{Plot of \(f_n(x)\) for \(n=1,2,3\). The trend continues, and the functions become narrower and taller for larger \(n\).}
+	\end{figure}
+	
+	\medskip
+	
+	We can see that we're slowly approaching the Dirac-\(\delta\) ``function".
+\end{example}
+We will now build on the example further:
+\begin{example}
+	Consider the function 
+	\begin{equation*}
+		g(x)=\begin{cases}
+				1&x\in[-1,1]\\
+				0&\text{otherwise}
+			 \end{cases}.
+	\end{equation*}
+	We will now try to sketch the graphs of \(g\ast f_1(x)\) and \(g\ast f_5(x)\), and then try to make a guesstimate of how the graph changes as we keep convoluting with \(f_n\) for larger \(n\).
+	
+	\medskip
+	
+	Note that if we look at \(g\ast f_1(100)=\displaystyle\int_{-\infty}^{\infty}g(t)f_1(100-t) \, dt\), we get that this evaluates to zero, since \(g(t)\) is zero for all \(t\) outside \(I:=[-1,1]\), and \(f_1(100-t)=0\) for all \(t\in[-1,1]\) since \(f_1\) has a width of \(1\) where it is non-zero, and it is centred at \(100\). Thus, \(g\ast f_1(100)=0\). So if we observe carefully, since \(g\) is non-zero only in \(I\), we get that the only points where \(g\ast f_1(x)\neq0\) is on the interval \([-2,2]\). The graph will be wider than that of \(f_1\), and the descent to zero begins immediately after you move off the origin on either side. Similarly, we can repeat this for higher \(n\), and what we see is that the curve gets flatter on top because it equals \(1\) for all \(x\) up to \(1-\displaystyle\frac{1}{n}\), and then has a very fast descent to zero on the interval \(\displaystyle\left[1-\frac{1}{n},1+\frac{1}{n}\right]\).
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=1.7]
+			%drawing axes
+			\begin{axis}[
+				every axis plot post/.append style={
+				% All plots: from -2:2, 50 samples, smooth, no marks
+				mark=none,samples=100,smooth},
+				% no box around the plot, only x and y axis 
+				axis x line=center,
+				% the * suppresses the arrow tips
+				axis y line=center,
+				axis equal,
+				enlargelimits=upper,
+				ticks = none,
+				xlabel  = {x},
+				ylabel  = {y},
+				]
+				
+				%adding left plot for f_1
+				\addplot [thick, red,domain=-4:-0.5]{1-exp(-1/(0.5*x^4*(x^4+1)))};
+				
+				%adding right plot for f_1
+				\addplot [thick, red,domain=0.5:4]{1-exp(-1/(0.5*x^4*(x^4+1)))};
+				
+				%bridging the gap
+				\addplot [thick, red, domain=-0.5:0.5]{1};
+				
+				%left tolerance band 1
+				\addplot [thick, dashed, domain=0:6, blue, name path=alpha] coordinates {(-0.75,2)(-0.75,0)};
+				
+				\draw[fill] (-0.75,0) circle (1pt);
+				
+				\node[below] at (-0.75,0) {\(\scalebox{0.65}{\(-1+\frac{1}{n}\)}\)};
+				
+				%left tolerance band 2
+				\addplot [thick, dashed, domain=0:6, blue, name path=alpha] coordinates {(-1.75,2)(-1.75,0)};
+				
+				\draw[fill] (-1.75,0) circle (1pt);
+				
+				\node[below] at (-1.75,0) {\(\scalebox{0.65}{\(-1-\frac{1}{n}\)}\)};
+				
+				%right tolerance band 1
+				\addplot [thick, dashed, domain=0:6, blue, name path=alpha] coordinates {(0.75,2)(0.75,0)};
+				
+				\draw[fill] (0.75,0) circle (1pt);
+				
+				\node[below] at (0.75,0) {\(\scalebox{0.65}{\(1-\frac{1}{n}\)}\)};
+				
+				%right tolerance band 2
+				\addplot [thick, dashed, domain=0:6, blue, name path=alpha] coordinates {(1.75,2)(1.75,0)};
+				
+				\draw[fill] (1.75,0) circle (1pt);
+				
+				\node[below] at (1.75,0) {\(\scalebox{0.65}{\(1+\frac{1}{n}\)}\)};
+			\end{axis}
+		\end{tikzpicture}
+		\caption{How the plot would look for a convolution of \(g(x)\) with \(f_n(x)\) at some \(n\).}
+	\end{figure}
+\end{example}
