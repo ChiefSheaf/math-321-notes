@@ -1,14 +1,129 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 03/04/2024}
+	``What is this strange light?" - On sunlight coming through the window.
+\end{nquote}
 
-%opening
-\title{Lecture-21}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\begin{example}
+	Consider the function 
+	\begin{equation*}
+		f_n(x)=\begin{cases}
+				c_n(1-x^2)^n&-1\leq x\leq 1\\
+				0&\text{otherwise}
+			   \end{cases}.
+	\end{equation*}
+	
+	\medskip
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=1.5]
+			%drawing axes
+			\begin{axis}[
+				every axis plot post/.append style={
+					% All plots: from -2:2, 50 samples, smooth, no marks
+					mark=none,samples=100,smooth},
+				% no box around the plot, only x and y axis 
+				axis x line=center,
+				% the * suppresses the arrow tips
+				axis y line=center,
+				axis equal,
+				enlargelimits=upper,
+				ticks = none,
+				xlabel  = {x},
+				ylabel  = {y},
+				]
+				
+				%adding the midsection
+				\addplot [thick, red, domain=-1:1] {2*sqrt(2)*(1-x^2)^2};
+				
+				%left part
+				\addplot [thick, red, domain=-4:-1] coordinates {(-4,0)(-1,0)};
+				
+				%right part
+				\addplot [thick, red, domain=-4:-1] coordinates {(1,0)(4,0)};
+			\end{axis}
+		\end{tikzpicture}
+		\caption{Example of how \(f_n(x)\) would look; this plot is for \(c_n=2\sqrt{5}\).}
+	\end{figure}
+	
+	\medskip
+	
+	Note that this function looks quite a bit similar to the previous example, but this is because ``the human eye is surprisingly bad at distinguishing between \(C^{\infty}\) and twice-differentiable functions." 
+	
+	\medskip
+	
+	Choose \(c_n\) such that 
+	\begin{equation*}
+		\int_{-\infty}^{\infty} f(t) \, dt=\int_{-1}^{1} f(t) \, dt=1.
+	\end{equation*}
+	Is \(\{f_n\}\) here an approximate identity? Note that 
+	\begin{enumerate}[(a)]
+		\item \(\displaystyle\int f_n=1\) is true by definition.
+		
+		\item \(\displaystyle\int |f_n|=\int f_n=1\) also holds, so it is bounded.
+		
+		\item Finally, we require that \(\displaystyle\int_{-\infty}^{-\delta} |f_n|=\displaystyle\int_{\delta}^{\infty} |f_n|=0\); this is just a calculation.
+	\end{enumerate}
+	Note that \(f_n(x)\geq\displaystyle\frac{1}{2}\) on the interval \(\displaystyle\left[-\frac{1}{2\sqrt{n}},\frac{1}{2\sqrt{n}}\right]\). Hence, 
+	\begin{equation*}
+		\int_{-\infty}^{\infty} (1-x^2)^n \, dx=\int_{-1}^{1} (1-x^2)^n \, dx\geq \int_{-\frac{1}{2\sqrt{n}}}^{\frac{1}{2\sqrt{n}}} (1-x^2)^n \, dx\geq \int_{-\frac{1}{2\sqrt{n}}}^{\frac{1}{2\sqrt{n}}} \frac{1}{2}\, dx\geq \frac{1}{2\sqrt{n}}.
+	\end{equation*}
+	Thus, \(c_n\leq 2\sqrt{n}\) (note that \(100n^{100}\) would also be fine; what we care about is the bound). 
+	
+	\medskip
+	
+	Hence, for \(\delta>0\), 
+	\begin{equation*}
+		c_n(1-x^2)^n\leq \underbrace{2\sqrt{n}(1-\delta^2)^n}_{\to 0}~\text{on}~(-\infty,-\delta)\cup(\delta,\infty).
+	\end{equation*}
+	Therefore,
+	\begin{equation*}
+		\int_{-\infty}^{\delta} |f_n(x)| \, dx=\int_{-1}^{\delta} f_n(x) \, dx\leq \int_{-1}^{\delta} 2\sqrt{n}(1-\delta^2) \, dx\leq 2\sqrt{n}(1-\delta^2)^n,
+	\end{equation*}
+	which goes to zero, as \(n\to\infty\). The proof is the same for \(\displaystyle\int_{\delta}^{\infty}|f_n(x)| \, dx\).
+\end{example}
+\begin{note}[Bounding strategy used above]
+	This is a standard strategy while analyzing integrals; when we wish to bound an integral (with a non-negative integrand), it is always a good idea to ask ourselves over what interval we know the function to be large/small. This also illustrates that it is always worth asking where you need finesse with a bound, and where a crude bound will do the exact same thing.
+\end{note}
 
-\begin{document}
-
-\maketitle
-
-
-\end{document}
-
+\begin{ntheorem}{: A}
+	Let \(\{f_n\}\) be an approximate identity. Let \(g:\R\to\C\) be bounded and uniformly continuous. Then, \(f_n\ast g\to g\) uniformly on \(\R\).
+\end{ntheorem}
+\begin{notation}
+	From now onward, theorems labelled in capital roman letters will be no-name theorems that are not stated in Baby Rudin.
+\end{notation}
+\begin{proof}
+	Select \(M_1\) such that \(\displaystyle\int_{-\infty}^{\infty}|f_n|\leq M_1\) for all \(n\), and \(M_2\) such that \(|g(x)|\leq M_2\) for all \(x\in R\).
+	
+	\medskip
+	
+	Given \(\eps>0\), there exists \(\delta>0\) such that for all \(x,y\in\R\) having \(|x-y|<\delta\), we have \(|g(x)-g(y)|<\eps\).
+	
+	\medskip
+	
+	For \(x\in\R\), we have 
+	\begin{equation*}
+		|f_n\ast g(x)-g(x)|=\left|\int_{-\infty}^{\infty}f_n(t)g(x-t) \, dt-\int_{-\infty}^{\infty}f_n(t)g(x) \, dt\right|.
+	\end{equation*}
+	The second integral on the LHS converges because \(g(x)\) is a fixed complex number, and multiplying by a complex does not affect convergence (exercise). However, the third integral is a bit more tricky. While \(f_n(x)\) is an integrable function, multiplying it by a bounded function can be troublesome: just consider the series analogue where the sum of \(\displaystyle\frac{(-1)^n}{n}\) is convergent, but its absolute value isn't. However, we are in luck here, since \(f_n(x)\) is absolutely convergent, and thus, we quickly bound it as follows to confirm convergence:
+	\begin{equation*}
+		\int_{-\infty}^{\infty}|f_n(t)g(x-t)| \, dt\leq \int_{-\infty}^{\infty}M_2|f_n(t)| \, dt\leq M_1M_2.
+	\end{equation*}
+	Therefore, by applying theorem 6.12, which also holds for absolute values of functions (exercise), we get
+	\begin{align*}
+		|f_n\ast g(x)-g(x)|=&\left|\int_{-\infty}^{\infty}f_n(t)\left(g(x-t)-g(x)\right) \, dt\right|\\
+		\leq&\int_{-\infty}^{\infty}|f_n(t)\left(g(x-t)-g(x)\right)| \, dt\\
+		=&\int_{-\infty}^{-\delta/2}|f_n(t)\left(g(x-t)-g(x)\right)| \, dt+\int_{-\delta/2}^{\delta/2}|f_n(t)\left(g(x-t)-g(x)\right)| \, dt+\int_{\delta/2}^{\infty}|f_n(t)\left(g(x-t)-g(x)\right)| \, dt\\
+		\leq& 2M_2\int_{-\infty}^{-\delta/2}|f_n(t)| \, dt+\eps\int_{-\delta/2}^{\delta/2}|f_n(t)| \, dt+2M_2\int_{\delta/2}^{\infty}|f_n(t)| \, dt\\
+		\leq&2M_2\left(\int_{-\infty}^{-\delta/2}|f_n(t)| \, dt+\eps_1\int_{-\delta/2}^{\delta/2}|f_n(t)| \, dt+2M_2\int_{\delta/2}^{\infty}|f_n(t)| \, dt\right)+\eps_1\int_{-\infty}^{\infty}|f_n(t)| \, dt.
+	\end{align*}
+	Select \(N\) large enough such that for all \(n\geq N\), we have 
+	\begin{equation*}
+		|f_n\ast g(x)-g(x)|\leq\eps_1(4M_2+M_1):=\eps.	
+	\end{equation*}
+\end{proof}
+\begin{note}[Convergence of integrals]
+	Note that we have to be careful about the convergence of integrals in the proof above. We cited many Rudin theorems that we have proved for definite integrals, but we are using them for indefinite integrals; they are true, but using them without proving them is obviously, pedagogically, a lacking choice. However, we did this since it is not worth proving them all, since they are fairly simple exercises, and acknowledging that this could be an issue is a second best thing.
+\end{note}
+\begin{note}[History of approximate identities]
+	Approximate identities didn't really come about as these set of axioms; instead people used families of functions which had these properties to do proofs, and realized that they are doing the same proof.
+\end{note}
