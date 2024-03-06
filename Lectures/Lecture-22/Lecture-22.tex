@@ -1,14 +1,65 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 03/06/2024}
+    No quotes today :(
+\end{nquote}
 
-%opening
-\title{Lecture-22}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\begin{ndef}{: Compact support}
+    Let \((\mc{X},d)\) be a metric space (\(\mc{X}=\R\)), and \(f:\mc{X}\to\C\) (or \(\mc{X}\to\R\)). 
 
-\begin{document}
+    \medskip
 
-\maketitle
+    We say that \(f\) has \emph{\textbf{compact support}} if there is a compact set \(\mc{K}\) such that \(f(x)=0\) for all \(x\in\mc{X}\setminus\mc{K}\).
+\end{ndef}
 
+\begin{example}
+    Looking at this in the case of \(\mc{X}=\R\), we see that \(f:\R\to\C\)  has compact support iff there exists \(R\in\R\) such that \(f(x)=0\) for all \(x\notin[-R,R]\).
+\end{example}
 
-\end{document}
+\begin{example}
+    Recall the convolution examples that we looked at; we defined 
+    \begin{equation*} 
+        f\ast g(x)=\int_{-\infty}^{\infty} f(t)g(x-t) \, dt.
+    \end{equation*}
+    Here, \(f(x)=0\) and \(g(x)=0\) if \(x\notin [-R,R]\) for some \(R\).
+\end{example}
+
+\begin{nlemma}{}
+    Let \(f:\R\to\C\) or \(f:\R\to\R\) be compactly supported and integrable. Let \(q:\R\to\C\) be a polynomial function; then \(f\ast q\) is a polynomial function. Additionally, \emph{if} \(f:\R\to\R\), and \(q\) has real co-efficients, then \(f\ast q\) has real co-efficients.
+\end{nlemma}
+\begin{proof}
+    Write \(q(x):=\displaystyle\sum_{k=0}^n a_kx^k\), where \(x^0=1\). Hence, we have 
+    \begin{align*} 
+        f\ast q(x)=&\int_{-\infty}^{\infty} f(t)q(x-t) \, dt\\
+                  =&\int_{-R}^{R} f(t)q(x-t) \, dt\\
+                  =&\int_{-R}^{R} f(t)\left[\sum_{k=0}^n a_k(x-t)^k\right] \, dt\\
+                  =&\int_{-R}^{R} f(t)\left[\sum_{k=0}^n a_k\sum_{l=0}^{k}\binom{k}{l}(-t)^{k-l}x^l\right] \, dt\\
+                  =&\int_{-R}^{R}\sum_{k=0}^n \sum_{l=0}^{k}\left[f(t)a_k\binom{k}{l}(-t)^{k-l}x^l\right]\, dt,
+    \end{align*}
+    where we used the binomial theorem. Now, by Baby Rudin theorem 6.12, we have 
+    \begin{equation*} 
+        f\ast q(x)=\sum_{k=0}^n \sum_{l=0}^{k}\left(\underbrace{\int_{-R}^{R}f(t)a_k\binom{k}{l}(-t)^{k-l}x^l \, dt}_{I}\right),
+    \end{equation*}
+    where \(I\in\C\); \(I\in\R\) if \(f:\R\to\R\) and all \(a_k\in\R\).
+\end{proof}
+
+\begin{ntheorem}{: \Weierstass~approximation theorem (Baby Rudin 7.26)}
+    Let \(f:[a,b]\to\C\) or \(f:[a,b]\to\R\) be continuous. Then, there exists a sequence of polynomials \(\{p_n\}\) such that \(p_n\to f\) uniformly on \([a,b]\). 
+
+    \medskip
+
+    If \(f:[a,b]\to\R\), then \(\{p_n\}\) can be chosen to havea real co-efficients.
+\end{ntheorem}
+\begin{proof}[Proof step-1]
+    We want to reduce the statement of theorem 7.26 to a special case: the interval \([a,b]=[0,1]\), \(f(0)=0\), and \(f(1)=0\). Suppose the theorem is true for such functions; let \(g:[a,b]\to\C\) be continuous. Let \(f_1(x):=g\left(a+x(b-a)\right)\), and \(f_2(x):=f_1(x)-f_1(0)(1-x)-f_1(1)x\). Hence, if \(q_n\to f_2\) uniformly, let \(x':=\displaystyle \frac{x-a}{b-a}\); so we have
+    \begin{equation*} 
+        p_n(x)=q_n(x')+f_1(0)(1-x')+f_1(1)x'.
+    \end{equation*}
+    In conclusion, it suffices to prove theorem 7.26 for \(f:[0,1]\to\C\), with \(f(0)=f(1)=0\). We will extend \(f:\R\to\C\) by setting \(f(x)=0\) for \(x\notin [0,1]\). This function is uniformly continuous and bounded, by theorem A, if \(\{\tilde{q}_n\}\) is an approximate identity, then \(\tilde{q}_n\ast f\to f\) uniformly. Here, we let
+    \begin{equation*} 
+        \tilde{q}_n(x)=\begin{cases}
+                        c_n(1-x^2)^n&-1\leq x\leq 1\\
+                        0&\text{otherwise}
+                    \end{cases},\quad q_n(x)=c_n(1-x^2)^n.
+    \end{equation*}
+\end{proof}
+For the last step of the proof, we have to show \(\tilde{q}_n\ast f=q_n\ast f\).
 
