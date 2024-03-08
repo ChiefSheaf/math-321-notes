@@ -1,14 +1,88 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 03/08/2024}
+    ``I think this looks cooler.'' - when asked why he only drew zig-zags on a function when some simple lines would've also worked.
+\end{nquote}
+\begin{ntheorem}{: B}
+    For a polynomial function \(q_n\), where \(\{q_n\}\) is an approximate identity, and \(f:[a,b]\to\C (\text{or}~\R)\) be a continuous function. Then, \(q_n\ast f(x)\) is a polynomial function for each \(n\).
+\end{ntheorem}
+\begin{proof}[Proof step-3]
+    We claim that \(\tilde{q}_n\ast f(x)=q_n\ast f(x)\) for all \(x\in[0,1)\).
 
-%opening
-\title{Lecture-23}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+    \medskip
 
-\begin{document}
+    Let \(x\in[0,1]\); hence, 
+    \begin{align*} 
+        \tilde{q}_n\ast f(x)=f\ast\tilde{q}_n(x)=&\int_{-\infty}^{\infty} f(t)\tilde{q}_n(x-t) \, dt\\
+        =&\int_{0}^{1} f(t)\tilde{q}_n(x-t) \, dt,\quad\text{here}~x-t\in[-1,1]\\
+        =&\int_{0}^{1} f(t)q_n(x-t) \, dt\\
+        =&\int_{-\infty}^{\infty} f(t)q_n(x-t) \, dt=f\ast q_n(x)=q_n\ast f(x).
+    \end{align*}
+\end{proof}
 
-\maketitle
+\subsection{Stone's generalization of the \Weierstass approximation theorem}
 
+\begin{ndef}{: Algebra}
+    Let \(\mc{A}\) be a set of functions \(f:\mc{E}\to\C\) (or \(\mc{E}\to\R\)). We say \(\mc{A}\) is a (complex) \emph{\textbf{algebra}} if for all \(f,g\in\mc{A}\), for all \(c\in\C\):
+    \begin{enumerate}[(a)]
+        \item \(f+g\in\mc{A}\).
+        
+        \item \(f\cdot g\in\mc{A}\).
+        
+        \item \(cf\in\mc{A}\).
+    \end{enumerate}
+\end{ndef}
+\begin{example}
+    A few examples of algebras are:
+    \begin{enumerate}[(a)]
+        \item \(\mc{A}:\) polynomial functions \(f:\R\to\C\).
+        
+        \item \(\mc{A}:\ms{C}(\R)\), which are the bounded continuous functions \(f:\R\to\C\).
+        
+        \item \(\mc{A}:\) trigonometric polynomial functions, which are polynomials of the form
+        \begin{equation*} 
+            p(x):=\sum_{k=0}^{n}\left(a_k\sin{(kx)}+b_k\cos{(kx)}\right).
+        \end{equation*}
 
-\end{document}
+        \item \(\mc{A}:\) symmetric polynomial functions.
+        
+        \item \(\mc{A}:\) piecewise polynomial functions.
+    
+        \item \(\mc{A}:\) functions of the form 
+        \begin{equation*} 
+            f(x)=\sum_{k=0}^{n} c_k e^{2\pi ikx}.
+        \end{equation*}
+
+        \item \(\mc{A}:\) functions of the form 
+        \begin{equation*} 
+            f(x)=\sum_{k=-n}^{n} c_k e^{2\pi ikx}.
+        \end{equation*}
+
+        \item \(\mc{A}:\) holomorphic functions over \(\C\) (or over simply connected subsets of \(\C\)).
+    \end{enumerate}
+\end{example}
+
+\begin{ndef}{: Uniformly closed}
+    We say \(\mc{A}\) is \emph{\textbf{uniformly closed}} if: for all uniformly convergent sequences \(\{f_n\}\subseteq\mc{A}\), we have \(\lim f_n\in\mc{A}\).
+\end{ndef}
+
+\begin{ndef}{: Uniform closure}
+    Let \(\mc{A}\) be an algebra, and 
+    \begin{align*} 
+        \ms{B}:=&\{f:\mc{E}\to\C\st \text{there exist}~\{f_n\}\subseteq\mc{A}~\text{such that}~f_n\ucon f\}\\
+               =&~\text{``Set of limit points of uniformly convergent sequences in"}~\mc{A}.
+    \end{align*}
+    \(\ms{B}\) is called the uniform closure of \(\mc{A}\), which we will denote by \(\Clu(\mc{A})\).
+\end{ndef}
+\begin{note}
+    It is natural that when an algebra is uniformly closed, it equals its uniform closure.
+\end{note}
+\begin{notation}[Double right arrows]
+    We acknowledge the introduction of new notation \(f_n\ucon f\), which is defined to mean ``\(f_n\) converges to \(f\) uniformly".
+\end{notation}
+\begin{note}[Consistency between definitions of uniform closure and closure]
+    If \(\mc{A}\) is an algebra of bounded functions, then it has the metric \(\norm{\cdot}_{\infty}\) (supremum norm), so \((\mc{A},d)\) is a metric space; it is a subset of the metric space \((\mc{X},d)\), where \(\mc{X}\) is the set of all bounded functions \(f:\mc{E}\to\C\).
+
+    \medskip
+
+    The uniform closure of \(\mc{A}\) is the closure of \(\mc{A}\) in the metric space \(\mc{X}\).
+\end{note}
 
