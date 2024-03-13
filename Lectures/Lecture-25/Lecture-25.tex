@@ -1,14 +1,103 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 03/13/2024}
+    ``Man...just alphabet salad today!'' - on mixing up some letters.
+\end{nquote}
 
-%opening
-\title{Lecture-25}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\begin{lemma}
+    Let \(\mc{K}\) and \(\ms{A}\) as before. Let \(f_1,\dots,f_n\in\ms{A}\); then \(\max\{f_1,\dots,f_n\}\in\Clu(\ms{A})\), and \(\min\{f_1,\dots,f_n\}\in\Clu(\ms{A})\).\label{lemma 2}
+\end{lemma}
+\begin{proof}
+    We show this by induction on \(n\).
 
-\begin{document}
+    \medskip
 
-\maketitle
+    The case \(n=1\) is trivial. Assume that \(g:=\max\{f_1,\dots,f_k\}\in\Clu(\ms{A})\). Hence, for \(f_1,\dots,f_{k+1}\in\Clu(\ms{A})\), we have 
+    \begin{equation*} 
+        \max\{f_1,\dots,f_{k+1}\}=\max\{g,f_{k+1}\},
+    \end{equation*}
+    where both \(g,f_{k+1}\in\Clu(\ms{A})\). Thus, 
+    \begin{equation*} 
+        \max\{f,g\}=\frac{1}{2}(f+g)+\frac{1}{2}|f-g|\in\Clu(\ms{A}),
+    \end{equation*}
+    since \(f+g\in\Clu(\ms{A})\) and \(f-g\in\Clu(\ms{A})\implies |f-g|\in\Clu(\ms{A})\).
+\end{proof}
+\begin{note}
+    We define the max of finitely many functions to just literally be the function we obtain by picking the max at every point \(x\) of their shared domain.
+\end{note}
 
+\begin{lemma}
+    Let \(\mc{K}\) and \(\ms{A}\) as before. Let \(x,y\in\mc{K}\), \(x\neq y\), \(c,d\in\R\), then there exists \(f\in\ms{A}\) such that \(f(x)=c\) and \(f(y)=d\).\label{lemma 3}
+\end{lemma}
+\begin{note}
+    If \(x=y\), then this is true only if \(c=d\); this is obvious because otherwise we are dealing with multifunctions.
+\end{note}
+\begin{proof}
+    Since \(\ms{A}\) \emph{separates points} and \emph{vanishes at no point}, there exists \(g,h,k\in\ms{A}\) such that 
+    \begin{equation*} 
+        g(x)\neq g(y),\quad h(x)\neq 0,\quad k(y)\neq 0.
+    \end{equation*}
+    Let
+    \begin{equation*} 
+        u(z)=g(z)k(z)-\underbrace{g(x)}_{\in\R}k(z)=(g(z)-g(x))k(z)\in\ms{A}.
+    \end{equation*}
+    We might be tempted to say that since we are taking the product of two things that are in the algebra (in the last equality above), the product is in the algebra, but we cannot be sure that \(g(z)-g(x)\in\ms{A}\), since \(f(x)\in\ms{A}\) is not guaranteed; having a constant in the algebra doesn't guarantee the existence of all constant. Hence, we have to show the first equality above.
 
-\end{document}
+    \medskip
+
+    Similarly, let 
+    \begin{equation*} 
+        v(z)=g(z)h(z)-\underbrace{g(y)}_{\in\R}h(z)=(g(z)-g(y))h(z)\in\ms{A}.
+    \end{equation*}
+    Then, \(u(x)=v(y)=0\) and \(u(y)\neq 0\), \(v(x)\neq 0\). Let 
+    \begin{equation*} 
+        f(z)=\underbrace{\frac{c}{v(x)}}_{\in\R}v(z)+\frac{d}{u(y)}u(z)\in\ms{A}.
+    \end{equation*}
+    Hence, \(f(x)=c\) and \(f(y)=d\).
+
+    \medskip
+
+    The case where \(x=y\) and \(c=d\), the proof is left as an exercise.
+\end{proof}
+
+\begin{notation}
+    We define \(\N_n:=\{i\in\N\st 1\leq i\leq n\}\).
+\end{notation}
+
+\begin{lemma}
+    Let \(\mc{K}\) and \(\ms{A}\) as before. Let \(f:\mc{K}\to\R\) be continuous, \(x\in\mc{K}\), and \(\eps>0\). Then, there exists \(g\in\ms{A}\) such that 
+    \begin{enumerate}[(a)]
+        \item \(g(x)=f(x)\).
+        
+        \item \(g(t)-f(t)\geq -\eps\) for all \(t\in\mc{K}\). 
+    \end{enumerate}
+    \label{lemma 4}
+\end{lemma}
+\begin{proof}
+    For each \(y\in\mc{K}\), use \cref{lemma 3} to find \(g_y\in\ms{A}\) such that \(g_y(x)=f(x)\), \(g_y(y)=f(y)\). Since \(g_y\in\ms{A}\implies g_y\) is continuous, and \(f\) is continuous by our hypothesis, so \(g_y-f\) is continuous. Here, \(g_y(x)-f(x)=0\), and \((g_y-f)(y)=g_y(y)-f(y)=0\). By definition of continuity, there exists an open set \(\mc{U}_u\subseteq\mc{K}\) such that \(g_y(t)-f(t)>-\eps\) for all \(t\in\mc{U}_y\). Note that \(\{\mc{U}_y\}_{y\in\mc{K}}\) is a cover for \(\mc{K}\), and thus we extract a finite subcover \(\{\mc{U}_{y_{i}}\}_{i\in\N_n}\). Let \(g:=\max\{g_{y_i}\}_{i\in\N_n}\in\Clu(\ms{A})\) (by \cref{lemma 2}). We wish to verify that 
+    \begin{equation*} 
+        g(x)=\max\{g_{y_i}\}_{i\in\N_n}=\max\{\underbrace{f(x),f(x),\dots,f(x)}_{n~\text{times}}\}=f(x).
+    \end{equation*}
+    For \(t\in\mc{K}\), \(t\) is contained in some \(\mc{U}_{y_j}\) (\(1\leq j\leq n\)), which tells us that \(g(t)\geq g_{y_i}(t)\). Hence, 
+    \begin{equation*} 
+        g(t)-f(t)\geq g_{y_j}(t)-f(t)>-\eps.
+    \end{equation*}
+\end{proof}
+
+\begin{lemma}
+    Let \(\mc{K}\) and \(\ms{A}\) as before. Let \(f:\mc{K}\to\R\) be continuous. Then, there exists \(h\in\Clu(\ms{A})\) such that 
+    \begin{equation*} 
+        |h(t)-f(t)|\leq\eps\quad\text{for all}~t\in\mc{K}.
+    \end{equation*}\label{lemma 5}
+\end{lemma}
+\begin{proof}
+    For \(x\in\mc{K}\), let \(g_x\in\Clu(\ms{A})\) be as in \cref{lemma 4} (same \(\eps\)). Note that in this case \(g_x-f\) is continuous, and \((g_x-f)(x)=0\).  Hence, there exists an open set \(\mc{U}_x\) containing \(x\) such that
+    \begin{equation*} 
+        g_x(t)-f(t)<\eps\quad\text{for all}~t\in\mc{U}_x.
+    \end{equation*}
+    Extract a finite subcover \(\{\mc{U}_{x_i}\}_{i\in\N_m}\). Let \(h:=\max\{g_{y_i}\}_{i\in\N_m}\in\Clu(\ms{A})\) (by \cref{lemma 2}). By the same argument as \cref{lemmma 4}, we have 
+    \begin{align*} 
+        h(t)-f(t)<&\eps\quad\text{for all}~t\in\mc{K}\\
+        h(t)-f(t)\geq&-\eps\quad\text{for all}~t\in\mc{K},
+    \end{align*}
+    where we the second inequality since it is true for each \(g_{y_i}\).
+\end{proof}
 
