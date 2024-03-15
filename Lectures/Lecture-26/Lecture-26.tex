@@ -1,14 +1,69 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 03/15/2024}
+    ``I hope they're still teaching about holomorphic functions in complex analysis, cause if they're not, what are they talking about?''
+\end{nquote}
+Finally, we conclude the proof for Stone-\Weierstass:
+\begin{proof}[Proof of Stone-\Weierstass]
+    Let \(f:\mc{K}\to\R\) be continuous. For each \(n\), select \(g_n\in\Clu(\ms{A})\) such that 
+    \begin{equation*} 
+        \snorm{f-g_n}<\frac{1}{2n}.
+    \end{equation*}
+    Additionally, select \(f_n\in\ms{A}\) such that 
+    \begin{equation*} 
+        \snorm{f_n-g_n}<\frac{1}{2n}.
+    \end{equation*}
+    Therefore, we conclude that 
+    \begin{equation*} 
+        \snorm{f-f_n}<\frac{\eps}{2}+\frac{\eps}{2}=\eps,
+    \end{equation*}
+    i.e., \(f_n\to f\) uniformly.
+\end{proof}
 
-%opening
-\title{Lecture-26}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\subsection{Stone-\Weierstass for complex functions}
+\begin{conjecture}
+    The Stone-\Weierstass theorem is true even when \(\ms{C}_{\R}(\mc{K})\) (continuous functions of the form \(f:\mc{K}\to\R\)) is replaced with \(\ms{C}(\mc{K})\) (continuous functions of the form \(f:\mc{K}\to\R\) or \(f:\mc{K}\to\C\)).
+\end{conjecture}
+This is in fact false: the following is a counter-example.
 
-\begin{document}
+\medskip
 
-\maketitle
+Let \(\mc{K}=S'=\) unit circle. We define this as 
+\begin{align*} 
+    S':=&\{z\in\C\st |z|=1\}\\
+       =&\{e^{it}\st t\in [0,2\pi]\}.
+\end{align*}
+Any \(f:S'\to\C\) can be represented as \(f(z)\), or \(f(e^{it})\), where \(t\in[0,2\pi]\) and \(f(e^{i0})=f(e^{i2\pi})\). Let \(\ms{A}\) be an algebra of polynomial functions in complex co-efficients:
+\begin{align*} 
+    f(z)=&\sum_{k=0}^n c_kz^k,\quad c_k\in\C\\
+    f(e^{it})=&\sum_{k=0}^n d_ke^{kit}\quad d_k\in\C.
+\end{align*}
+\(\ms{A}\) separates points, and vanishes at no point. Let \(g(z)=z\in\ms{C}(\mc{K})\). What we do now is inspired by the contour integral from complex analysis, in particular the key fact that the contour integral of a function that is holomorphic over the interior of the contour, is just zero (Residue theorem). 
 
+\medskip
 
-\end{document}
+Let \(p\in\ms{A}\) is a polynomial function, written as \(\displaystyle p(z)=\sum_{k=0}^n c_kz^k\). We compute 
+\begin{align*} 
+    \int_{0}^{2\pi} p(e^{it}) e^{it} \, dt=&\int_{0}^{2\pi}\sum_{k=0}^n c_ke^{i(k+1)t} \, dt\\
+    =&\sum_{k=0}^n c_k\int_0^{2\pi} e^{i(k+1)t} \, dt\\
+    =&\sum_{k=0}^n c_k\int_0^{2\pi} \left[\cos{[(k+1)t]}+i\sin{[(k+1)t]}\right] \, dt\\
+    =0.
+\end{align*}
+Now, consider \(g(e^{it})=e^{-it}\). Hence, 
+\begin{equation*} 
+    \int_{0}^{2\pi} g(e^{it}) \, e^{it} \, dt=\int_{0}^{2\pi} e^{-it} \, e^{it}=\int_0^{2\pi} 1\, dt=2\pi.
+\end{equation*}
+\emph{If} there existed \(\{p_n\}\subseteq\ms{A}\) such that \(p_n\to g\) uniformly (on \(\mc{K}\)), by Baby Rudin theorem 7.16, we get 
+\begin{equation*} 
+    \underbrace{\int_0^{2\pi} p_n(e^{it}) e^{it} \, dt}_{=0}\ucon\int_0^{2\pi} g(e^{it}) e^{it} \, dt=2\pi,
+\end{equation*}
+which is absurd.
+In conclusion, \(g(z)=\ol{z}\notin\ms{A}\), where this denotes the complex conjugate function.
+
+\medskip
+
+While this is not the \emph{only} counter-example, the obstruction that this one suggests is the only one we need to destroy. Recall that functions vanishing at a point was an obstruction, because that was a fact we ``couldn't escape'', meaning this property would always exist under the operations of the algebra. This is the same problem with the algebra being holomorphic: we can never escape this fact. How do we remedy this? Well, we just saw that the complex conjugation is not a holomorphic function, so if we just include that our algebra cannot be holomorphic. 
+
+\begin{ndef}{: Self-adjoint}
+    Let \(\mc{K}\) be a compact metric space, \(\ms{A}\subseteq\ms{C}(\mc{K})\) is an algebra that separates points, and vanishes at no point. We say that \(\ms{A}\) is \emph{\textbf{self-adjoint}} if for \(f\in\ms{A}\), \(\ol{f}\in\ms{A}\), where \(\ol{f}(z)=\ol{f(z)}\).
+\end{ndef}
+We can now prove the theorem.
 
