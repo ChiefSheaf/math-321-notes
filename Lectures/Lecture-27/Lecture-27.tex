@@ -1,14 +1,94 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 03/18/2024}
+    ``Maybe this will make it into the next version of Rudin.''
+\end{nquote}
+\begin{proof}
+Given that \(\ms{A}\subseteq\ms{C}(\mc{K})\) (where \(\mc{K}\) is compact), sucht that \(\ms{A}\) separates points, vanishes at no point, and is self-adjoint, then \(\Clu(\ms{A})\). We will prove this using Stone-\Weierstass for the reals.
+\begin{proof}[Step-1]\let\qed\relax
+    Let \(\ms{A}_{\R}\) is an algebra of real values functions in \(\ms{A}\), i.e., \(\{f\in\ms{A}\st\Img(f)\equiv 0\}\).
 
-%opening
-\title{Lecture-27}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+    \medskip
 
-\begin{document}
+    Let \(f=u+iv\in\ms{A}\), then \(u=\Re(f)=\displaystyle\frac{1}{2}(f+\ol{f})\in\ms{A}\). Hence, \(\Re(f)\in\ms{A}_{\R}\). Similarly, \(v=\Img(f)=\displaystyle\frac{1}{2i}(f-\ol{f})\in\ms{A}\), and thus \(\Img(f)\in\ms{A}_{\R}\). Note that this clearly does not work if the algebra isn't self adjoint, so this fact is absolutely crucial.
+\end{proof}
+\begin{proof}[Step-2]\let\qed\relax
+    Let \(x,y\in\mc{K}\) (\(x\neq y\)). By Lemma 4, there exists \(f\in\ms{A}\) such that \(f(x)=0\), \(f(y)=1\). Hence, \(\Re(f)(x)=0\) and \(\Re(f)(y)=1\). These are both in \(\ms{A}_{\R}\), and hence \(\ms{A}_{\R}\) separates points.
+\end{proof}
+\begin{note}[Reliance on real algebras]
+    Proof step-2 does not actually rely on the algebra being real. This is why Rudin does this separately before the proof of either the real or complex version of Stone-\Weierstass. We did it in the proof of the real version of Stone-\Weierstass because we wanted to go step by step, so we undo this unnecessary reliance by acknowledging it here.
+\end{note}
+\begin{proof}[Step-3]\let\qed\relax
+    Let \(x\in\mc{K}\). Since \(\ms{A}\) vanishes at no point, there exists \(f\in\ms{A}\) such that \(f(x)\neq 0\). At least one of \(\Re(f)(x)\) or \(\Im(f)(x)\) is not zero. Essentially, the argument using \(f\ol{f}=|f|^2\) also works.
+\end{proof}
+\begin{note}[Rudin's way of showing this]
+    Rudin does this in a slightly different way which is worth knowing: because \(f(x)=re^{i\theta}\), we have \(e^{-i\theta}f(x)=r\in\ms{A}\).
+\end{note}
+\begin{proof}[Step-4]\let\qed\relax
+    By Stone-\Weierstass, \(\Clu(\mc{A}_{\R})=\ms{C}_{\R}(\mc{K})\), which is the space of continuous, bounded, real-valued functions \(f:\mc{K}\to\R\).
+\end{proof}
+\begin{proof}[Step-5]\let\qed\relax
+    Let \(f=u+iv\in\ms{C}(\mc{K})\), \(u,v\in\ms{C}_{\R}(\mc{K})\). This is because functions from \(\R^n\to\R^n\) are continuous only if the function is continuous component wise. The proof for this is given in Baby Rudin, but is also not very involved, so can be treated as an exercise.
 
-\maketitle
+    \medskip
 
+    Hence, there exists \(g,h\in\ms{A}_{\R}\) such that \(\snorm{u-g}<\displaystyle\frac{\eps}{2}\) and \(\snorm{v-h}<\displaystyle\frac{\eps}{2}\). We have then that \(g,ih\in\ms{A}\), so clearly \(g+ih\in\ms{A}\) and 
+    \begin{equation*} 
+        \snorm{f-(g+ih)}\leq\snorm{u-g}+\snorm{iv-ih}<\eps.
+    \end{equation*}
+    Uniform limit of continuous functions is also continuous, which gives us the set inclusion the other way.
+\end{proof}
+\end{proof}
 
-\end{document}
+\section{Fourier Analysis}
+Fourier analysis can be described as ``glorified linear algebra'', but it is different from linear algebra because this is in an infinite-dimensional vector space. So before we get into it, we have to talk a bit about linear algebra.
+
+\subsection{Interlude: Linear Algebra}
+Let \(F\) be a field (we generally only care about \(\R\) or \(\C\)) here. A vector space over \(F\) (called an \(F-\)vector space) is a set \(V\) along with two operations:
+\begin{enumerate}
+    \item Vector addition: for \(u,v\in V\), vector addition is \(u+v\).
+    
+    \item Scalar multiplication: for \(v\in V\), \(\la\in F\), scalar multiplication is \(\la v\).
+\end{enumerate}
+These are essentially maps \(V\times V\to V\) and \(F\times V\to V\) respectively. These must satisfy the vector space axioms:
+\begin{enumerate}
+    \item Associativity of addition: For \(u,v,w\in V\), \(u+(v+w)=(u+v)+w\).
+    
+    \item Commutativity of addition: \(u+v=v+u\).
+    
+    \item There is an additive identity \(0\in V\) such that \(u+0=0+u=u\).
+    
+    \item Every element has an additive inverse, i.e., for all \(v\in V\), there exists \(u\in V\) such that \(v+u=u+v=0\). We refer to \(u\) as ``\(-v\)'', which is the ``inverse'' of \(v\).
+    
+    \item Scalar multiplication and field element multiplication is compatible: for \(a,b\in F\) and \(v\in V\), we have \((ab)v=a(bv)\).
+    
+    \item Scalar multiplication respects the field identity: \(1v=v\) where \(1\) is the multiplicative identity of the field, and \(v\in V\).
+    
+    \item Distributivity: \(a(u+v)=au+av\) and \((a+b)v=av+bv\).
+\end{enumerate}
+Depending on the size of \(u,v,w\), associativity could break; for example the octonions don't have associativity. This is a very canonically algebraic construction done with the purpose of it being a counterexample (in some sense), so this is bound to be a bit confusing. Additionally, not all operations are commutative, the simplest example being matrix multiplication.
+
+\medskip
+
+Some examples of vector spaces:
+\begin{itemize}
+    \item \(\R^d\), \(\C^d\) of \(\R\) and \(\C\) respectively, with operations:
+    \begin{align*} 
+        (x_1,x\dots,x_n)+(y_1,\dots,y_n)=&(x_1+y_1,\dots,x_n+y_n)\\
+        a(x_1,\dots,x_n)=&(ax_1,\dots,ax_n).
+    \end{align*}
+    Verification of the axioms is left as an exercise.
+
+    \item Sequences \(\{x_n\}_{n\in\N}\), where \(x_i\in\R\) or \(\C\). Component wise operations as before; this is just as infinite dimensional version of the on we had before.
+    
+    \item Sequences \(\{x_n\}_{n\in\N}\) where \(x_n=0\) for all \(n\geq N\). ``Sequences that are eventually null.''
+    
+    \item Sequences \(\{x_n\}_{n\in\N}\) such that \(\displaystyle\sum_{n\in\N}|x_n|<\infty\). To generalize, when \(1\leq p<\infty\), 
+    \begin{equation*} 
+        \left(\sum_{n\in\N} |x_n|^p\right)^{1/p}<\infty.
+    \end{equation*}
+    Addition works fine, since \(|x_n+y_n|^p\leq 2^{p-1}(|x_n|^p+|y_n|^p)\).
+
+    \item \(V=\ms{C}_{\R}(\R)\), \(\ms{C}_{\R}(\mc{K})\), or \(\ms{C}(\mc{K})\).
+    
+    \item \(\mc{R}([a,b])\).
+\end{itemize}
 
