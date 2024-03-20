@@ -1,14 +1,142 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 03/20/2024}
+    No quotes today :(
+\end{nquote}
+Let \(\mc{F}=\C\)  or \(\R\), and \(\mc{V}\) a vector space  over \(\mc{F}\).
 
-%opening
-\title{Lecture-28}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\begin{ndef}{: Norm}
+    A \emph{\textbf{norm}} is a function \(\norm{\cdot}:\mc{V}\to\R\) that satisfies the following properties:
+    \begin{enumerate}[(a)]
+        \item \(\norm{x+y}\leq \norm{x}+\norm{y}\), for all \(x,y\in\mc{V}\) (triangle inequality.)
+        
+        \item \(\norm{ax}=a\norm{x}\), where \(a\in\mc{F}\), \(x\in\mc{V}\).
+        
+        \item \(\norm{x}\geq 0\), and \(\norm{x}=0\) iff \(x=0\).
+    \end{enumerate}
+\end{ndef}
 
-\begin{document}
+\begin{example}
+    \(\mc{V}=\R^d\) or \(\C^d\), where we define for all \(1\leq p<\infty\) real:
+    \begin{equation*} 
+        \norm{x}_p=\left(\sum_{j=1}^n |x_i|^p\right)^{1/p}.
+    \end{equation*}
+\end{example}
 
-\maketitle
+\begin{example}
+    For all \(1\leq p<\infty\) real, for the vector space
+    \begin{equation*} 
+        V=\left\{a=(a_n)_{n\in\N~(\Z)}\st \left(\sum_{n\in\N~(\Z)} |a_n|^p\right)^{1/p}<\infty\right\}=\ell^p(\N)~(\ell^p(\Z)),
+    \end{equation*}
+    we define 
+    \begin{equation*} 
+        \norm{a}_p=\left(\sum_{n\in\N}|a_n|^p\right)^{1/p}.
+    \end{equation*}
+\end{example}
+\begin{note}[Indexing using \(\Z\)]
+    We index can in the integers, because this is a countable set. The reason we might prefer this over the natural numbers is because sometimes it is notationally more natural to use the integers, and if we restrict indexing the natural numbers, then everything will be indexed in bijections to the natural numbers, which makes everything clunky.
+\end{note}
+\begin{example}
+    For \(\mc{V}=\ms{C}([0,1])\), we define 
+    \begin{equation*} 
+        \norm{f}=\int_0^1 |f(t)| \, dt.
+    \end{equation*}
+\end{example}
+\begin{example}
+    For \(\mc{V}=\ms{C}([0,1])\), for all \(1\leq p<\infty\) real, we define
+    \begin{equation*} 
+        \norm{f}_{L^p}=\left(\int_0^1 |f(t)|^p \, dt\right)^{1/p}.
+    \end{equation*}
+    A special case of this which we showed on the homework is 
+    \begin{equation*} 
+        \norm{f}_{L^{\infty}}=\snorm{f}=\sup_{x\in [0,1]}|f(x)|.
+    \end{equation*}
+\end{example}
+\begin{example}
+    For \(\mc{V}=\ms{R}([0,1])\), for all \(1\leq p<\infty\) real, we define
+    \begin{equation*} 
+        \norm{f}_{L^p}=\left(\int_0^1 |f(t)|^p \, dt\right)^{1/p}.
+    \end{equation*}
+    However this time, there is an issue here: since we extended to Riemann integrable functions, we can have something like 
+    \begin{equation*} 
+        f(x)=\begin{cases}
+                0&0\leq x<1\\
+                1&x=1
+             \end{cases},
+    \end{equation*}
+    which has \(\norm{f}_{L^p}=0\) for all \(1\leq p<\infty\), but \(f(x)\neq 0\). This is problematic, and we deal with this in two possible ways: we could restrict the functions to only continuous functions -- which is what Rudin does, and what we will do in some cases -- but otherwise we do this in another manner, which builds towards the Lebesgue integral.\label{problematic}
+\end{example}
+\begin{note}[\(p=\infty\) case.]
+    In the case \(p=\infty\), we look at the supremum norm, under which this problem will not exist, since if the supremum of a function is zero on a set, it better be identically zero (under absolute values). Hence, we acknowledge that we really only need the requirement for the function to be bounded for the supremum norm to be well defined, and none of what follows is required for it.
+\end{note}
+\subsection{Fix for \cref{problematic}}
+We define an equivalence relation \(\sim\) on \(\mc{R}[0,1]\) as follows:
 
+\begin{ndef}{}
+    We define \(f\sim g\) iff
+    \begin{equation*} 
+        \int_0^1 |f(t)-g(t)| \, dt.
+    \end{equation*}
+\end{ndef}
+It is not hard to verify that this is an equivalence relation, and is left as an exercise.
 
-\end{document}
+\medskip
+
+Let \(\mc{V}=\mc{R}([0,1])/\sim\). If \(\sim\) is an equivalence relation on \(\mc{S}\), for \(x\in\mc{S}\),
+\begin{equation*} 
+    [x]=\{y\in S\st y\sim x\}.
+\end{equation*}
+Thus, \(\mc{V}=\{[f]\st f\in\mc{R}([0,1])\}\). An example is \([0]=\displaystyle\left\{f\in\mc{R}([0,1])\st \int_0^1 |f(t)| \, dt=0\right\}\). Now, we can define 
+\begin{equation*} 
+    \norm{[f]}_p=\left(\int_0^1 |f(t)|^p\right)^{1/p}.
+\end{equation*}
+The final issue now is to verify whether this is well defined: verify that if \([f]=[g]\), then 
+\begin{equation*} 
+    \left(\int_0^1 |f(t)|^p\right)^{1/p}=\left(\int_0^1 |g(t)|^p\right)^{1/p}.
+\end{equation*}
+This is a standard verification that this is not a multi-function, and left as an exercise. Note that this was a homework problem for us, so while this is simple, it is not necessarily easy. Also, verifying it for any \(p\) (we had \(p=2\)) works, because the proof will be the same for every \(p\).
+
+\begin{ndef}{: Normed vector space}
+    A pair \((\mc{V},\norm{\cdot})\) is called a \emph{\textbf{normed vector space}}. This induces a metric \(d(x,y)=\norm{x-y}\).
+
+    \medskip
+
+    If \((\mc{V},d)\) is complete, then we call \((\mc{V},\norm{\cdot})\) a \emph{\textbf{Banach space}}.
+\end{ndef}
+\begin{example}
+    \((\R^d,\norm{\cdot}_p)\) is a Banach space.
+\end{example}
+\begin{example}
+    \((\ms{C}([0,1]),\norm{\cdot}_{L^p})\) for \(p<\infty\) is \emph{not} a Banach space.
+\end{example}
+
+\begin{ndef}{: Inner product space}
+    Let \(\mc{V}\) be a vector space, \(\ip{\cdot}{\cdot}\) an inner product. Then, \((\mc{V},\ip{\cdot}{\cdot})\) is called an \emph{\textbf{inner product space}}.
+
+    \medskip
+
+    A complete inner product space is called a \emph{\textbf{Hilbert space}}.
+\end{ndef}
+\begin{note}
+    An inner product induces a norm:
+    \begin{equation*} 
+        \norm{x}=(\ip{x}{x})^{1/2}.
+    \end{equation*}
+\end{note}
+\begin{example}
+    For \(\mc{V}=\ell^2(\N)\) (or \(\ell^2(\Z)\)), for \(a=(a_n)_{n\in\N}\) and \(b=(b_n)_{n\in\N}\), 
+    \begin{equation*} 
+        \ip{a}{b}=\sum_{n\in\N} a_n\ol{b_n},
+    \end{equation*}
+    where \(\ol{\cdot}\) is the complex conjugate as before. Here, we note that \(\ip{a}{b}=\ol{\ip{b}{a}}\).
+\end{example}
+\begin{example}
+    For \(\mc{V}=\ms{C}([0,1])\), 
+    \begin{equation*} 
+        \ip{f}{g}=\int_0^1 f(t)\ol{g(t)} \, dt.
+    \end{equation*}
+    Similarly, for \(\mc{V}=\ms{C}([-\pi,\pi])\),
+    \begin{equation*} 
+        \ip{f}{g}=\int_{-\pi}^{\pi} f(t)\ol{g(t)} \, dt.
+    \end{equation*}
+\end{example}
+Inner product spaces are of particular importance to us in Fourier analysis.
 
