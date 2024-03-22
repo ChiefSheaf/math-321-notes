@@ -1,14 +1,230 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 03/22/2024}
+    ``The truth is a little bit unpleasant, so we ignore it.'' - on abuse of notation.
+\end{nquote}
 
-%opening
-\title{Lecture-29}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+Before we move no we note that the only vector spaces that we will talk about will be \(\ms{C}([0,1])\) and \(\mc{R}[0,1]\) (or \(\mc{R}[a,b]\)).
 
-\begin{document}
+\begin{notation}[Abuse of notation]
+    Whenever we talk about \(\mc{R}[0,1]\) (or \(\mc{R}[a,b]\)), the inner product should look something like
+    \begin{equation*} 
+        \ip{[f]}{[g]}=\int_a^b f(x) \ol{g(x)} \, dx,
+    \end{equation*}
+    because the functions are equivalence classes. However, this is clunky, so we will just write 
+    \begin{equation*} 
+        \ip{f}{g}=\int_a^b f(x) \ol{g(x)} \, dx.
+    \end{equation*}
+    This is obviously abuse of notation, but this makes our life easier, and it is pretty much almost always obvious from the context which vector space we are talking about.
+\end{notation}
 
-\maketitle
+\begin{ndef}{: Orthonormal system}
+    If \(\{\pfi_n\}_{n\in \mc{C}}\) (where \(\mc{C}\) is some countable set) is a sequence of Riemann integrable functions on \([a,b]\) that are orthonormal, i.e., 
+    \begin{equation*} 
+        \ip{\pfi_n}{\pfi_m}=\int_a^b \pfi_n(x)\ol{\pfi_m(x)} \, dx=\begin{cases}
+                                                                    1&\text{if}~n=m\\
+                                                                    0&\text{if}~n\neq m
+                                                                   \end{cases},
+    \end{equation*}
+    then we call \(\{\pfi_n\}\) a ``system of orthonormal functions'' or an ``\emph{\textbf{orthonormal system}}'' on \([a,b]\).
+\end{ndef}
+\begin{note}
+    We used a countable set \(\mc{C}\) instead of something familiar like \(\N\) or \(\Z\) because it might be convenient to switch between them, so leaving it as ambiguous is more general. Now onward we will just omit the set over which it is indexed, because it will always either be \(\N\) or \(\Z\).
+\end{note}
+\begin{note}[Notation overlap with Linear algebra]
+    Joseph Fourier intially invented linear algebra as a way of studying the heat equation. While this certainly was not the birth of linear algebra, it predated linear algebra in some sense that after this was when people started using linear algebra in other fields of math, and it evolved to be what it is today. Hence, there is some notational overlap with linear algebra.
+\end{note}
+\begin{example}
+    Some examples of orthonormal systems on \([0,1]\) are:
+    \begin{itemize}
+        \item Consider \(\{e^{2\pi inx}\}_{n\in\Z}\) such that 
+        \begin{equation*} 
+            \ip{e^{2\pi i nx}}{e^{2\pi imx}}=\int_0^1 e^{2\pi i nx}\ol{e^{2\pi i mx}} \, dx=\int_0^1 e^{2\pi i (n-m)x} \, dx.
+        \end{equation*}
 
+        \item For the family \(\{\sin(n\pi x)\}_{n\in\N}\cup\{\cos(n\pi x)\}_{n\in\N}\). We get something like the following picture
+        
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}[scale=0.75]
+                %mother wavelet
+                \draw[Latex-Latex] (0,3)--(0,-3);
+                
+                \draw[Latex-Latex] (3,0)--(-3,0);
 
-\end{document}
+                \draw[thick, red] (0,1)--(1.5,1);
+
+                \draw[thick, red] (1.5,-1)--(3,-1);
+
+                \node[] at (1.5,0) {\(|\)};
+
+                \node[below] at (1.5,-0.1) {\(1/2\)};
+
+                %daughter wavelet 1
+                \draw[Latex-Latex] (-5,-5)--(-5,-11);
+                
+                \draw[Latex-Latex] (-8,-8)--(-2,-8);
+
+                \draw[thick, red] (-5,-6)--(-4.25,-6);
+
+                \draw[thick, red] (-4.25,-10)--(-3.5,-10);
+
+                \draw[thick, red] (-3.5,-8)--(-2,-8);
+
+                \node[] at (-4.25,-8) {\(|\)};
+
+                \node[below] at (-4.25,-8.1) {\(1/2\)};
+
+                \node[] at (-3.5,-8) {\(|\)};
+
+                \node[below] at (-3.5,-8.1) {\(1/4\)};
+
+                %daughter wavelet 2
+                \draw[Latex-Latex] (5,-5)--(5,-11);
+                
+                \draw[Latex-Latex] (2,-8)--(8,-8);
+
+                \draw[thick, red] (5,-8)--(6.5,-8);
+
+                \draw[thick, red] (6.5,-6)--(7.25,-6);
+
+                \draw[thick, red] (7.25,-10)--(8,-10);
+
+                \node[] at (6.5,-8) {\(|\)};
+
+                \node[below] at (6.5,-8.1) {\(1/2\)};
+
+                \node[] at (7.25,-8) {\(|\)};
+
+                \node[below] at (7.25,-8.1) {\(3/4\)};
+            \end{tikzpicture}
+            \caption{Figure showing how wavelets ``evolve''. The top wavelet is called the ``mother wavelet'', and the ``daughter wavelets'' are the ones which are the smaller constituents we get from it. We can keep going.}
+        \end{figure}
+        Wavelets are like loading images on very slow internet: they are blurry at the start, but as more show up, it final wavelet becomes clearer.
+    \end{itemize}
+\end{example}
+
+\begin{ndef}{: Fourier coefficient}
+    If \(\{\pfi_n\}\) is an orthnormal system on \([a,b]\) and if \(x_n=\ip{f}{\pfi_n}\), then we call \(c_n\) the \(n^{\text{th}}\) \emph{\textbf{Fourier coefficient}} of \(f\) relative to \(\{\pfi_n\}\).
+
+    \medskip
+
+    If \([a,b]=[0,1]\) and \(\pfi_n=e^{2\pi i nx}\), we write \(c_n=\hat{f}(n)\). 
+\end{ndef}
+\begin{fft}
+    What is the geometric interpretation of \(c_n\pfi_n(x)\)?
+\end{fft}
+\begin{proof}[Answer]\let\qed\relax
+    Consider an orthonormal system \(\{\pfi_n\}\), \(v\in\mc{V}\), let us look at \(\ip{v}{\pfi_n}\pfi_n\) in a few situations:
+    \begin{itemize}
+        \item  Let \(\mc{V}=\R^2\), and \(\pfi_1\) a unit vector in \(\R^2\):
+        
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}[scale=1]
+                \draw[Latex-Latex] (-4,0)--(4,0);
+
+                \node[above] at (0,4.1) {\(y\)};
+
+                \draw[Latex-Latex] (0,-4)--(0,4);
+
+                \node[right] at (4.1,0) {\(x\)};
+
+                \draw[-, dashed] (-3.5,-3.5)--(3.5,3.5);
+
+                \draw[->, thick, blue] (0,0)--(1,1);
+
+                \node[right] at (1.1, 0.7) {\(\color{blue} \pfi_1\)};
+
+                \node[above] at (0.6,2.1) {\(v\)};
+
+                \node[right] at (3.1,3) {\(\text{span}\{\pfi_1\}\)};
+
+                \draw[->, thick] (0,0)--(0.6,2);
+
+                \draw[-, dashed] (0.6,2)--(1.3,1.3);
+
+                \draw[fill, red] (1.3,1.3) circle (1.5pt);
+
+                \draw[->,red, dashed] (1.3,1.3)--(2.8,1.3);
+
+                \node[right] at (2.9,1.3) {\(\ip{v}{\pfi_1}\pfi_1\)};
+            \end{tikzpicture}
+            \caption{Visual representation of the example.}
+        \end{figure}
+
+        It is the unique point on the span of \(\pfi_1\), which minimizes the distance between the vectors.
+
+        \item Let \(\mc{V}=\R^3\), and let \(\{\pfi_1,\pfi_2\}\) span the \(xy\)-plane.
+        
+        \begin{figure}[H]
+            \centering
+            \begin{tikzpicture}[scale=1]
+                \draw[Latex-Latex] (-4,0)--(4,0);
+
+                \node[above] at (0,4.1) {\(z\)};
+
+                \draw[Latex-Latex] (0,-4)--(0,4);
+
+                \node[right] at (4.1,0) {\(x\)};
+
+                \draw[Latex-Latex] (-3.5,-3.5)--(3.5,3.5);
+
+                \node[above, right] at (3.6,3.6) {\(y\)};
+
+                \draw[->, thick, blue] (0,0)--(1,0);
+
+                \node[above] at (1, 0.1) {\(\color{blue} \pfi_1\)};
+
+                \draw[->, thick, violet] (0,0)--(0,-1);
+
+                \node[left] at (-0.1, -1) {\(\color{violet} \pfi_2\)};
+
+                \draw[fill, red] (1.3,-1.3) circle (1.5pt);
+
+                \draw[dashed] (1.3,-1.3)--(1.3,3.5);
+
+                \draw[->] (0,0)--(1.3,2.5);
+
+                \draw[circle] (1.3,2.5) circle (1pt);
+
+                \node[right] at (1.4,2.5) {\(v\)};
+
+                \draw[->, red] (1.3,-1.3)--(2.3,-1.3);
+
+                \node[right] at (2.4,-1.3) {\(\ip{v}{\pfi_1}+\ip{v}{\pfi_2}=(v_1,v_2,0)\)};
+            \end{tikzpicture}
+            \caption{Visual representation of the example.}
+        \end{figure}
+
+        In this case, we are minimizing the distance from the vector to the plane \(xy\).
+    \end{itemize} 
+\end{proof}
+\begin{note}
+    In the previous example, note that while the point which minimizes the distance is unique, the points mapping to this point unedr the projection map are many: all the points in \(\R^3\) that project onto the same point is the line above that point; this is called the fiber of that point under the pre-image of the projection map.
+\end{note}
+
+\begin{ndef}{: Fourier series}
+    If \(\{c_n\}_{n\in\N}\) are the Fourier co-efficients of \(f\in\mc{V}=\mc{R}[a,b]/\sim\) relative to \(\{\pfi_n\}_{n\in\N}\), then \(\displaystyle\sum_{n=1}^{\infty}c_n\pfi_n\) is called the \emph{\textbf{Fourier series}} of \(f\) relative to \(\{\pfi_n\}\), and we write \(f\sim \displaystyle\sum_{n=1}^{\infty}c_n\pfi_n\).
+\end{ndef}
+\begin{note}
+    The \(\sim\) in this definition has nothing to do with the equivalence relation defined before. This is just an unfortunate coincidence because of typewriters not having enough math symbols. In this case, this just means that \(\{c_n\}_{n\in\N}\) are the fourier coefficients of \(\{\pfi_n\}_{n\in\N}\) with respect to \(f\).
+\end{note}
+
+\begin{ntheorem}{: Baby Rudin 8.11}
+    Let \(\{\pfi_n\}_{n\in\N}\) be an orthonormal system on \([a,b]\), and let \(f\in\mc{R}[a,b]\), with Fourier coefficients \(\{c_n\}_{n\in\N}\). Let
+    \begin{equation*} 
+        S_n(x)=\sum_{j=1}^n c_j\pfi_j(x);
+    \end{equation*}
+    this is called the \(n^{\text{th}}\) partial Fourier sum of \(f\).
+
+    \medskip
+
+    Let \(\{d_1,\dots,,d_n\}\subseteq\C\), and \(t_n=\displaystyle\sum_{j=1}^n d_j\pfi_j(x)\). Then,
+    \begin{equation*} 
+        \norm{f-S_n}_{L^2}\leq\norm{f-t_n}_{L^2},
+    \end{equation*}
+    with equality iff \(s=t\), i.e., \(d_j=c_j\) for all \(j=1,\dots,n\).
+\end{ntheorem}
+\begin{notation}[Specifying the norm]
+    Now onward, there will be no subscript on the norm, because it is always clear from context.
+\end{notation}
 
