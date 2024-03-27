@@ -1,14 +1,61 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 03/26/2024}
+    ``This is a projection onto a single vector; you could imagine a projection onto the span of multiple vectors if you were better at drawing."
+\end{nquote}
+\begin{proof}
+    Note that
+    \begin{align*} 
+        \ip{f}{t_n}=&\int_a^b f(x)\ol{t_n(x)} \, dx\\
+                   =&\int_a^b f(x)\sum_{j=1}^n \ol{d_j}\ol{\pfi_j(x)} \, dx\\
+                   =&\int_a^b \sum_{j=1}^n \ol{d_j}\underbrace{f(x)\ol{\pfi_j(x)}}_{\ip{f}{\pfi_j}} \, dx\\
+                   =&\sum_{j=1}^n c_j\ol{d_j}.
+    \end{align*}
+    Similarly, \(\ip{t_n}{f}=\displaystyle\sum_{j=1}^n d_j\ol{c_j}\). Now, we make a series of computations:
+    \begin{align*} 
+        \norm{t_n}^2=&\int_a^b t_n\ol{t_n} \, dx\\
+                    =&\int_a^b \left(\sum_{j=1}^n d_j\pfi_j\right)\left(\sum_{k=1}^n \ol{d_k\pfi_k}\right) \, dx\\
+                    =&\sum_{j=1}^n |d_j|^2,
+    \end{align*}
+    and thus, 
+    \begin{align*} 
+        \norm{f-t_n}^2=&\int_a^b |f-t_n|^2 \, dx\\
+                      =&\int_a^b |f|^2 \, dx -\int_a^b f\ol{t_n} \, dx-\int_a^b \ol{f}t_n \, dx+\int_a^b |t_n|^2 \, dx\\
+                      =&\int_a^b |f|^2 \, dx -\sum_{j=1}^n c_j\ol{d_j}-\sum_{j=1}^n d_j\ol{c_j}+\sum_{j=1}^nd_j\ol{d_j} \, dx\\
+                      =&\int_a^b |f|^2 \, dx -\sum_{j=1}^n |c_j|^2+\sum{j=1}^n |d_j-c_j|^2 \, dx\\
+                   \leq&\int_a^b |f|^2 \, dx -\sum_{j=1}^n |c_j|^2\quad\text{with equality iff \(d_j=c_j\) for all \(j\).}
+    \end{align*}
+    If \(d_j=c_j\) for all \(j\), then
+    \begin{equation} 
+        \norm{f-s_n}^2=\norm{f}^2+\norm{s_n}^2\label{d_j=c_j}.
+    \end{equation}
+    Hence,
+    \begin{equation*} 
+        \norm{f-t_n}^2=\int_a^b |f-t_n|^2 \, dx\geq \norm{f}^2-\norm{s_n}^2=\norm{f-s_n}^2,
+    \end{equation*}
+    with equality iff \(d_j=c_j\) for all \(j\).
+\end{proof}
+As a consequence of \cref{d_j=c_j},
+\begin{equation} 
+    \sum_{j=1}^n |c_n|^2=\norm{s_n}^2\leq\norm{f_n}^2\implies \sum_{j=1}^n |c_n|^2\leq\norm{f_n}^2\label{Bessel inequality}.
+\end{equation}
+This is called the \emph{Bessel inequality}. We get equality if \(f\in\spn\{\pfi_n\}_{n=1}^{\infty}\). From now onward, we let \([a,b]=[0,1]\), \(\{\pfi_n\}_{n\in\Z}\) such that \(\pfi_n(x)=e^{2\pi inx}:=e_n(x)\).
+\begin{ndef}{: \(L\)-periodic}
+    We say \(f:\R\to\C\) is \emph{\textbf{\(L\)-periodic}} if \(f(x+L)=f(x)\) for all \(x\in\R\). 
+\end{ndef}
+\begin{example}
+    \(e_n(x)\) is \(1\) periodic for all \(n\in\Z\).
+\end{example}
+Let \(\mc{V}:=\{f:\R\to\C\st f~\text{is \(1\) periodic and integrable on \([0,1]\)}\}/\sim\). On \(\mc{V}\), we define
+\begin{equation*} 
+    \ip{f}{g}=\int_0^1 f(x)\ol{g(x)} \, dx.
+\end{equation*}
+\begin{note}[Another way of thinking about Fourier analysis]
+    Initially we though about these functions as eigenfunctions for our system from the heat equation, or something else modelled using a PDE of a similar sort. But there is a different way to think about Fourier analysis in terms of groups (this is outside the scope of this course):
 
-%opening
-\title{Lecture-30}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+    \medskip
 
-\begin{document}
-
-\maketitle
-
-
-\end{document}
+    Consider \(f:\R\to\C\), \(1\)-periodic; these have a 1-1 correspondence with functions of the form \(f:\underbrace{\R/\Z}_{\mc{G}}\to\C\). Note that \(\mc{G}\) is the set of equivalence classes such that \(x\sim y\) iff \(x-y\in\Z\). Here, \(\mc{G}\) is an abelian group having elements \(e_n:\mc{G}\to\C\) (or \(e_n:\mc{G}\to\) complex number of magnitude 1). The group multiplication here is \(e_ne_m=e_{n+m}(x)\). Most things we do can be written in this more abstract setting, where we have a function that maps from groups to complex numbers, and instead of a basis, we have characters which map from \(\mc{G}\) to complex numbers of magnitude \(1\). These characters form the ``dual group''.
+    \begin{example}
+        We have \(\R/\Z\leftrightarrow\Z\) (\(\Z\) here is the dual group), but also \(\Z_p\leftrightarrow\hat{\Z}_p\) \((\Z_p:=\Z/p\Z)\) and \(\R\leftrightarrow\R\). Finally, for \(f:\R\to\C\), we have \(\hat{f}=\displaystyle\int e^{2\pi ix}\).
+    \end{example}
+\end{note}
 
