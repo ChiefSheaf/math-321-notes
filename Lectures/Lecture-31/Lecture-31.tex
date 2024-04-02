@@ -1,14 +1,89 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 03/27/2024}
+    ``The bulk Fourier analysis is starting at a picture and figuring out what I what it tells you.''
+\end{nquote}
 
-%opening
-\title{Lecture-31}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\begin{ndef}{}
+    The \(N^{\text{th}}\) partial Fourier series of \(f\) is 
+    \begin{equation*} 
+        S_N(x):=\sum_{n=-N}^N c_ne_n(x).
+    \end{equation*}
+\end{ndef}
 
-\begin{document}
+\begin{nlemma}{}
+    For \(x\in\R\), \(S_N(x)=\displaystyle\int_0^1 f(x-t)D_N(t) \, dt\), where 
+    \begin{equation*} 
+        D_N(t)=\sum_{n=-N}^N e^{2\pi int}=\frac{\sin(2\pi(N+\frac{1}{2})t)}{\sin(\pi t)}.
+    \end{equation*}
+    \(D_N\) is called the Dirichlet kernel.
+\end{nlemma}
+If we graph this function, it looks like a sine curve bound by an asymptotic envelope on all sides, and it oscillates very quickly (looking at the \href[]{https://en.wikipedia.org/wiki/Dirichlet_kernel}{Wikipedia page} is the best way of visualizing it). It oscillates very quickly.
+\begin{proof}[Proof step-1]
+    Note that 
+    \begin{align*} 
+        D_N(t)=&e^{-2\pi iNt}\sum_{k=0}^{2N} e^{2\pi int}\\
+              =&e^{-2\pi iNt}\left(\frac{e^{2\pi i(2N+1)t}-1}{e^{2\pi it}-1}\right)\frac{e^{-\pi it}}{e^{-\pi it}}\\
+              =&\frac{e^{2\pi i(N+\frac{1}{2})t}-e^{-2\pi i(N+\frac{1}{2})t}}{e^{\pi it}-e^{-\pi it}}\\
+              =&\frac{\sin(2\pi(N+\frac{1}{2})t)}{\sin(\pi t)}.
+    \end{align*}
+\end{proof}
+\begin{proof}[Proof step-2]
+    Now,
+    \begin{align*} 
+        S_N(x)=&\sum_{x=-N}^N c_n e^{2\pi inx}\\
+              =&\sum_{x=-N}^N \ip{f_n}{e_n}e^{2\pi inx}\\
+              =&\sum_{x=-N}^N\int_0^1 f(t) e^{2\pi in(-t)}e^{2\pi inx} \, dt\\
+              =&\sum_{x=-N}^N\int_0^1 f(t)e^{2\pi in(x-t)} \, dt\\
+              =&\int_x^{x+1} f(x-s)D_N(s) \, ds \tag{\(\dagger\)}\label{1-periodic}\\
+              =&\int_0^1 f(x-s) D_N(s) \, ds
+    \end{align*}
+    where \cref{1-periodic} is where we use the fact that the function is \(1-\)periodic.
+\end{proof}
+\begin{ndef}{: Lipschitz continuous at a point}
+    Let \(f:\R\to\C\), \(x\in\R\). We say \(f\) is Lipschitz continuous at \(x\) if there exists \(\delta>0\) and \(L>0\) such that for all \(y\in R\) having \(|x-y|<\delta\), we have \(|f(x)-f(y)|\leq L|x-y|\).
 
-\maketitle
+    \medskip
 
+    Alternatively for all \(t\in\R\) having \(|t|<\delta\), \(|f(x+t)-f(x)|\leq L|t|\).
+\end{ndef}
 
-\end{document}
+\begin{ntheorem}{: Baby Rudin 8.14}
+    Let \(f:\R\to\C\) be 1-periodic and integrable on \([0,1]\). Suppose \(f\) is Lipschitz continuous at \(x\). Then, \(\displaystyle\lim_{N\to\infty}S_N(x)=f(x)\).
+\end{ntheorem}
+Recall we have already shown this result if \(\{D_N(x)\}\) was an approximate identity. It is not one, but it has properties that resemble it. The proof should looks similar.
+\begin{proof}
+    To begin we compute a few things that will make our lives easier:
+    \begin{enumerate}
+        \item Note that 
+        \begin{equation*} 
+            \int_0^1 D_N(t) \, dt=\ip{D_N}{1}=\ip{D_N}{e_0(x)}=1.
+        \end{equation*}
+        
+        \item Also,
+        \begin{align*} 
+            D_N(t)=&\frac{1}{\sin(\pi t)}[\sin(\pi t)\cos(2\pi Nt)+\sin(2\pi Nt)\cos(\pi t)]\\
+            =&\cos(2\pi Nt)+\cot(\pi t)\sin(2\pi Nt).
+        \end{align*}
+
+        \item If \(g\) is 1-periodic and integrable on \([0,1]\),
+        \begin{equation*} 
+            \sum_{n=-\infty}^{\infty} |c_n|^2\leq \int_0^1 |g|^2 \, dx<\infty\implies c_n\to 0,
+        \end{equation*}
+        as \(n\to \infty\) or \(n\to-\infty\). This is called the \emph{Riemann-Lebesgue} lemma (or maybe a stronger version of this is called that.)
+
+        \medskip
+        
+        As a consequence,
+        \begin{equation*} 
+            \lim_{N\to\infty}\ip{g}{\sin(2\pi Nx)}\to 0.
+        \end{equation*}
+    \end{enumerate}
+    Therefore, 
+    \begin{align*} 
+        |\ip{g}{\sin(2\pi Nx)}|=&\left|\ip{g}{\sin(2\pi Nx)}\right|\\
+                            \leq&\frac{1}{2}|\ip{g}{e^{2\pi inx}}|+\frac{1}{2}|\ip{g}{e^{-2\pi inx}}|\\
+                               =&\frac{1}{2}(|c_n|+|c_n|)=|c_n|\to 0.
+    \end{align*}
+\end{proof}
+The intuition behind is that Dirichlet kernel is oscillating very quickly; we say that it is oscillating in a mean zero way, meaning that it has mean zero almost everywhere.
+
 
