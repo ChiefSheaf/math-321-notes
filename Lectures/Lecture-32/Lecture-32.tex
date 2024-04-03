@@ -1,14 +1,68 @@
-\documentclass[]{article}
+\begin{proof}
+    Note that
+    \begin{align*} 
+        f(x)-S_N(x)=&f(x)\int_0^1 D_N(t) \, dt - \int_0^1 f(x-t)D_N(t) \, dt\\
+                   =&\int_0^1 [f(x)-f(x-t)]D_N(t) \, dt.
+    \end{align*}
+    Using \cref{8.14 setup 2}, we get 
+    \begin{equation*} 
+        f(x)-S_N(x)=\int_0^1 [f(x)-f(x-t)]\cos(2\pi Nt) \, dt+\int_0^1 [f(x)-f(x-t)]\cot(\pi t)\sin(2\pi Nt)\, dt.
+    \end{equation*}
+    Writing these back as inner products, we get
+    \begin{equation*} 
+        f(x)-S_N(x)=\underbrace{\ip{f(x)-f(x-t)}{\cos(2\pi Nt)}}_{:=A}+\underbrace{\ip{\left(f(x)-f(x-t)\right)\cot(\pi t)}{\sin(2\pi Nt)}}_{:=B}.
+    \end{equation*}
+    Since \(A\) is 1-periodic and integrable, we use \cref{8.14 setup 3} to conclude that \(A\to 0\) as \(N\to\infty\). \(B\) however, is trickier because we cannot be sure that it is bounded, and hence cannot be sure that it is integrable. Hence, we cannot use \cref{8.14 setup 3}. Note that it is clearly 1-periodic. 
 
-%opening
-\title{Lecture-32}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+    \medskip
 
-\begin{document}
+    Let 
+    \begin{equation*} 
+        |h(t)|=\left|(f(x)-f(x-t))\frac{\cos(\pi t)}{\sin(\pi t)}\right|.
+    \end{equation*}
+    We are concerned with the boundedness of this function on the interval \(\displaystyle\left[-\frac{1}{2},\frac{1}{2}\right]\). There exists \(\delta>0\) such that for all \(t\in[-\delta,\delta]\), 
+    \begin{align*} 
+        |h(t)|=&\left|(f(x)-f(x-t))\frac{\cos(\pi t)}{\sin(\pi t)}\right|\\
+           \leq&\frac{L|t||\cos(\pi t)|}{\sin(\pi t)}=L|\cos(\pi t)|\cdot\frac{t}{\sin(\pi t)}\leq L,
+    \end{align*}
+    where we get \(L\in\R\) from Lipschitz continuity of \(f\). For \(t\in\displaystyle\left[-\frac{1}{2},\frac{1}{2}\right]\setminus[-\delta,\delta]\),
+    \begin{equation*} 
+        |h(t)|\leq 4\sup_{z\in\R}|f(z)|\frac{1}{\pi\delta}<\infty.
+    \end{equation*}
+    Therefore, we conclude that \(h(t)\) is bounded.
 
-\maketitle
+    \smallskip
 
+    Since \(h\) is continuous and bounded on \(\displaystyle\left[-\frac{1}{2},\frac{1}{2}\right]\), it is Riemann integrable on this interval. Note that since we showed that \(h\) is bounded, we now use \cref{8.14 setup 3} to conclude that \(\ip{h(t)}{\sin(Nt)}\to 0\) as \(N\to\infty\), giving us the desired result.
+\end{proof}
 
-\end{document}
+\begin{ncorollary}{: Consequences of Baby Rudin 8.14}
+    \begin{enumerate}[a)]
+        \item If \(f(x)=0\) for all \(x\) in some open interval \(\mc{I}\), then \(S_N(x)\to 0\) for all \(x\in\mc{I}\). Hence a Fourier series is able to deal with a function that is zero on some interval \(\mc{I}\) but badly behaved outside of that; this is unlike a Taylor series.
+        
+        \item If \(f(x)=g(x)\) on an interval \(\mc{I}\), then \(S_N(f;x)-S_N(g;x)\to 0\) as \(N\to\infty\).
+    \end{enumerate}
+\end{ncorollary}
+Note that b) here is kind of just a re-skin of a) in the most natural sense.
+\begin{ntheorem}{: Baby Rudin 8.15}
+    Let \(f:\R\to\C\) be 1-periodic and continuous. Given \(\eps>0\), there exists a trigonometric polynomial function \(\displaystyle\sum_{n=-N}^N a_ne^{2\pi inx}\) (\(a_n\in\C\)), such that 
+    \begin{equation*} 
+        \sup_{x\in\R}|f(x)-P(x)|<\eps.
+    \end{equation*}
+\end{ntheorem}
+\begin{proof}[Proof sketch]
+    We want to apply \SW. Our metric space is \(\mc{S}^1:=\{z\in\C\st |z|=1\}\). Define \(F:\mc{S}^1\to\C\) such that
+    \begin{equation*} 
+        F(e^{2\pi it})=f(t);
+    \end{equation*}
+    this is well defined since \(f\) is 1-periodic. Define
+    \begin{equation*} 
+        \ms{A}:=\left\{\sum_{n=-N}^{N} a_nz^n\st a_n\in\C, N\in\N\right\}.
+    \end{equation*}
+    Easy to check that it separates no points and vanishes nowhere. Additionally, 
+    \begin{equation*} 
+        \ol{\sum_{n=-N}^{N} a_nz^n}=\sum_{n=-N}^{N} \ol{a_n}z^n=\sum_{n=-N}^{N} a_{-n}z^n\in\ms{A},
+    \end{equation*}
+    so this algebra is also self-adjoint, completing the pre-requisites for complex \SW. Therefore, we are done.
+\end{proof}
 
