@@ -1,14 +1,56 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 04/06/2024}
+    No quotes today :(
+\end{nquote}
 
-%opening
-\title{Lecture-33}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+\begin{note}[Remarks]
+    We note the following things:
+    \begin{enumerate}
+        \item \(S_N(f;x)=\displaystyle\sum_{n=-N}^N c_ne^{2\pi i nx}\) might not be the polynomial ``found'' by Baby Rudin theorem 8.15.
+        
+        \item There exists continuous, 1-periodic functions where \(S_n(f)\) \emph{does not} converge pointwise to \(f\).
+        
+        \item There exist continuous, 1-periodic functions \(f\) where \(S_n(f)\to f\) pointwise, but not uniformly.
+        
+        \item \((\mc{R}[0,1]/\sim,\ip{\cdot}{\cdot})\) is a set of functions for which \(S_n(f)\to f\) almost everywhere (\(\href[]{https://en.wikipedia.org/wiki/Carleson%27s_theorem}{\color{blue} \ul{\text{Carleson's theorem}}}\)).
+        
+        \item Baby Rudin problem 8.15 describes an explicit sequence of trigonometric polynomial functions that converge uniformly to \(f\):
+        \begin{equation*} 
+            \sigma_N=\frac{s_0+s_1+\dots+s_N}{N+1}\quad(\text{Ces\`aro mean}),
+        \end{equation*}
+        where \(s_i\) is the \(i^{\text{th}}\) Fourier coefficient.
+    \end{enumerate}
+\end{note}
+\begin{fft}[Importance of Fourier series]
+    Given the shortcomings of \(S_N\), why do we study Fourier series?
+\end{fft}
+\begin{proof}[Answer]
+    The Fourier series might not converge pointwise or uniformly to \(f\), but we do expect it to converge in some metric space (in \(L^2\) space). This turns out to work for my integrable function, because we can approximate it arbitrarily well in \(L^2\) space by continuous functions.
+\end{proof}
 
-\begin{document}
+\begin{ntheorem}{: Plancherel theorem/Parseval-Plancherel identity}
+    Let \(f:\R\to\C\) be 1-periodic and integrable on \([0,1]\). Then \(\displaystyle\lim_{N\to\infty}\norm{f-S_N}_2=0\), i.e., \(S_N\to f\) in \((L^2([0,1]),\norm{\cdot}_2)\).
+\end{ntheorem}
+\begin{proof}
+    Since \(\norm{\cdot}_2\) is a metric, we have \(\norm{f+g}_2\leq\norm{f}_2+\norm{g}_2\) (Minkowski's identity as well). For \(f\in\mc{R}[0,1]\) and \(\eps>0\), there exists \(g:[0,1]\to\C\) continuous so that \(\norm{f-g}_2<\eps\) (Baby Rudin problem 6.12).
 
-\maketitle
+    \medskip
 
-
-\end{document}
+    Given \(\eps>0\), select some continuous \(g:[0,1]\to\C\) such that \(\norm{f-g}_2\leq \displaystyle\frac{\eps}{3}\). Hence, we have 
+    \begin{equation*} 
+        \norm{S_N(f)-f}_2\leq\underbrace{\norm{S_N(f)-S_N(g)}_2}_{:(A)}+\underbrace{\norm{S_N(g)-g}_2}_{:(B)}+\underbrace{\norm{g-f}_2}_{<\eps/3}.\tag{\(\spadesuit\)}\label{8.16}
+    \end{equation*}
+    Here, 
+    \begin{equation*} 
+        A:\norm{S_N(f)-S_N(g)}_2=\norm{S_N(f-g)}_2\leq\norm{f-g}_2<\frac{\eps}{3}.
+    \end{equation*}
+    For \((B)\), recall that by theorem 8.15, there exists a trigonometric polynomial function \(p\) having degree \(N_0\), such that \(\snorm{g-p}<\eps/3\); hence, \(\norm{g-p}_2<\eps/3\). Thus, for all \(n>N_0\), by theorem 8.11,
+    \begin{equation*} 
+        \norm{S_N(g)-g}_2\leq\norm{p-g}_2<\frac{\eps}{3}.
+    \end{equation*}
+    Therefore, resolving these in \cref{8.16}, we get 
+    \begin{equation*} 
+        \norm{S_N(f)-f}<\frac{\eps}{3}+\frac{\eps}{3}+\frac{\eps}{3}=\eps,
+    \end{equation*}
+    concluding the proof.
+\end{proof}
 
