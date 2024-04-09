@@ -20,8 +20,8 @@
         \norm{f-t_n}^2=&\int_a^b |f-t_n|^2 \, dx\\
                       =&\int_a^b |f|^2 \, dx -\int_a^b f\ol{t_n} \, dx-\int_a^b \ol{f}t_n \, dx+\int_a^b |t_n|^2 \, dx\\
                       =&\int_a^b |f|^2 \, dx -\sum_{j=1}^n c_j\ol{d_j}-\sum_{j=1}^n d_j\ol{c_j}+\sum_{j=1}^nd_j\ol{d_j} \, dx\\
-                      =&\int_a^b |f|^2 \, dx -\sum_{j=1}^n |c_j|^2+\sum{j=1}^n |d_j-c_j|^2 \, dx\\
-                   \leq&\int_a^b |f|^2 \, dx -\sum_{j=1}^n |c_j|^2\quad\text{with equality iff \(d_j=c_j\) for all \(j\).}
+                      =&\int_a^b |f|^2 \, dx -\sum_{j=1}^n |c_j|^2+\sum_{j=1}^n |d_j-c_j|^2 \, dx\\
+                   \geq&\int_a^b |f|^2 \, dx -\sum_{j=1}^n |c_j|^2\quad\text{with equality iff \(d_j=c_j\) for all \(j\).}
     \end{align*}
     If \(d_j=c_j\) for all \(j\), then
     \begin{equation} 
@@ -35,7 +35,7 @@
 \end{proof}
 As a consequence of \cref{d_j=c_j},
 \begin{equation} 
-    \sum_{j=1}^n |c_n|^2=\norm{s_n}^2\leq\norm{f_n}^2\implies \sum_{j=1}^n |c_n|^2\leq\norm{f_n}^2\label{Bessel inequality}.
+    \sum_{j=1}^n |c_n|^2=\norm{s_n}^2\leq\norm{f}^2\implies \sum_{j=1}^{\infty} |c_n|^2\leq\norm{f}^2\label{Bessel inequality}.
 \end{equation}
 This is called the \emph{Bessel inequality}. We get equality if \(f\in\spn\{\pfi_n\}_{n=1}^{\infty}\). From now onward, we let \([a,b]=[0,1]\), \(\{\pfi_n\}_{n\in\Z}\) such that \(\pfi_n(x)=e^{2\pi inx}:=e_n(x)\).
 \begin{ndef}{: \(L\)-periodic}
