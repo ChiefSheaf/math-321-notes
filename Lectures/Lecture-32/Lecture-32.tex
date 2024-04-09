@@ -33,7 +33,11 @@
 
     \smallskip
 
-    Since \(h\) is continuous and bounded on \(\displaystyle\left[-\frac{1}{2},\frac{1}{2}\right]\), it is Riemann integrable on this interval. Note that since we showed that \(h\) is bounded, we now use \cref{8.14 setup 3} to conclude that \(\ip{h(t)}{\sin(Nt)}\to 0\) as \(N\to\infty\), giving us the desired result.
+    Since \(h\) is continuous and bounded on \(\displaystyle\left[-\frac{1}{2},\frac{1}{2}\right]\). Now, from the Lipschitz continuity of \(f\), there exists \(\delta>0\), there exists \(M\) such that \(|h(t)|\leq M\), for all \(|t|\leq\delta\). So we construct partitions such that \(h\) is ``nice'' on \(\displaystyle\left[-\frac{1}{2},-\delta\right]\) and \(\displaystyle\left[\delta,\frac{1}{2}\right]\); we can make \(\delta\) small enough here (from Lipschitz continuity as shown), such that we don't have to worry about \(h\) misbehaving at \(0\).
+
+    \medskip
+    
+    Hence, now we use \cref{8.14 setup 3} to conclude that \(\ip{h(t)}{\sin(Nt)}\to 0\) as \(N\to\infty\), giving us the desired result.
 \end{proof}
 
 \begin{ncorollary}{: Consequences of Baby Rudin 8.14}
@@ -61,7 +65,7 @@ Note that b) here is kind of just a re-skin of a) in the most natural sense.
     \end{equation*}
     Easy to check that it separates no points and vanishes nowhere. Additionally, 
     \begin{equation*} 
-        \ol{\sum_{n=-N}^{N} a_nz^n}=\sum_{n=-N}^{N} \ol{a_n}z^n=\sum_{n=-N}^{N} a_{-n}z^n\in\ms{A},
+        \ol{\sum_{n=-N}^{N} a_nz^n}=\sum_{n=-N}^{N} \ol{a_n}z^n\in\ms{A},
     \end{equation*}
     so this algebra is also self-adjoint, completing the pre-requisites for complex \SW. Therefore, we are done.
 \end{proof}

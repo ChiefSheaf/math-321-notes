@@ -5,31 +5,44 @@
 \begin{note}[Remarks]
     We note the following things:
     \begin{enumerate}
-        \item \(S_N(f;x)=\displaystyle\sum_{n=-N}^N c_ne^{2\pi i nx}\) might not be the polynomial ``found'' by Baby Rudin theorem 8.15.
+        \item \(S_N(f;x)=\displaystyle\sum_{n=-N}^N c_ne^{2\pi i nx}\) might not be the polynomial ``found'' by \SW. We might hope to get lucky here so that the \(S_N(f;x)\) we get is the polynomial we get, but this is \emph{not} necessarily true.
         
         \item There exists continuous, 1-periodic functions where \(S_n(f)\) \emph{does not} converge pointwise to \(f\).
         
+        \medskip
+
+        We can even make it such that \(S_N(f)\) does not converge pointwise at countably many points. A natural question then we can ask ourselves is that how big can we make a set such that \(S_N(f)\) still fails to converge pointwise to \(f\), for all the points in the set. This has occupied people studying harmonic analysisfrom its inception until today. However, there was important progress on this during the 80s. Even if we write down such a function, it is difficult to prove, but it is worth knowing that there is such a thing.
+        
         \item There exist continuous, 1-periodic functions \(f\) where \(S_n(f)\to f\) pointwise, but not uniformly.
         
-        \item \((\mc{R}[0,1]/\sim,\ip{\cdot}{\cdot})\) is a set of functions for which \(S_n(f)\to f\) almost everywhere (\(\href[]{https://en.wikipedia.org/wiki/Carleson%27s_theorem}{\color{blue} \ul{\text{Carleson's theorem}}}\)).
+        \medskip
+
+        Things get worse if we expand what it means to be integrable: there exist functions that are not Riemann integrable but are Lebesgue integrable, and there are functions that are not Lebesgue integrable, but not Riemann integrable (I know!). We can think of Lebesgue integrable functions as monotone limits of step functions. We cab find Lebesgue integrable functions that fail to converge to \(f\) to almost everywhere.
+
+        \medskip
+
+        If we have that the functions are square integrable, we are working with something much nicer: \(S_N\to f\) pointwise almost everywhere. This is why we often work with \(L^2\). For bad \(L^1\) functions, we can have \(\displaystyle\int_0^1 |f| <\infty\), but \(\displaystyle\int_0^1 |f|^2=\infty\) (To know more about this read \(\href[]{https://en.wikipedia.org/wiki/Carleson%27s_theorem}{\color{blue} \ul{\text{Carleson's theorem}}}\)).
         
         \item Baby Rudin problem 8.15 describes an explicit sequence of trigonometric polynomial functions that converge uniformly to \(f\):
         \begin{equation*} 
-            \sigma_N=\frac{s_0+s_1+\dots+s_N}{N+1}\quad(\text{Ces\`aro mean}),
+            \sigma_N=\frac{s_0+s_1+\dots+s_N}{N+1}\quad(\text{\Cesaro mean}),
         \end{equation*}
         where \(s_i\) is the \(i^{\text{th}}\) Fourier coefficient.
     \end{enumerate}
 \end{note}
 \begin{fft}[Importance of Fourier series]
-    Given the shortcomings of \(S_N\), why do we study Fourier series?
+    If the \Cesaro mean is so good, why do we study \(S_N\)? More generally, given the shortcomings of \(S_N\), why do we study Fourier series?
 \end{fft}
 \begin{proof}[Answer]
-    The Fourier series might not converge pointwise or uniformly to \(f\), but we do expect it to converge in some metric space (in \(L^2\) space). This turns out to work for my integrable function, because we can approximate it arbitrarily well in \(L^2\) space by continuous functions.
+    \(S_N\) still has some nice properties. Recalling what we talked about with \(L^2\) before: our orthonormal system is, in some way, as close as you can get to this. If we have a trigonometric polynomial function that is close to \(f\) in the supremum norm, then it is clearly close to \(f\) in the \(L^2\) norm. However, even if \(S_N\) is not this trigonometric polynomial, it is closerto \(f\) in the \(L^2\) norm: we formulate this as a theorem.
 \end{proof}
 
-\begin{ntheorem}{: Plancherel theorem/Parseval-Plancherel identity}
+\begin{ntheorem}{ C: Plancherel theorem/Parseval-Plancherel identity}
     Let \(f:\R\to\C\) be 1-periodic and integrable on \([0,1]\). Then \(\displaystyle\lim_{N\to\infty}\norm{f-S_N}_2=0\), i.e., \(S_N\to f\) in \((L^2([0,1]),\norm{\cdot}_2)\).
 \end{ntheorem}
+\begin{digression}[\(\ell^2\) and \(L^2\)]
+    We can unify \(\ell^2\) and \(L^2\) since a sequence indexed by real numbers is basically a function from \(\R\) to \(\C\) (there is some abuse of notation here), and each element gets the same ``weight''. This is like the Riemann-Stieltjes integral, in terms of weighting; we are alluding to \(L^2(\mc{X},\mu)\), where \(\mu\) is a ``measure'' on \(\mc{X}\). All of these definitions fall into this kind of framework, so we can prove all of these results in a unified manner. For example, the Schwartz inequlity in \(\ell^2\) the same as proving it in \(L^2(\Z,\mu)\), because these are the same spaces (take MATH 420).
+\end{digression}
 \begin{proof}
     Since \(\norm{\cdot}_2\) is a metric, we have \(\norm{f+g}_2\leq\norm{f}_2+\norm{g}_2\) (Minkowski's identity as well). For \(f\in\mc{R}[0,1]\) and \(\eps>0\), there exists \(g:[0,1]\to\C\) continuous so that \(\norm{f-g}_2<\eps\) (Baby Rudin problem 6.12).
 
@@ -53,4 +66,11 @@
     \end{equation*}
     concluding the proof.
 \end{proof}
+\begin{note}
+    A way to think about this proof more abstractly is: this is an \(\eps/3\) proof. We have seen this many times, but we are actually trying to understand \(S_N\) -- a linear operator. We understand this on continuous functions, which is a subspace of \(L^2\), and wish to understand on \(L^2\). What this theorem says specifically is that continuous functions are dense in \(L^2\). This is a trick that is worth knowing: when we want to understand a linear operator, we can do it by controlling it on a dense subspace, so that we can control the error.
+
+    \medskip
+    
+    The reason is that being a Banach space is very important for Bounded Linear Extension theorem, which says that if a function is bounded on a dense subspace, it is bounded on the whole space. We don't get this for \(L^2\) because it is not a Banach space, but we get something similar, which we explore futher in MATH 420.
+\end{note}
 

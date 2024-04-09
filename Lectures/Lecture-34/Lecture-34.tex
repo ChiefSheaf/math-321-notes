@@ -1,14 +1,54 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 04/08/2024}
+    No quotes today :(
+\end{nquote}
+\begin{notation}
+    Let 
+    \begin{equation*} 
+        \hat{f}(n)=\int_0^1 f(x)e^{-2\pi inx} \, dx,
+    \end{equation*} 
+    where \(\hat{f}:\Z\to\C\).
+\end{notation}
 
-%opening
-\title{Lecture-34}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
-
-\begin{document}
-
-\maketitle
-
-
-\end{document}
+\begin{ntheorem}{: Baby Rudin theorem 8.16}
+    Let \(f,g:\R^2\to\C\) be 1-periodic functions that are integrable on \([0,1]\). Let \(\{c_n\}_{n\in\Z}\) and \(\{d_n\}_{n\in\Z}\) be their Fourier coefficients with respect to the orthonormal basis \(\{e^{2\pi inx}_{n\in\Z}\}\). Then,
+    \begin{equation*} 
+        \int_0^1 f(x)\ol{g(x)} \, dx=\sum_{n\in\Z}c_n\ol{d_n}.
+    \end{equation*}
+    We can restate this as \(\ip{f}{g}=\ip{\hat{f}}{\hat{g}}=\displaystyle\sum_{n\in\Z}\hat{f}(n)\ol{\hat{g}(n)}\), where we first have the inner product on \(L^2([0,1])\) and then the inner product on \(\ell^2(\Z)\).
+\end{ntheorem}
+Before we prove the theorem, it is worth noting that we have seen a few version of Cauchy-Schwartz before:
+\begin{equation*} 
+    \left|\sum_{k=1}^n a_k\ol{b_k}\right|\leq\left(\sum_k|a_k|^2\right)^{1/2}\left(\sum_k|b_k|^2\right)^{1/2},
+\end{equation*}
+which in terms of the inner product on \(\ell^2(\Z)\) is \(|\ip{a}{b}|\leq(\ip{a}{a})^{1/2}(\ip{b}{b})^{1/2}\). We also have a version for the inner product on \(L^2([0,1])\): \(|\ip{f}{g}|\leq\norm{f}_2\norm{g}_2\), i.e., 
+\begin{equation*} 
+    \left|\int_0^1 f(x)\ol{g(x)} \, dx\right|\leq\left(\int_0^1 |f(x)|^2 \, dx\right)^{1/2}\left(\int_0^1 |g(x)| \, dx\right)^{1/2}.
+\end{equation*}
+This is a special case of the more general \Holder's inequality: \(|\ip{f}{g}|\leq\norm{f}_p\norm{g}_p\) for all \(1\leq p,q\leq\infty\), where \(\displaystyle\frac{1}{p}+\frac{1}{q}=1\). Written out, this says
+\begin{equation*} 
+    \left|\int_0^1 f(x)\ol{g(x)} \, dx\right|\leq\left(\int_0^1 |f(x)|^p \, dx\right)^{1/p}\left(\int_0^1 |g(x)|^q \, dx\right)^{1/q}.
+\end{equation*}
+We now do the proof for Parseval's theorem.
+\begin{proof}
+    Note that
+    \begin{align*} 
+        \ip{S_N(f)}{g}=&\int_0^1\sum_{n=-N}^N c_ne^{2\pi inx}\ol{g(x)} \, dx\\
+                      =&\sum_{n=-N}^N c_n\ol{\int_0^1 e^{-2\pi inx}g(x) \, dx}\\
+                      =&\sum_{n=-N}^N c_n\ol{d_n}.
+    \end{align*}
+    Using Cauchy Schwartz inequality, we geometric
+    \begin{equation*} 
+        \left|\ip{f}{g}-\sum_{n=-N}^N c_n\ol{d_n}\right|\leq |\ip{f}{g}-\ip{S_N(f)}{g}|=|\ip{f-S_N}{g}|\leq\underbrace{\norm{f-S_N(f)}_2}_{\to 0}\norm{g}_2.
+    \end{equation*}
+    Hence, we have shown that 
+    \begin{equation*} 
+        \lim_{N\to\infty}\sum_{n=-N}^N c_n\ol{d_n}=\ip{f}{g}.
+    \end{equation*}
+    We are not yet done because we have proven this for the symmetric sum, but this is a very specific order of summing, and we are not able to switch the order of summing yet. To say every sum of this kind converges to this, we need to show absolute convergence. Therefore, once again by Cauchy-Schwartz,
+    \begin{align*} 
+        \sum_{n=-N}^N |c_n\ol{d_n}|\leq&\left(\sum_{n=-N}^N |c_n|^2\right)^{1/2}\left(\sum_{n=-N}^N |d_n|^2\right)^{1/2}\tag{\(\clubsuit\)}\label{Bessel's used}\\
+        \leq&\norm{f}_2\norm{g}_2
+    \end{align*}
+    where we use Bessel's inequality in \cref{Bessel's used} to get the next inequality.
+\end{proof}
 
