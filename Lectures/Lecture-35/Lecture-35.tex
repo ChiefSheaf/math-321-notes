@@ -1,14 +1,90 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 04/10/2024}
+    ``There is a proof there, which I'm not going to give it to you, because I want to get through this in finite time.'
 
-%opening
-\title{Lecture-35}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+    \medskip
 
-\begin{document}
+    ``This is `NON STANDARD NOTATION!' *wrote this on the blackboard*; never use this again.''
 
-\maketitle
+    \medskip
 
+    ``I don't think any of you are old enough to remember the Bill Clinton trial from '94."
+\end{nquote}
 
-\end{document}
+Let \(\mf{F}:L^2([0,1])\to\ell^2(\Z)\). Parseval's tells us that this map is distance preserving. However, note that this map cannot be surjective, since \(\ell^2(\Z)\) is complete, whereas \(L^2([0,1])\) is not. Recall that if \((c_n)\in\ell^2(\Z)\), then \(\displaystyle\sum_{n\in\Z}|c_n|^2<\infty\), where \(c_n\in\C\) and \(n\in\Z\).
+\begin{fft}
+    Is the image of \(\mf{F}\) \emph{dense} in \(\ell^2(\Z)\)? That is, if \((c_n)\in\ell^2(\Z)\), does there exist \(f\in L^2([0,1])\) such that \(d(\hat{f},(c_n))=\displaystyle\sum_{n\in\Z}|\hat{f}(n)-c_n|^2<\eps^2\).
+\end{fft}
+\begin{proof}[Solution]
+    This is a true fact.
+
+    \medskip
+
+    Fix \((c_n)\in\ell^2(\Z)\). Let \(f_N(x)=\displaystyle\sum_{n=-N}^N c_n e^{2\pi inx}\). We have from Parseval's that \(\norm{f_N}_2=\displaystyle\sum_{n=-N}^N |c_n|^2\). Hence, we have 
+    \begin{equation*} 
+        \left(\sum_{n\in\Z}|\hat{f}_N(n)-c_n|^2\right)^{1/2}=\left(\sum_{\substack{n\in\Z \\ |n|>N}}|c_n|^2\right)^{1/2}\to 0~\text{as}~N\to\infty.
+    \end{equation*}
+\end{proof}
+\begin{note}
+    It makes sense that this image of \(\mf{F}\) is dense here, since the set sequences that are zero after finitely many terms is dense in \(\Im(\mf{F})\), and this is a subset of \(\ell^2(\Z)\).
+\end{note}
+\begin{ndef}{: Isometry}
+    A map \(f:\mc{X}\to\mc{Y}\) ((\(\mc{X},d_{\mc{X}}),(\mc{Y},d_{\mc{Y}})\) metric spaces) is an \emph{\textbf{isometry}}, if it is a bijection such that \(d_{\mc{X}}(x_1,x_2)=d_{\mc{Y}}(f(x_1),f(x_2))\). Restated, we could also say that it is a distance preserving bijection. 
+
+    \medskip
+
+    Specifically, this is an isomorphism for metric spaces.
+\end{ndef}
+
+\begin{ntheorem}{: D}
+    Let \((\mc{X}_1,d_1)\) and \((\mc{X}_2,d_2)\) be metric spaces. Suppose \((\mc{X}_2,d_2)\) is complete. Let \(g:\mc{X}_1\to\mc{X}_2\) be distance preserving, i.e., \(d_1(x_1,x_2)=d_2(g(x_1),g(x_2))\), for all \(x_1,x_2\in\mc{X}_1\).
+
+    \medskip
+
+    Suppose that the image of \(g\) is dense. Then, \(g\) \emph{extends} to an isometry \(\tilde{g}\) from \((\tilde{\mc{X}}_1,\tilde{d}_1)\) -- the completion of \((\mc{X}_1,d_1)\) -- to \((\mc{X}_2,d_2)\).
+\end{ntheorem}
+For a metric space \((\mc{X}_1,d_1)\), let its completion be \((\tilde{\mc{X}}_1,\tilde{d}_1)\). Hence, 
+\begin{equation*} 
+    \tilde{\mc{X}}_1:=\CS(\mc{X}_1)/\sim,
+\end{equation*}
+where \((x_n)\sim(y_n)\) iff \(\displaystyle\lim_{n\to\infty}d(x_,y_n)=0\). Note that because of this equivalence relation,
+\begin{equation*} 
+    \tilde{d}_1([(x_n)],[(y_n)])=\lim_{n\to\infty}d_1(x_n,y_n),
+\end{equation*}
+does not depend on the choice of representative and hence is well defined. This is just a recollection of what has already been shown in MATH 320, only there we noted this specifically for \(\Q\) and its completion, \(\R\). We now prove the theorem.
+\begin{proof}[Proof sketch]
+    Define \(\tilde{g}:\tilde{\mc{X}}_1\to\mc{X}_2\) as follows: Let \([(x_n)]\in\tilde{\mc{X}}_1\). Define \(\displaystyle\tilde{g}\big(\underbrace{[(x_n)]}_{\in\tilde{\mc{X}}_1}\big)=y\). 
+
+    \medskip
+    
+    \emph{Step-1:} We need to verify that the map is well-defined: If \([(x_n)]=[(y_n)]\), i.e., if \((x_n)\sim (y_n)\), then \(\displaystyle\lim_{n\to\infty} g(x_n)=\lim_{n\to\infty} g(y_n)\).
+
+    \medskip
+
+    \emph{Step-2:} We need to show that \(\tilde{g}\) is distance preserving, i.e., 
+    \begin{equation*} 
+        \tilde{d}_1\big([(x_n)],[(y_n)]\big)=d_2\bigg(\tilde{g}\big([(x_n)]\big),\tilde{g}\big([(y_n)]\big)\bigg).
+    \end{equation*}
+    Hence, we need to check 
+    \begin{equation*} 
+        \lim_{n\to\infty}d_1(x_n,y_n)=d_2(\lim_{n\to\infty}g(x_n),\lim_{n\to\infty}g(y_n)).
+    \end{equation*}
+
+    \medskip
+
+    \emph{Final step:} We need to show that \(\tilde{g}\) is surjective. Let \(y\in\mc{X}_2\); since \(g(\mc{X}_1)\) is dense in \(\mc{X}_2\), there exists a sequence \((x_n)\subseteq\mc{X}_1\), such that \(g(x_n)\to y\). In particular, \(\displaystyle\big(g(x_n)\big)\) is Cauchy. Therefore, \((x_n)\) is complete, since \(g\) is distance preserving. Finally, we just need to verify that \(\displaystyle\tilde{g}\big([(x_n)]\big)=y\).
+\end{proof}
+\begin{note}[Motivation for this theorem]
+    As an immediate consequence of the theorem, if we have a distance preserving map from a metric space \(\mc{X}\) that is not an isometry, and we really want it to be for some reason, we work in the completion of the metric space, \(\tilde{\mc{X}}\), and it will be an isomtery here.
+\end{note}
+\begin{note}[``Moral of the story'']
+    Let \(\tilde{L^2}([0,1])\) be the completion of \(L^2([0,1])\). The professor states that this is non standard notation (\emph{very} non standard, since he said to never use this again.) Then, \(\mf{F}\) is a isometry from \(\tilde{L^2}([0,1])\) to \(\ell^2(\Z)\). Futhermore, \(\ip{f}{g}=\ip{\hat{f}}{\hat{g}}\) is morally true.
+\end{note}
+
+\begin{ndef}{: MATH 420 definition of the completion of \(L^2\)}
+    If we define this for \(\tilde{L^2}([0,1])\), these are the equivalence classes of \emph{Lebesgue} integrable functions \(f:[0,1]\to\C\), with
+    \begin{equation*} 
+        \int_0^1 |f|^2<\infty.
+    \end{equation*}
+\end{ndef}
+This all makes sense, only we don't know what the Lebesgue integral is. One way to think about this is to think of Lebesgue integral as a ``convergent limit'' of Riemann integrals.
 
