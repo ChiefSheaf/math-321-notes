@@ -1,14 +1,105 @@
-\documentclass[]{article}
+\begin{nquote}{: Dr. Joshua Zahl 04/12/2024}
+    ``What you're describing sounds like we have to think, which we'd like to avoid." -- on a student's answer to his question.
 
-%opening
-\title{Lecture-36}
-\author{Sushrut Tadwalkar; 55554711}
-\input{E:/UBC/LaTeX/style/commands}
+    \medskip
 
-\begin{document}
+    ``Maybe it's bad, I seem to be discouraging people from thinking." -- after something completely different about 15 minutes later.
+\end{nquote}
 
-\maketitle
+\subsection{Equidistribution}
 
+\begin{ndef}{: Fractional part of a real number}
+    If \(x\in\R\), \(\expec{x}=x-\floor{x}\in[0,1)\), i.e., \(\expec{x}=x(\mod 1)\). This is called the \emph{\textbf{fractional part}} of a the real number \(x\).
+\end{ndef}
 
-\end{document}
+Let \(\alpha\in\R\); consider the sequence \(\expec{n\alpha}\).
+\begin{itemize}
+    \item If \(\alpha=\displaystyle\frac{p}{q}\in\Q\), \(\expec{n\alpha}\) is periodic.
+    
+    \item If \(\alpha\notin\Q\), every value of \(\expec{n\alpha}\) is distinct. If \(\expec{n\alpha}=\expec{m\alpha}\), then \(n\alpha-m\alpha\in\Z\), so \(\alpha\in\Q\).
+\end{itemize}
+
+\begin{ntheorem}{ (Kronecker): E}
+    If \(\alpha\notin\Q\), then \(\expec{n\alpha}\) is \emph{dense} in \([0,1)\).
+\end{ntheorem}
+
+\begin{ndef}{: Equidistributed}
+    A sequence \((x_n)\subseteq [0,1)\) is called \emph{\textbf{equidistributed}} if: for every interval \(\mc{I}\subseteq[0,1)\), 
+    \begin{equation*} 
+        \lim_{N\to\infty}\frac{\#\{n=1,\dots, N\st x_n\in\mc{I}\}}{N}\to\ell(\mc{I}),
+    \end{equation*}
+    where \(\ell(\mc{I})\) is the length of \(\mc{I}\).
+\end{ndef}
+
+\begin{ntheorem}{ (Weyl): F}
+    If \(\alpha\notin\Q\), then \(\expec{n\alpha}\) is equidistributed.
+\end{ntheorem}
+\begin{note}
+    Theorem F implies theorem E, since being equidistributed is a stronger notion of being dense.
+\end{note}
+In fact, there is something else worth noting here. If \(f:\R\to\R\) is 1-periodic and integrable on \([0,1]\) and \(\alpha\notin\Q\), then 
+    \begin{equation*} 
+        \lim_{N\to\infty}\frac{1}{N}\sum_{n=1}^N f\big(n\alpha\big)=\int_0^1 f(x) \, dx.\tag{\(\diamondsuit\)}\label{implies Weyl}
+    \end{equation*}
+\begin{claim}
+    Theorem F is implied by \cref{implies Weyl}.
+\end{claim}
+\begin{proof}
+    \emph{Step-1:} We verify that \(\cref{implies Weyl}\) is true when \(f(x)=e^{2\pi ikx}\), \(k\in\Z\).
+
+    \medskip
+
+    If \(k=0\), \(f(x)=1\): \(1=1\) is tautology.
+
+    \medskip
+
+    For \(k>0\), RHS of \cref{implies Weyl} is zero by a straightforward computation. For LHS:
+    \begin{align*} 
+        \frac{1}{N}\sum_{n=1}^N f(n\alpha)=&\frac{1}{N}\sum_{n=1}^N e^{2\pi ikn\alpha}\\
+        =&\frac{1}{N}e^{2\pi ik\alpha}\left(\frac{1-e^{2\pi ikN\alpha}}{1-e^{2\pi ik\alpha}}\right)\to 0,~\text{as}~N\to\infty.
+    \end{align*}
+
+    \medskip
+
+    \emph{Step-2:} Note that if \(\cref{implies Weyl}\) is true for \(f,g\), then it is true for \(af+g\) where \(a\in\R\). Hence, by limit laws and linearity of the integral, we conclude that \cref{implies Weyl} holds for trigonometric polynomial functions.
+
+    \medskip
+
+    \emph{Step-3:} We can further extend this to continuous 1-periodic functions using the \(\eps/3\) argument using Step-1, and the fact that continuous functions can be uniformly approximated using trigonometric polynomial functions.
+
+    \medskip
+
+    \emph{Step-4:} Finally, we extend this to a function that is 1-periodic and integrable on one period. We know that we can approximate any Riemann integrable functions using continuous functions -- using step function approximations as an intermediate step -- in the \(L^1\) sense. But here, we wish to have better control of the approximators.
+
+    \medskip
+
+    Given \(\eps>0\), let \(f_+, f_-\) be continuous, 1-periodic functions with \(f_-(x)\leq f(x)\leq f_+(x)\), and 
+    \begin{equation*} 
+        \int_0^1 \big(f_+(x)-f_-(x)\big) \, dx<\eps.
+    \end{equation*}
+    We let \(A:=\displaystyle\int_0^1 f_-(x) \, dx\) and \(B:=\displaystyle\int_0^1 f_+(x) \, dx\), and note that we can split this integral using Baby Rudin theorem 6.12. We don't know if the limit of their corresponding sums in \cref{implies Weyl} exists, but we know that the limsup and liminf exist; they might exist as extended reals, but that is fine by us. Hence, note that
+    \begin{align*} 
+        \limsup_{N\to\infty}\frac{1}{N}\sum_{n=1}^N f(n\alpha)\leq&\limsup_{N\to\infty}\frac{1}{N}\sum_{n=1}^Nf_+(n\alpha)\\
+        =&\lim_{N\to\infty}\frac{1}{N}\sum_{n=1}^Nf_+(n\alpha),
+    \end{align*}
+    and,
+    \begin{equation*} 
+        \liminf_{N\to\infty}\frac{1}{N}\sum_{n=1}^N f(n\alpha)\geq\lim_{N\to\infty}\frac{1}{N}\sum_{n=1}^N f_-(n\alpha.)
+    \end{equation*}
+    Therefore, 
+    \begin{equation*} 
+        \limsup_{N\to\infty}\frac{1}{N}\sum_{n=1}^N f(n\alpha)=\liminf_{N\to\infty}\frac{1}{N}\sum_{n=1}^N f(n\alpha)=\int_0^1 f(x) \, dx.
+    \end{equation*}
+\end{proof}
+
+\begin{center}
+    \textbf{End of MATH 321 :-)}
+\end{center}
+
+\begin{comment}
+    \begin{proof}[``Proof'' by example]
+    We don't prove this here, but show an example. If \(\mc{I}\subseteq[0,1)\) is an interval, let \(f\) be periodic \(\mc{I}\) and \(f(x)=\chi_{\mc{I}}(x)\) on \([0,1)\). If \(\mc{I}=\displaystyle\left(\frac{1}{2},\frac{3}{4}\right)\), then it can be inferred after some work that \cref{implies Weyl} implies Theorem F.
+\end{proof}
+\end{comment}
+
 
